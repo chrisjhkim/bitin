@@ -1,11 +1,9 @@
 $(document).ready(function(){
     
     /* Make some random data for Flot Line Chart*/
-    
-    var data1 = [[1,60], [2,30], [3,50], [4,100], [5,10], [6,90], [7,85]];
+    var data1 = [[1,200], [2,30], [3,50], [4,100], [5,10], [6,90], [7,85]];
     var data2 = [[1,20], [2,90], [3,60], [4,40], [5,100], [6,25], [7,65]];
     var data3 = [[1,100], [2,20], [3,60], [4,90], [5,80], [6,10], [7,5]];
-    
     /* Create an Array push the data + Draw the bars*/
     
     var barData = new Array();
@@ -15,7 +13,7 @@ $(document).ready(function(){
             label: 'Tokyo',
             bars : {
                     show : true,
-                    barWidth : 0.08,
+                    barWidth : 0.25,
                     order : 1,
                     lineWidth: 0,
                     fillColor: '#8BC34A'
@@ -87,6 +85,48 @@ $(document).ready(function(){
                 lineWidth: 0
             }
         });
+    }
+    /* Let's create the chart 22222222222222222222222222222222222222222222222222222 */
+    if ($('#bar-chart2')[0]) {
+    	$.plot($("#bar-chart2"), barData, {
+    		grid : {
+    			borderWidth: 1,
+    			borderColor: '#eee',
+    			show : true,
+    			hoverable : true,
+    			clickable : true
+    		},
+    		
+    		yaxis: {
+    			tickColor: '#eee',
+    			tickDecimals: 0,
+    			font :{
+    				lineHeight: 13,
+    				style: "normal",
+    				color: "#9f9f9f",
+    			},
+    			shadowSize: 0
+    		},
+    		
+    		xaxis: {
+    			tickColor: '#fff',
+    			tickDecimals: 0,
+    			font :{
+    				lineHeight: 13,
+    				style: "normal",
+    				color: "#9f9f9f"
+    			},
+    			shadowSize: 0,
+    		},
+    		
+    		legend:{
+    			container: '.flc-bar',
+    			backgroundOpacity: 0.5,
+    			noColumns: 0,
+    			backgroundColor: "white",
+    			lineWidth: 0
+    		}
+    	});
     }
     
     /* Tooltips for Flot Charts */

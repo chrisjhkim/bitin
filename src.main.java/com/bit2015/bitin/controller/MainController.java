@@ -66,6 +66,10 @@ public class MainController {
 
 	@RequestMapping("/loginform")
 	public String loginform() {
+		return "/main/loginform1";
+	}
+	@RequestMapping("/oldform")
+	public String oldForm() {
 		return "/main/loginform";
 	}
 

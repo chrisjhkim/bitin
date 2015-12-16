@@ -104,7 +104,7 @@ public class ClassDao {
 	 * className 겹치면 안됨
 	 */	
 	public Long getClassNoViaClassName (String className ) {
-		Long retLong = -1L;
+		Long retLong = null;
 		retLong = sqlSession.selectOne("class.getClassNoViaClassName",className);
 		return retLong;
 	}
@@ -130,6 +130,14 @@ public class ClassDao {
 	public List<UserVo> getUserInfoListViaClassNo ( Long classNo) {
 		List<UserVo> retList = null;
 		retList = sqlSession.selectList("class.getUserInfoListViaClassNo", classNo);
+		return retList;
+	}
+	
+	
+	
+	public List<Long> getStudentNoListViaClassNo ( Long classNo ) {
+		List<Long> retList = null;
+		retList = sqlSession.selectList("class.getStudentNoListViaClassNo", classNo);
 		return retList;
 	}
 }

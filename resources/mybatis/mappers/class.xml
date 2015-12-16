@@ -148,4 +148,11 @@
 						    AND class_role = 'student')
 	</select>
 	
+	<select id="getStudentNoListViaClassNo" parameterType="long" resultType="long">
+		SELECT user_no
+		  FROM b_class_user
+		 WHERE class_no = #{classNo }
+		   AND class_role = 'student'
+	</select>
+	
 </mapper>

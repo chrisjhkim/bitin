@@ -89,7 +89,7 @@ public class ClassService {
 	 * className 겹치면 안됨
 	 */
 	public Long getClassNoViaClassName (String className ) {
-		Long retLong = -1L;
+		Long retLong = null;
 		retLong = classDao.getClassNoViaClassName(className);
 		return retLong;
 	}

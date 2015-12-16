@@ -1,6 +1,6 @@
 $(document).ready(function(){
     var pieData = [
-        {data: 1, color: '#F44336', label: 'Toyota'},
+        {data: 4, color: '#F44336', label: 'Toyota'},
         {data: 2, color: '#03A9F4', label: 'Nissan'},
         {data: 3, color: '#8BC34A', label: 'Hyundai'},
         {data: 4, color: '#FFEB3B', label: 'Scion'},
@@ -9,8 +9,8 @@ $(document).ready(function(){
     
     /* Pie Chart */
     
-    if($('#pie-chart')[0]){
-        $.plot('#pie-chart', pieData, {
+    if($('#pie-chart2')[0]){
+        $.plot('#pie-chart2', pieData, {
             series: {
                 pie: {
                     show: true,

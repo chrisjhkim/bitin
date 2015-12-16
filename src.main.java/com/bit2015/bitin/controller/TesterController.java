@@ -1,7 +1,9 @@
 package com.bit2015.bitin.controller;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,7 +37,17 @@ public class TesterController {
 	@Autowired
 	UserService userService;
 	
-	
+	@ResponseBody
+	@RequestMapping("/ck")
+	public String ck() {
+
+		
+		
+		
+		
+		
+		return "HO";
+	}
 	/**
 	 * 그냥test 용도
 	 */

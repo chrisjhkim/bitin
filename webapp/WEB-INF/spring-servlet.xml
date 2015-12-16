@@ -33,7 +33,7 @@
         <mvc:interceptor>
         	<mvc:mapping path="/user/login" />
     		<bean class="com.bit2015.bitin.interceptor.AuthLoginInterceptor" />
-        </mvc:interceptor>        
+        </mvc:interceptor>
         <mvc:interceptor>
         	<mvc:mapping path="/user/logout" />
     		<bean class="com.bit2015.bitin.interceptor.AuthLogoutInterceptor" />

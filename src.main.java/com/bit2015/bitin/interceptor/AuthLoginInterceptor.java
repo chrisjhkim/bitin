@@ -29,7 +29,7 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 		UserVo authUser = userService.login(vo);
 		
 		if( authUser == null ) {
-			response.sendRedirect( "/binin/user/loginform?result=error" );
+			response.sendRedirect( "/bitin/loginform?result=error" );
 			return false;
 		}
 		

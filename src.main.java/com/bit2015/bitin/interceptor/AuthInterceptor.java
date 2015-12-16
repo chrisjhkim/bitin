@@ -19,6 +19,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		HttpServletRequest request,
 		HttpServletResponse response,
 		Object handler ) throws Exception {
+		System.out.println("interceptor 들어옴");
 		
 		//TODO: 실행은되는데 에러가뜸 "cannot be cast to org.springframework.web.method.HandlerMethod" 선생님한테 물어보기
 		/*

@@ -54,7 +54,7 @@
 	<insert id="voting" parameterType="hashmap">
 		<![CDATA[
 			INSERT INTO b_vote_answer
-			VALUES (#{userNo },
+			VALUES ((select user_no from b_user where user_id = #{userId }),
 					#{voteNumber },
 					#{voteContent } )
 			]]>
@@ -89,8 +89,8 @@
 	
 	
 	
-	<select id="voteListByVoteNo" parameterType="int" resultType="VoteVo" >
-		SELECT  vote_content
+	<select id="voteListByVoteNo" parameterType="int" resultType="String" >
+		SELECT  vote_content AS voteContent
 		  FROM  b_vote_content
 		 where vote_number = #{voteNumber }
 	</select>	

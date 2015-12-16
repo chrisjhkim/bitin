@@ -111,6 +111,23 @@ public class AttdService {
 		System.out.println("list : "+retList);
 		return retList;
 	}
+	
+	
+	public List<List<HashMap<String, Object>>> getAttdStatusViaClassNoAndDates(
+			Long classNo,
+			String startDate,
+			String endDate	) {
+		List<List<HashMap<String, Object>>> retList = null;
+		
+		classDao.getStudentNoListViaClassNo(classNo);
+//		getStudentListViaClassNo(classNo)
+		
+		
+		System.out.println("result List : "+retList);
+		
+		
+		return retList;
+	}
 //	public List<HashMap<String, Object>> getClassAttdInfoListByDateAndUserNo ( String strDate, Long userNo ) {
 //		List<HashMap<String, Object>> retList = null;
 //		retList = attdDao.getClassAttdInfoListByDateAndUserNo(strDate, userNo);

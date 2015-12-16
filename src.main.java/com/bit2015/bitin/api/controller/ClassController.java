@@ -36,7 +36,59 @@ public class ClassController {
 	AttdService attdService;
 	
 	/****************************************************************
-	 * ERROR는 없는거 같은데 안됨. 안드로이드 쪽인지 서버 쪽인지 모름 
+	 * db 데이터 만들기 위해서 임시
+	 */
+	@ResponseBody
+	@RequestMapping("/data-create")
+	public Map<String, Object> dataCreate(  ) {
+		HashMap<String, Object>retMap = new HashMap<String, Object>();
+		String userId = "iron";
+		String className = "전기회로";
+		
+		System.out.println("userId : "+userId);
+		
+		String resString ="fail";
+		
+		if(className== null || userId==null ){
+			resString = "fail";
+			retMap.put("message", "name 한개 이상 empty");
+		}
+		else{
+			resString="success";
+			Long randomLong = util.createRandomNumber(); //랜덤 숫자 생성
+			System.out.println("================RAND NUMBER : "+randomLong);
+			AttdNumberVo attdNumberVo = new AttdNumberVo();
+			Long classNo  = classService.getClassNoViaClassName(className); 
+			if(classNo == null) {
+				System.out.println("getClassNo 실패");
+				retMap.put("message", "className 에 해당하는 수업이 없음");
+			}
+			else {
+				attdNumberVo.setClassNo(classNo);
+				attdNumberVo.setRandomNumber(randomLong); 
+				if( !attdService.insertAttdNumberVo(attdNumberVo) ) {  //랜덤 숫자 저장
+					List<UserVo> userList = classService.getUserInfoListViaClassNo(classNo); //학생 리스트구해서
+					AttendanceVo attdVo = new AttendanceVo();
+					attdVo.setClassNo(classNo);
+					for(UserVo vo : userList) {				//학생들 각각
+						attdVo.setUserNo(vo.getUserNo());
+						attdService.startAttd(attdVo);		// 출석중 으로 변경
+					}
+					System.out.println("AttdNumVo DB insert실패");
+					resString="fail";
+					retMap.put("message", "insert실패 서버잘못");
+				}else{
+					resString="success";
+				}
+			}
+			retMap.put("data", randomLong);
+		}
+		retMap.put("result", resString);
+		System.out.println("@start-class" + retMap);
+		
+		return retMap;
+	}
+	/****************************************************************
 	 * @param className
 	 * @param userName
 	 * @return
@@ -62,7 +114,7 @@ public class ClassController {
 			System.out.println("================RAND NUMBER : "+randomLong);
 			AttdNumberVo attdNumberVo = new AttdNumberVo();
 			Long classNo  = classService.getClassNoViaClassName(className); 
-			if(classNo == -1L) {
+			if(classNo == null ) {
 				System.out.println("getClassNo 실패");
 				retMap.put("message", "className 에 해당하는 수업이 없음");
 			}

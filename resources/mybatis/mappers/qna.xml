@@ -15,20 +15,31 @@
 				SYSDATE,
 				#{classNo },
 				#{qType },
-				#{qRef } )
+				#{qRef },
+				#{pptNo }
+				 )
+				
 	</insert>
 	
 	
 	
 	
-	<select id="listQ" parameterType="YjQVo" resultType="hashmap">
-		Select class_name,
-			   q.ppt_no,
-			   u.student_name,
-			   q.created_date,
-			   q.q_message,
-			   q.qna_q_no
-		from b_q q, b_user u
-		where (select user_no from u where u.user_id = #{userId })
+	<select id="listQ" parameterType="YjQVo" resultType="YjQVo">
+		Select q.ppt_no AS pptNo,
+			   u.user_name AS userName,
+			   q.created_date AS createdDate,
+			   q.q_message As qMessage,
+			   q.qna_q_no AS qnaQNo,
+			   c.class_name AS className
+		from b_q q, b_user u, b_class c
+		where q.to_who_no = (select user_no from b_user where user_id= #{receiverId } ) 
+		and c.class_no = q.class_no
+		and u.user_no = q.from_user_no
 	</select>
+	
+	
+	
+		<delete id="deleteQ" parameterType="QnaQVo">
+	delete from b_q where QNA_Q_NO = #{qnaQNo }
+	</delete>
 </mapper>
