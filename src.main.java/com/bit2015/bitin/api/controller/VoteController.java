@@ -1,7 +1,6 @@
 package com.bit2015.bitin.api.controller;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +91,6 @@ public class VoteController {
 	 * made by 현준.
 	 * 
 	 *            미완성
-	 * 
 	 */
 	@ResponseBody
 	@RequestMapping("/voting")
@@ -104,15 +102,26 @@ public class VoteController {
 		if( map == null){
 			retMap.put("message", "모든 파라미터값 null 상태임");
 		}else{
+			VoteVo voteVo =new VoteVo();
+			voteVo.setVoteNumber((int) map.get("voteNumber"));
+			voteVo.setUserId((String)map.get("userId"));
+			voteVo.setVoteContent((String)map.get("voteContent"));
+			System.out.println("확인");
+			if(true==voteService.votingCheck(voteVo)){
+				System.out.println("확인2");
+				retMap.put("message", "이미 투표하셨습니다.");
+			}else{
 			boolean flag = voteService.voting(map);
 			System.out.println(flag);
 			resultStr = "success"; 
 			retMap.put("result", resultStr);
+			}
 		}		
 		return retMap;
 	}
 	
 	
+	@SuppressWarnings("unused")
 	@ResponseBody
 	@RequestMapping("/delete")
 	public Map<String, Object> delete(
@@ -137,6 +146,7 @@ public class VoteController {
 	
 	
 	
+	@SuppressWarnings("unused")
 	@ResponseBody
 	@RequestMapping("/votelistbyvoteno")
 	public Map<String, Object> votelistbyvoteno(
@@ -157,8 +167,40 @@ public class VoteController {
 		return retMap;
 	}
 	
+
+	@ResponseBody
+	@RequestMapping("/votingstate")
+	public Map<String, Object> votingState(
+			@RequestBody HashMap<String, Object> map){
+		HashMap<String, Object>retMap = new HashMap<String, Object>();
+		HashMap<String, Object>insertMap = new HashMap<String, Object>();
+		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
+		String resultStr = "fail";
+		
+		if( map == null){
+			retMap.put("message", "모든 파라미터값 null 상태임");
+		}else{
+
+			List<String> list = voteService.votingState(map);
+			
+			for ( int a=1 ; a<list.size(); a++){
+				map.put("voteContent", list.get(a));
+			
+				insertMap.put("contentName",list.get(a));
+		
+				insertMap.put("selectedCount",voteService.extract(map));
+				System.out.println("됏나?22"+insertMap + a);
+				mapList.add(insertMap);
+				System.out.println("됏나?33"+mapList);
+			}
 	
-	
+			retMap.put("data",mapList );
+			resultStr = "success"; 
+			retMap.put("result", resultStr);
+			System.out.println("VoteController - votingState - retMap : "+retMap);
+		}		
+		return retMap;
+	}
 	
 	
 }

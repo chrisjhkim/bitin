@@ -13,6 +13,7 @@
 		<typeAlias alias="VoteVo" type="com.bit2015.bitin.vo.VoteVo"></typeAlias>
 		<typeAlias alias="BoardVo" type="com.bit2015.bitin.vo.BoardVo"></typeAlias>
 		<typeAlias alias="YjQVo" type="com.bit2015.bitin.vo.YjQVo"></typeAlias>
+		<typeAlias alias="NoticeVo" type="com.bit2015.bitin.vo.NoticeVo"></typeAlias>
 	</typeAliases>
 
 	<mappers>	
@@ -24,5 +25,6 @@
 		<mapper resource="mybatis/mappers/vote.xml" />
 		<mapper resource="mybatis/mappers/message.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
+		<mapper resource="mybatis/mappers/notice.xml" />
 	</mappers>
 </configuration>

@@ -16,11 +16,12 @@
 					 where class_name = #{className }))
 			]]>
 	</insert>	
-	<insert id="setVoteContent" parameterType="string">
+	<insert id="setVoteContent" parameterType="hashmap">
 		<![CDATA[
 			INSERT INTO  b_vote_content
 			VALUES (b_vote_seq.currval,
-					#{voteContent }
+					#{voteContent},
+					b_vote_content_seq.nextval
 					)
 			]]>
 	</insert>	
@@ -35,15 +36,21 @@
 	
 	<select id="getVoteList" parameterType="string" resultType="VoteVo" >
 		<![CDATA[
-		SELECT  vote_title AS voteTitle, 
-				class_name AS className, 
-				to_char(created_date, 'YYYY/MM/DD') AS createdDate, 
+		SELECT  vote_title AS voteTitle,
+				class_name AS className,
+				to_char(created_date, 'YYYY/MM/DD') AS createdDate,
 				vote_number AS voteNumber,
 				class_no as classNo
 		  FROM  b_vote_title
 		 WHERE  class_no in (select class_no from b_class_user where user_no in (select user_no from b_user where user_id = #{userId }))
 			]]>
 	</select>	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -59,6 +66,25 @@
 					#{voteContent } )
 			]]>
 	</insert>	
+	
+	<select id="votingCheck" parameterType="hashmap" resultType="boolean">
+			<![CDATA[
+			select vote_content
+			from b_vote_answer
+			where vote_number = #{voteNumber } and user_No in (select user_No from b_user where user_id = #{userId})
+			]]>
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	<delete id="deleteVoteTitle" parameterType="int">
@@ -93,6 +119,21 @@
 		SELECT  vote_content AS voteContent
 		  FROM  b_vote_content
 		 where vote_number = #{voteNumber }
+	</select>	
+	
+	
+	
+	
+	<select id="votingState" parameterType="hashmap" resultType="String" >
+		SELECT vote_content AS voteContent
+		  FROM b_vote_Content
+		 where vote_number = #{voteNumber }
+	</select>	
+	
+	<select id="extract" parameterType="hashmap" resultType="String" >
+		SELECT vote_content AS voteContent
+		  FROM b_vote_answer
+		 where vote_content =#{voteContent } and vote_number = #{voteNumber }
 	</select>	
 	
 	

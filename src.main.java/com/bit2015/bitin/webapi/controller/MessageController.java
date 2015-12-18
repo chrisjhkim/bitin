@@ -75,7 +75,7 @@ public class MessageController {
 			@RequestBody HashMap<String, Object> map  ) {
 		System.out.println("@Message Controller : messageSend : "+map);
 		boolean retFlag = false;
-		retFlag = messageService.sendMessage(map);	//윤주가 보내준 Vo형태에서 서버DB에 맞는 Vo형태로 바꿈
+		retFlag = messageService.sendMessage(map);
 		return retFlag;
 	}
 

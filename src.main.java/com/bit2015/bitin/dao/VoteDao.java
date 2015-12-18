@@ -2,7 +2,6 @@ package com.bit2015.bitin.dao;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,27 +17,13 @@ public class VoteDao {
 
 	public boolean insertVoteTitle(HashMap<String, Object> map) {
 		boolean retFlag = true;
-		System.out.println("@@voteDao : insertVoteTitle : " + map);
-		try {
-//			retFlag = (1 == sqlSession.insert("vote.setVoteTitle", map));
-			sqlSession.insert("vote.setVoteTitle", map);
-		} catch (Exception e) {
-			System.out.println("@bitin@UserDao - insertVoteTitle exception 발생 !!!!!!!!!!!!!!!!!!!!!!! exception e : " + e);
-			e.printStackTrace();
-		}
-		System.out.println("retFlag : " + retFlag);
+		sqlSession.insert("vote.setVoteTitle", map);
 		return retFlag;
 	}
-	public boolean insertVoteContent(String voteContent) {
+	public boolean insertVoteContent(HashMap<String, Object>Map) {
 		boolean retFlag = false;
-		System.out.println("@@voteDao : insertVoteContent : " + voteContent);
-		try {
-			retFlag = (1 == sqlSession.insert("vote.setVoteContent", voteContent));
-		} catch (Exception e) {
-			System.out.println("@bitin@VoteDao - insertVoteContent exception 발생 !!!!!!!!!!!!!!!!!!!!!!! exception e : " + e);
-			e.printStackTrace();
-		}
-		System.out.println("retFlag : " + retFlag);
+		System.out.println("voteDao" + Map);
+		retFlag = (1 == sqlSession.insert("vote.setVoteContent", Map));
 		return retFlag;
 	}
 	public List<String> phoneIdListbyUserIdAndClassName(HashMap<String, Object> map){
@@ -52,6 +37,7 @@ public class VoteDao {
 	public List<VoteVo> getVoteList(String userId) {
 		List<VoteVo> list = null;
 		System.out.println("aaaa");
+		System.out.println(userId);
 		list=sqlSession.selectList("vote.getVoteList", userId);
 		System.out.println("!!!!!!!!!!!!!!!!!" + list);
 		return list;
@@ -62,15 +48,16 @@ public class VoteDao {
 	
 	public boolean  voting(HashMap<String, Object> map) {
 		boolean retFlag = false;
-		try {
 			retFlag = (1 == sqlSession.insert("vote.voting", map));
-		} catch (Exception e) {
-			System.out.println("@bitin@UserDao - insertVoteTitle exception 발생 !!!!!!!!!!!!!!!!!!!!!!! exception e : " + e);
-			e.printStackTrace();
-		}
 		return retFlag;
 	}
-	
+	public boolean votingCheck(VoteVo voteVo){
+		boolean retFlag = false;
+		System.out.println("확인체크");
+		retFlag = sqlSession.selectOne("vote.votingCheck", voteVo);
+		System.out.println("확인체크2");
+		return retFlag;
+	}
 	
 	
 	
@@ -94,6 +81,8 @@ public class VoteDao {
 		}
 		return retFlag;
 	}
+	
+	
 	public boolean  deleteVoteAnswer( int voteNumber) {
 		boolean retFlag = false;
 		try {
@@ -111,6 +100,21 @@ public class VoteDao {
 		System.out.println(voteNumber);
 		list=sqlSession.selectList("vote.voteListByVoteNo", voteNumber);
 		System.out.println(list.get(1));
+		return list;
+	}
+	
+	
+	
+	public List<String> votingState(HashMap<String, Object> map) {
+		List<String> list = null;
+		list=sqlSession.selectList("vote.votingState", map);
+		return list;
+	}
+	public List<String> extract(HashMap<String, Object> map) {
+		List<String> list = null;
+		System.out.println("map"+map);
+		list=sqlSession.selectList("vote.extract", map);
+		System.out.println("list"+list);
 		return list;
 	}
 	

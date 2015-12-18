@@ -283,6 +283,20 @@ public class UserController {
 	}
 	
 	
+	/**
+	 * @param userId
+	 * @return UserVo
+	 */
+	@ResponseBody
+	@RequestMapping("/getuservo")
+	public Map<String, Object> getUserVo(
+			@RequestParam String userId) {
+		HashMap<String, Object>retMap = new HashMap<String, Object>();
+		UserVo userVo = null;
+		retMap.put("data", userVo);
+		return retMap;
+	}
+	
 	
 	
 	

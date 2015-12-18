@@ -42,6 +42,15 @@ public class UserService {
 		return  retFlag;
 	}
 	
+	
+	
+	public UserVo getUserVo ( String id ){
+		UserVo retVo = null;
+		retVo = userDao.getUserById(id);
+		return  retVo;
+	}
+	
+	
 	/**
 	 * @param userVo
 	 * @return 아이디 비번 일치하면 true보냄
