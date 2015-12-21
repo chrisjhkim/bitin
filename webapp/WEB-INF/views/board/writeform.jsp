@@ -58,27 +58,40 @@
 
 <body>
 
-	<section id="main">
-		<div class="profile-menu">
-			<div class="card">
-				<div class="card-header">
-					<h2>
-						게시물 작성 페이지 (해당 게시판 제목 적을 공간) <small> 해당 게시글 게시판을 알려줍니다.</small>
-					</h2>
-				</div>
-
-				<div class="card-body card-padding">
-					<p class="f-500 c-black m-b-20">글쓰기</p>
-
-					<div class="html-editor"></div>
-
-					<br /> <br />
-
-				</div>
+	<section id="content">
+		<div class="card">
+			<div class="card-header">
+				<h2>
+					boardName <small>boardName detail</small>
+				</h2>
 			</div>
-		</div>
-	</section>
+			<form class="board-form" method="post" action="/bitin/board/insert">
+			<input type="hidden" name="classNo" value="${vo.classNo }">
+			<input type="hidden" name="userNo" value="${vo.userNo }">
+				<div class="input-group">
+					<span class="input-group-addon"><i
+						class="zmdi zmdi-collection-item"></i></span>
+					<div class="fg-line" style="padding-right: 20px;">
+						<input type="text" name="title" class="form-control"
+							placeholder="제목을 입력해주세요.">
+					</div>
 
+				</div>
+				<br>
+				<div class="board-form">
+					<textarea id="board-content" class="textarea" name="content" id="board-content"
+						placeholder="내용을 입력해주세요."></textarea>
+				</div>
+
+				<div class="card-header">
+					<button input type="button" onclick="location='/bitin/board/list'"
+						class="btn btn-link waves-effect pull-right">취소</button>
+					<button input type="submit"
+						class="btn btn-info waves-effect pull-right" value="등록">등록</button>
+				</div>
+			</form>
+			<br>
+	</section>
 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 	<!-- Page Loader -->
@@ -130,6 +143,20 @@
 
 	<script src="/bitin/assets/js/functions.js"></script>
 	<script src="/bitin/assets/js/demo.js"></script>
+	<script>
+		$(function() {
+			$("#board form").submit(function() {
+				if ($("input[name='title']").val() == "") {
+					return false;
+				}
+				if ($("#board-content").val() == "") {
+					return false;
+				}
+
+				return true;
+			});
+		});
+	</script>
 
 
 </body>

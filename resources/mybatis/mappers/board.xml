@@ -45,5 +45,11 @@
 	
 	<!-- **************************************************************************************************************** -->
 	
+	<insert id="insert" parameterType="BoardVo">
+		<![CDATA[
+		insert into b_board 
+		values ( #{classNo }, b_board_no_seq.nextval, #{title }, #{content }, #{userNo }, 0, SYSDATE )
+				]]>			 
+	</insert>
 	
 </mapper>

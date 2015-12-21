@@ -88,7 +88,7 @@
 					<div class="card">
 						<div class="card-header bgm-brown m-b-20">
 							<h2>
-								채팅 <small>친구 또는 다른 회원과 채팅</small>
+								SNS <small> 친구 등록 및 친구 추천 </small>
 							</h2>
 							<ul class="actions actions-alt">
 								<li class="dropdown"><a href="" data-toggle="dropdown">
@@ -138,7 +138,7 @@
 					<div class="card">
 						<div class="card-header bgm-lightblue m-b-20">
 							<h2>
-								질문과 투표<small>수업 중 질문을 앱으로 하고 투표를 통해 진행률 조정</small>
+								질문과 투표<small> 수업 중 질문과 답변 </small>
 							</h2>
 							<ul class="actions actions-alt">
 								<li class="dropdown"><a href="" data-toggle="dropdown">

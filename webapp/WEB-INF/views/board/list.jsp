@@ -33,6 +33,7 @@
 <link href="/bitin/assets/css/app.min.2.css" rel="stylesheet">
 
 </head>
+
 <body>
 	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
@@ -40,9 +41,14 @@
 		<div class="content">
 			<div class="card">
 				<div class="card-header">
-					<h2>
-						게시판 테스트 <small>게시판 테스트 중입니다.</small>
-					</h2>
+					<h4>
+						<button type="submit"
+							class="btn btn-primary btn m-t-5 waves-effect pull-right"
+							onclick="location.href='writeform'"
+							style="margin-right: 8px; cursor: pointer;">글 작성</button>
+							${vo.classNo }Class name 게시판
+					</h4>
+					<br>
 				</div>
 
 				<div class="table-responsive">
@@ -53,9 +59,10 @@
 								<th data-column-id="sender">작성자</th>
 								<th data-column-id="title" data-formatter="link">제목</th>
 								<th data-column-id="received" data-order="desc">작성일</th>
+								<th data-column-id="viewCount">조회수</th>
+
 							</tr>
 						</thead>
-						<%-- <tbody var='vo' varStatus='status' onclick="location.href='/bitin/board/view/${vo.boardNo }'" style="cursor: pointer"> --%>
 						<tbody>
 							<c:forEach items='${listData.list }' var='vo' varStatus='status'>
 								<c:set var='count' value='${fn:length(listData.list) }' />
@@ -64,6 +71,8 @@
 									<td>${vo.userName }</td>
 									<td>${vo.title }</td>
 									<td>${vo.regDate }</td>
+									<td>${vo.viewCount }</td>
+
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -123,24 +132,23 @@
 	<script
 		src="/bitin/assets/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
 	<script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
-
+	
 	<script>
 		//Basic Example
-		$("#data-table-basic").bootgrid(
-				{
-					css : {
-						icon : 'zmdi icon',
-						iconColumns : 'zmdi-view-module',
-						iconDown : 'zmdi-expand-more',
-						iconRefresh : 'zmdi-refresh',
-						iconUp : 'zmdi-expand-less'
-					},
-					formatters : {
-						"link" : function(column, row) {
-							return "<a href=\"view/"+row.no+"\">"+row.title+"</a>";
-						}
-					}
-				});
+		$("#data-table-basic").bootgrid({
+			css : {
+				icon : 'zmdi icon',
+				iconColumns : 'zmdi-view-module',
+				iconDown : 'zmdi-expand-more',
+				iconRefresh : 'zmdi-refresh',
+				iconUp : 'zmdi-expand-less'
+			},
+			formatters : {
+				"link" : function(column, row) {
+					return "<a href=\"view/"+row.no+"\">" + row.title + "</a>";
+				}
+			}
+		});
 	</script>
 </body>
 </html>

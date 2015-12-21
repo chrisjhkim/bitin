@@ -24,11 +24,13 @@ public class BoardService {
 			return map;
 	}
 	
-	
-	
 	public BoardVo viewBoard( Long boardNo ){
 		BoardVo vo = boardDao.get( boardNo );
 		//boardDao.updateViewCount( boardNo );
 		return vo;
+	}
+	
+	public void writeBoard( BoardVo vo ){
+		boardDao.insert( vo );
 	}
 }

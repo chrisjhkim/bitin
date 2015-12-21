@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit2015.bitin.annotation.Auth;
+import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.ClassService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.UserVo;
@@ -59,8 +61,17 @@ public class MainController {
 		return "/main/intro";
 	}
 
+	//@Auth
 	@RequestMapping("/index")
-	public String index() {
+	public String index(
+				@AuthUser UserVo authUser, Model model
+			) {
+		System.out.println("auth : "+authUser);
+		if( authUser!= null){
+			List<UserVo> list = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list );
+			System.out.println("list :" +list);
+		}
 		return "/main/index";
 	}
 
