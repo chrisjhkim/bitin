@@ -12,7 +12,7 @@
 						src="/bitin/assets/img/demo/logo.png" alt=""></a></li>
 				<li class="pull-right"><a href="/bitin/loginform" id="login"
 					title="login" data-toggle="popover" data-placement="bottom"><i
-						class="btn btn-success" value="login"> Login </i></a></li>
+						class="btn btn-inverse" value="login"> Login </i></a></li>
 				<li class="pull-right"><a href="/bitin/registerform" id="join"
 					title="join" data-toggle="popover" data-placement="bottom"> <i
 						class="btn btn-default" value="join"> Join </i>
@@ -359,18 +359,20 @@
 		</div>
 
 		<div class="listview">
-			<a class="lv-item" href="">
-				<div class="media">
-					<div class="pull-left p-relative">
-						<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/2.jpg"
-							alt=""> <i class="chat-status-busy"></i>
+			<c:forEach items='${classMate }' var='vo' varStatus='status'>
+				<a class="lv-item" href="/bitin/user/profile/${vo.userNo }">
+					<div class="media">
+						<div class="pull-left p-relative">
+							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/2.jpg"
+								alt=""> <i class="chat-status-busy"></i>
+						</div>
+						<div class="media-body">
+							<div class="lv-title">${vo.userName}</div>
+							<small class="lv-small">Available</small>
+						</div>
 					</div>
-					<div class="media-body">
-						<div class="lv-title">${sameClass.userName }</div>
-						<small class="lv-small">Available</small>
-					</div>
-				</div>
-			</a> 
+				</a>
+			</c:forEach> 
 		</div>
 	</aside>
 </section>
