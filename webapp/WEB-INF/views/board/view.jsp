@@ -43,6 +43,9 @@
 				<div class="col-md-12">
 					<div class="card">
 						<div class="card-header">
+					<h2>
+						${vo.title } <small>${vo.boardNo } 번 게시물</small>
+					</h2>
 							<div class="media">
 								<div class="pull-left">
 									<img class="lv-img" src="/bitin/assets/img/profile-pics/1.jpg"
@@ -136,7 +139,7 @@
 							<!-- Comment form -->
 							<div class="wcl-form">
 								<div class="wc-comment">
-									<div class="wcc-inner wcc-toggle">Write Something...</div>
+									<div class="wcc-inner wcc-toggle">댓글을 작성해주세요</div>
 								</div>
 							</div>
 						</div>
@@ -197,21 +200,7 @@
 	<script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
 
 	<script>
-		//Basic Example
-		$("#data-table-basic").bootgrid({
-			css : {
-				icon : 'zmdi icon',
-				iconColumns : 'zmdi-view-module',
-				iconDown : 'zmdi-expand-more',
-				iconRefresh : 'zmdi-refresh',
-				iconUp : 'zmdi-expand-less'
-			},
-			formatters : {
-				"link" : function(column, row) {
-					return "<a href=\"view/"+row.no+"\">" + row.title + "</a>";
-				}
-			}
-		});
+		
 	</script>
 </body>
 </html>
