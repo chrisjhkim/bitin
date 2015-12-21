@@ -173,27 +173,35 @@ public class VoteController {
 	public Map<String, Object> votingState(
 			@RequestBody HashMap<String, Object> map){
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
-		HashMap<String, Object>insertMap = new HashMap<String, Object>();
 		List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
 		String resultStr = "fail";
-		
+		System.out.println("votingstate 테스트" +map);
 		if( map == null){
 			retMap.put("message", "모든 파라미터값 null 상태임");
 		}else{
 
 			List<String> list = voteService.votingState(map);
 			
-			for ( int a=1 ; a<list.size(); a++){
-				map.put("voteContent", list.get(a));
+			System.out.println("votingstate 테스트222" +list.size());
+			System.out.println("votingstate 테스트333" +list);
 			
-				insertMap.put("contentName",list.get(a));
-		
-				insertMap.put("selectedCount",voteService.extract(map));
-				System.out.println("됏나?22"+insertMap + a);
+			System.out.println( "------->" + list );	
+			
+			for ( int a=0 ; a < list.size(); a++){
+				HashMap<String, Object>insertMap = new HashMap<String, Object>();
+				
+				String state = list.get( a );
+				
+				map.put("voteContent", state );
+				int selectCount = voteService.extract( map );
+				
+				insertMap.put("contentName", state);
+				insertMap.put("selectedCount",  selectCount );
+				
 				mapList.add(insertMap);
-				System.out.println("됏나?33"+mapList);
 			}
-	
+
+			System.out.println( "------->" + mapList );	
 			retMap.put("data",mapList );
 			resultStr = "success"; 
 			retMap.put("result", resultStr);
