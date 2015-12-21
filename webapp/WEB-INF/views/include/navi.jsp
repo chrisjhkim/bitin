@@ -12,7 +12,7 @@
 						src="/bitin/assets/img/demo/logo.png" alt=""></a></li>
 				<li class="pull-right"><a href="/bitin/loginform" id="login"
 					title="login" data-toggle="popover" data-placement="bottom"><i
-						class="btn btn-inverse" value="login"> Login </i></a></li>
+						class="btn btn-success" value="login"> Login </i></a></li>
 				<li class="pull-right"><a href="/bitin/registerform" id="join"
 					title="join" data-toggle="popover" data-placement="bottom"> <i
 						class="btn btn-default" value="join"> Join </i>
@@ -366,66 +366,11 @@
 							alt=""> <i class="chat-status-busy"></i>
 					</div>
 					<div class="media-body">
-						<div class="lv-title">Jonathan Morris</div>
+						<div class="lv-title">${sameClass.userName }</div>
 						<small class="lv-small">Available</small>
 					</div>
 				</div>
-			</a> <a class="lv-item" href="">
-				<div class="media">
-					<div class="pull-left">
-						<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/1.jpg"
-							alt="">
-					</div>
-					<div class="media-body">
-						<div class="lv-title">David Belle</div>
-						<small class="lv-small">Last seen 3 hours ago</small>
-					</div>
-				</div>
-			</a> <a class="lv-item" href="">
-				<div class="media">
-					<div class="pull-left p-relative">
-						<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/3.jpg"
-							alt=""> <i class="chat-status-online"></i>
-					</div>
-					<div class="media-body">
-						<div class="lv-title">Fredric Mitchell Jr.</div>
-						<small class="lv-small">Availble</small>
-					</div>
-				</div>
-			</a> <a class="lv-item" href="">
-				<div class="media">
-					<div class="pull-left p-relative">
-						<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/4.jpg"
-							alt=""> <i class="chat-status-online"></i>
-					</div>
-					<div class="media-body">
-						<div class="lv-title">Glenn Jecobs</div>
-						<small class="lv-small">Availble</small>
-					</div>
-				</div>
-			</a> <a class="lv-item" href="">
-				<div class="media">
-					<div class="pull-left">
-						<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/5.jpg"
-							alt="">
-					</div>
-					<div class="media-body">
-						<div class="lv-title">Bill Phillips</div>
-						<small class="lv-small">Last seen 3 days ago</small>
-					</div>
-				</div>
-			</a> <a class="lv-item" href="">
-				<div class="media">
-					<div class="pull-left">
-						<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/6.jpg"
-							alt="">
-					</div>
-					<div class="media-body">
-						<div class="lv-title">Wendy Mitchell</div>
-						<small class="lv-small">Last seen 2 minutes ago</small>
-					</div>
-				</div>
-			</a>
+			</a> 
 		</div>
 	</aside>
 </section>
