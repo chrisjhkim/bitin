@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bit2015.bitin.vo.BoardVo;
+import com.bit2015.bitin.vo.ClassVo;
 
 @Repository
 public class BoardDao {
@@ -14,10 +15,19 @@ public class BoardDao {
 	@Autowired
 	SqlSession sqlSession;
 
-	public List<BoardVo> getList() {
-		List<BoardVo> list = sqlSession.selectList( "board.selectListTemp");
+	public List<BoardVo> getList(Long classNo) {
+		System.out.println("classNo: "+classNo);
+		List<BoardVo> list = sqlSession.selectList( "board.selectList", classNo);
+		System.out.println("list test2" + list);
 		return list;
 	
+	}
+
+	public ClassVo getStirng( Long classNo ) {
+		System.out.println("test : " + classNo);
+		ClassVo vo = sqlSession.selectOne( "board.selectBoardName", classNo );
+		System.out.println("daovo : " + vo);
+		return vo;
 	}
 	
 	public void updateViewCount( Long no ) {

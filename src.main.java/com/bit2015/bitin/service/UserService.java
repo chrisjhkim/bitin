@@ -154,4 +154,10 @@ public class UserService {
 		List<UserVo> list = userDao.classmateList( vo );
 		return list;
 	}
+
+	public List<UserVo> classnameList(UserVo vo){
+		List<UserVo> list2 = userDao.classnameList( vo );
+		System.out.println("list2" + list2);
+		return list2;
+	}
 }

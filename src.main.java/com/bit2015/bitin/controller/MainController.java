@@ -1,6 +1,5 @@
 package com.bit2015.bitin.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,12 +8,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.bit2015.bitin.annotation.Auth;
 import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.ClassService;
 import com.bit2015.bitin.service.UserService;
@@ -66,11 +61,11 @@ public class MainController {
 	public String index(
 				@AuthUser UserVo authUser, Model model
 			) {
-		System.out.println("auth : "+authUser);
 		if( authUser!= null){
 			List<UserVo> list = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list );
-			System.out.println("list :" +list);
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
 		}
 		return "/main/index";
 	}

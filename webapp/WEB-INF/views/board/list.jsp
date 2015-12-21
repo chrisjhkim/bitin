@@ -46,7 +46,7 @@
 							class="btn btn-primary btn m-t-5 waves-effect pull-right"
 							onclick="location.href='writeform'"
 							style="margin-right: 8px; cursor: pointer;">글 작성</button>
-							${vo.classNo }Class name 게시판
+							${vo.className } <small>게시판</small>
 					</h4>
 					<br>
 				</div>
@@ -64,8 +64,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items='${listData.list }' var='vo' varStatus='status'>
-								<c:set var='count' value='${fn:length(listData.list) }' />
+							<c:forEach items='${list }' var='vo' varStatus='status'>
 								<tr>
 									<td>${vo.boardNo }</td>
 									<td>${vo.userName }</td>

@@ -18,9 +18,27 @@
 			  where b_board.USER_NO=b_user.USER_NO
 			]]>
 	</select>
-	
+
+		
+	<select id="selectList" parameterType="long"  resultType="BoardVo">
+			SELECT class_no as classNo,
+				   board_no as boardNo,
+				   title as title,
+				   content as content,
+				   user_name as userName,
+				   view_cnt as viewCount,
+				   to_char(reg_date, 'yyyy-mm-dd' ) as regDate
+			  FROM b_board,b_user
+			  where b_board.CLASS_NO=#{classNo }
+			   and b_board.USER_NO=b_user.USER_NO
+	</select>
 	<!-- **************************************************************************************************************** -->
-	
+	<select id="selectBoardName" parameterType="long" resultType="ClassVo">
+	        select class_name as className
+	               from b_class
+	               where b_class.class_No=#{classNo }
+	               
+	</select>
 	<!--  ******************************   2015.12.11 김현준이 임시로만든 게시판content와 조회수를 불러오는 sql입니다.  **************************         -->
 	<update id="updateViewCount" parameterType="long">
 		<![CDATA[

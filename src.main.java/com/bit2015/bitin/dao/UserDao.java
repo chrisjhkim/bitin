@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.UserVo;
 
 @Repository
@@ -128,6 +129,13 @@ public class UserDao {
 	public List<UserVo> classmateList( UserVo vo ) {
 		List<UserVo> list = sqlSession.selectList( "user.classmateList",  vo );
 		return list;
+	}
+
+	public List<UserVo> classnameList( UserVo vo ) {
+		System.out.println("test" + vo);
+		List<UserVo> list2 = sqlSession.selectList( "user.classnameList",  vo.getUserNo() );
+		System.out.println("list2 : " + list2);
+		return list2;
 	}
 	
 	

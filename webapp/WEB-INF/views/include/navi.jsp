@@ -12,10 +12,10 @@
 						src="/bitin/assets/img/demo/logo.png" alt=""></a></li>
 				<li class="pull-right"><a href="/bitin/loginform" id="login"
 					title="login" data-toggle="popover" data-placement="bottom"><i
-						class="btn btn-inverse" value="login"> Login </i></a></li>
+						class="btn btn-success" value="login"> Login </i></a></li>
 				<li class="pull-right"><a href="/bitin/registerform" id="join"
 					title="join" data-toggle="popover" data-placement="bottom"> <i
-						class="btn btn-default" value="join"> Join </i>
+						class="btn btn-warning" value="join"> Join </i>
 				</a></li>
 			</c:when>
 			<c:otherwise>
@@ -313,13 +313,13 @@
 			<li><a href="calendar.html"><i class="zmdi zmdi-calendar"></i>
 					일정표</a></li>
 			<!--  게시판 메뉴 -->
-			<li class="sub-menu"><a href=""><i
-					class="zmdi zmdi-view-list"></i> 게시판</a>
 
-				<ul>
-					<li><a href="form-elements.html">1게시판</a></li>
-					<li><a href="form-components.html">2게시판</a></li>
-				</ul></li>
+			<li class="sub-menu"><a href=""><i
+					class="zmdi zmdi-view-list"></i> 게시판</a><ul><c:forEach
+					items='${className}' var='vo' varStatus='status'>
+						<li><a href="/bitin/board/list/${vo.classNo }">${vo.className }게시판</a></li>
+				</c:forEach></ul></li>
+
 
 			<li class="sub-menu"><a href=""><i
 					class="zmdi zmdi-collection-text"></i> Forms</a>
@@ -372,7 +372,7 @@
 						</div>
 					</div>
 				</a>
-			</c:forEach> 
+			</c:forEach>
 		</div>
 	</aside>
 </section>
