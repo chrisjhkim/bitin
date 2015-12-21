@@ -125,6 +125,10 @@ public class UserDao {
 		return userVo;
 	}
 	
+	public List<UserVo> classmateList( UserVo vo ) {
+		List<UserVo> list = sqlSession.selectList( "user.classmateList",  vo );
+		return list;
+	}
 	
 	
 }

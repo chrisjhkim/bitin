@@ -1,17 +1,22 @@
 package com.bit2015.bitin.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit2015.bitin.annotation.Auth;
+import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.UserVo;
 
@@ -21,7 +26,7 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
-/**************************************************auth만들어서 주석처리해놨습니다(김현준)************************************************************************
+//**************************************************auth만들어서 주석처리해놨습니다(김현준)************************************************************************
 	/**
 	 * @param userVo
 	 *            (id, password 필수)
@@ -64,4 +69,5 @@ public class UserController {
 		userService.insertUser(userVo);
 		return "main/index";
 	}
+	
 }

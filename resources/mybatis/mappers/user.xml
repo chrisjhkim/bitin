@@ -80,6 +80,15 @@
 												WHERE user_id = #{userId}    ))
 	</select>
 	
+	<select id="classmateList" parameterType="UserVO" resultType="UserVo" >
+		SELECT user_name as userName
+		FROM   b_user
+		WHERE  user_no in (select user_no
+			   from b_class_user
+			   where class_no in (select class_no 
+			   from b_class_user
+		       where user_no = #{userNo}))
+	</select>
 	
 
 </mapper>

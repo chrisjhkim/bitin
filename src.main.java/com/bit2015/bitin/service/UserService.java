@@ -149,4 +149,9 @@ public class UserService {
 		UserVo userVo = userDao.get( vo );
 		return userVo;
 	}
+	
+	public List<UserVo> classmateList(UserVo vo){
+		List<UserVo> list = userDao.classmateList( vo );
+		return list;
+	}
 }

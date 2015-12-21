@@ -199,6 +199,25 @@
 							</ul>
 						</div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 						<div class="lv-body">
 							<div class="lv-item media">
 								<div class="lv-avatar pull-left">
@@ -271,6 +290,25 @@
 								</div>
 							</div>
 						</div>
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
+						
 
 						<div class="lv-footer ms-reply">
 							<textarea placeholder="What's on your mind..."></textarea>
@@ -299,7 +337,6 @@
 			<p>Please wait...</p>
 		</div>
 	</div>
-
 
 	<!-- Javascript Libraries -->
 	<script src="/bitin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>
