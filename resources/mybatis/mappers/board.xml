@@ -27,7 +27,7 @@
 				   content as content,
 				   user_name as userName,
 				   view_cnt as viewCount,
-				   to_char(reg_date, 'yyyy-mm-dd' ) as regDate
+				   to_char(reg_date, 'mm-dd' ) as regDate
 			  FROM b_board,b_user
 			  where b_board.CLASS_NO=#{classNo }
 			   and b_board.USER_NO=b_user.USER_NO

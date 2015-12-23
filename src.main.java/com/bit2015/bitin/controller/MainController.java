@@ -79,6 +79,11 @@ public class MainController {
 	public String registerformform() {
 		return "/main/registerform";
 	}
+
+	@RequestMapping("/miniprofile")
+	public String miniprofile() {
+		return "/main/miniprofile";
+	}
 	   
 	   
 

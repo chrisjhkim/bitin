@@ -1,3 +1,4 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -33,51 +34,40 @@
 <link href="/bitin/assets/css/app.min.2.css" rel="stylesheet">
 
 </head>
-
 <body>
 	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
-	<section id="content">
-		<div class="content">
-			<div class="card">
-				<div class="card-header">
-					<h4>
-						<button type="submit"
-							class="btn btn-primary btn m-t-5 waves-effect pull-right"
-							onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
-							style="margin-right: 8px; cursor: pointer;">글 작성</button>
-							${vo.className } <small>게시판</small>
-					</h4>
-					<br>
-				</div>
-
-				<div class="table-responsive">
-					<table id="data-table-basic" class="table table-striped">
-						<thead>
-							<tr>
-								<th data-column-id="no" data-type="numeric">No</th>
-								<th data-column-id="sender">작성자</th>
-								<th data-column-id="title" data-formatter="link">제 목</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items='${list }' var='vo' varStatus='status'>
-								<tr>
-									<td>${vo.boardNo}</td>
-									<td>${vo.userName }</td>
-									<td>${vo.title }</td> 
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
+	<section id="main">
+	 <div class="card profile-view">
+                            <div class="pv-header">
+                                <img src="/bitin/assets/img/profile-pics/profile-pic.jpg" class="pv-main" alt="">
+                            </div>
+                            
+                            <div class="pv-body">
+                                <h2>Malinda Hollaway</h2>
+                                <small>Praesent vitae justo purus. In hendrerit lorem nislac lacinia urnaunc vitae ante id magna </small>
+                            
+                                <ul class="pv-contact">
+                                    <li><i class="zmdi zmdi-pin"></i> Jupitor</li>
+                                    <li><i class="zmdi zmdi-phone"></i> +11 55694785</li>
+                                </ul>
+                                
+                                <ul class="pv-follow">
+                                    <li>589 Followers</li>
+                                    <li>8545 Followings</li>
+                                </ul>
+                                
+                                <a href="" class="pv-follow-btn">Follow</a>
+                            </div>
+                        </div>
 	</section>
 
 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 	<!-- Javascript Libraries -->
+	<script>
+		var authUser = "${authUser.userName}";
+	</script>
 	<script
 		src="/bitin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>
 	<script
@@ -114,34 +104,11 @@
 
 	<script src="/bitin/assets/js/charts.js"></script>
 	<script src="/bitin/assets/js/functions.js"></script>
-	<!-- Javascript Libraries -->
+	<script src="/bitin/assets/js/demo.js"></script>
 
-	<script
-		src="/bitin/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script
-		src="/bitin/assets/vendors/bower_components/Waves/dist/waves.min.js"></script>
-	<script
-		src="/bitin/assets/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-	<script
-		src="/bitin/assets/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
-	<script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
-	
-	<script>
-		//Basic Example
-		$("#data-table-basic").bootgrid({
-			css : {
-				icon : 'zmdi icon',
-				iconColumns : 'zmdi-view-module',
-				iconDown : 'zmdi-expand-more',
-				iconRefresh : 'zmdi-refresh',
-				iconUp : 'zmdi-expand-less'
-			},
-			formatters : {
-				"link" : function(column, row) {
-					return "<a href=\"view/"+row.no+"\">" + row.title + "</a>";
-				}
-			}
-		});
-	</script>
+
+
 </body>
 </html>
+
+                       

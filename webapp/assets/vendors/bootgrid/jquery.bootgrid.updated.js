@@ -909,7 +909,7 @@
                 tbody.html(tpl.loading.resolve(getParams.call(that, { columns: count })));
                 if (that.rowCount !== -1 && padding > 0)
                 {
-                    tbody.find("tr > td").css("padding", "20px 0 " + padding + "px");
+                    tbody.find("tr > td").css("padding", "10px 0 " + padding + "px");
                 }
             }
         }, 250);
@@ -1239,6 +1239,7 @@
             iconUp: "glyphicon-chevron-up",
             infos: "infos", // must be a unique class name or constellation of class names within the header and footer,
             left: "text-left",
+            right: "text-right",
             pagination: "pagination", // must be a unique class name or constellation of class names within the header and footer
             paginationButton: "button", // must be a unique class name or constellation of class names within the pagination
 
