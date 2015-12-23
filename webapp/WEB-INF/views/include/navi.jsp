@@ -264,8 +264,9 @@
 									<a class="lv-footer" href="">View All</a>
 								</div>
 							</div></li>
-						<li class="hidden-xs" id="chat-trigger" data-trigger="#chat">
-							<a href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i></a>
+						<li class="hidden-sm" id="chat-trigger" data-trigger="#chat">
+							<a href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i><i
+								class="tmn-counts">9</i></a>
 						</li>
 					</ul>
 				</li>

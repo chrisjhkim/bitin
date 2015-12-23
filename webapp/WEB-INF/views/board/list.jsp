@@ -44,7 +44,7 @@
 					<h4>
 						<button type="submit"
 							class="btn btn-primary btn m-t-5 waves-effect pull-right"
-							onclick="location.href='writeform'"
+							onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
 							style="margin-right: 8px; cursor: pointer;">글 작성</button>
 							${vo.className } <small>게시판</small>
 					</h4>
@@ -55,23 +55,18 @@
 					<table id="data-table-basic" class="table table-striped">
 						<thead>
 							<tr>
-								<th data-column-id="no" data-type="numeric">번호</th>
-								<th data-column-id="sender">작성자</th>
-								<th data-column-id="title" data-formatter="link">제목</th>
-								<th data-column-id="received" data-order="desc">작성일</th>
-								<th data-column-id="viewCount">조회수</th>
-
+								<th data-column-id="no" data-type="numeric"></th>
+								<th data-column-id="title" data-formatter="link"></th>
+								<th data-column-id="sender"></th>
+								<th data-column-id="received" data-order="desc"></th>
+								<th data-column-id="viewCount"></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items='${list }' var='vo' varStatus='status'>
 								<tr>
 									<td>${vo.boardNo }</td>
-									<td>${vo.userName }</td>
-									<td>${vo.title }</td>
-									<td>${vo.regDate }</td>
-									<td>${vo.viewCount }</td>
-
+									<td>${vo.title } <td>${vo.userName } | ${vo.regDate } | ${vo.viewCount }</td> </td>
 								</tr>
 							</c:forEach>
 						</tbody>

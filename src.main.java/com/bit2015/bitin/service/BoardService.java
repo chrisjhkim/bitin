@@ -25,7 +25,7 @@ public class BoardService {
 	
 	public BoardVo viewBoard( Long boardNo ){
 		BoardVo vo = boardDao.get( boardNo );
-		//boardDao.updateViewCount( boardNo );
+		boardDao.updateViewCount( boardNo );
 		return vo;
 	}
 
@@ -36,5 +36,9 @@ public class BoardService {
 	
 	public void writeBoard( BoardVo vo ){
 		boardDao.insert( vo );
+		
+	}
+	public void updateBoard( BoardVo vo ){
+		boardDao.updateBoard( vo );
 	}
 }

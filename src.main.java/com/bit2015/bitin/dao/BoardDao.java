@@ -15,6 +15,13 @@ public class BoardDao {
 	@Autowired
 	SqlSession sqlSession;
 
+	/*
+	 *  update 글 수정
+	 */
+	public void updateBoard( BoardVo vo ) {
+		sqlSession.update( "board.update", vo );
+	}
+	
 	public List<BoardVo> getList(Long classNo) {
 		System.out.println("classNo: "+classNo);
 		List<BoardVo> list = sqlSession.selectList( "board.selectList", classNo);

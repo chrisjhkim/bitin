@@ -44,6 +44,10 @@
 					<div class="card">
 						<div class="card-header">
 					<h2>
+						<button type="submit"
+							class="btn btn-primary btn m-t-5 waves-effect pull-right"
+							onclick="location.href='/bitin/board/list/modifyform/${vo.boardNo }'"
+							style="margin-right: 8px; cursor: pointer;">글 수정</button>
 						${vo.title } <small>${vo.boardNo } 번 게시물</small>
 					</h2>
 							<div class="media">

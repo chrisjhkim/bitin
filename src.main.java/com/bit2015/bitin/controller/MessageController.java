@@ -21,4 +21,9 @@ public class MessageController {
 		return "/message/list";
 	}
 	
+	@RequestMapping("/chat")
+	public String chat(){
+		return "/message/chat";
+	}
+	
 }

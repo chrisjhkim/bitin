@@ -42,9 +42,9 @@
 	<!--  ******************************   2015.12.11 김현준이 임시로만든 게시판content와 조회수를 불러오는 sql입니다.  **************************         -->
 	<update id="updateViewCount" parameterType="long">
 		<![CDATA[
-		update board
+		update b_board
 		   set view_cnt = view_cnt + 1		
-         where board_no = #{boardNo }
+         where post_no = #{postNo }
 		]]>			
 	</update>
 	
@@ -59,6 +59,15 @@
 		 where board_no=#{boardNo }			
 		]]>
 	</select>
+	
+	<update id="update" parameterType="BoardVo">
+		<![CDATA[
+		update b_board
+		   set title = #{title }, content = #{content }
+         where board_no as bardNo = #{boardNo }
+           and user_no = #{userNo }
+		]]>			
+	</update>
 	
 	
 	<!-- **************************************************************************************************************** -->
