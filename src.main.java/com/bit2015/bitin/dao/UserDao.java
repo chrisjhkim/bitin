@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.UserVo;
 
 @Repository
@@ -72,6 +73,11 @@ public class UserDao {
 		retVo = sqlSession.selectOne("user.getUserVoByIdAndPassword", userVo);
 		return retVo;
 	}
+	public void updatePhoneId( UserVo userVo ){
+		sqlSession.update("user.updatePhoneId", userVo);
+	}
+	
+	
 	
 	public Long getUserNoViaUserPhoneId (String userPhoneId ) {
 		Long retLong = 0L;
@@ -128,6 +134,23 @@ public class UserDao {
 	public List<UserVo> classmateList( UserVo vo ) {
 		List<UserVo> list = sqlSession.selectList( "user.classmateList",  vo );
 		return list;
+	}
+
+	
+	public List<UserVo> classnameList( UserVo vo ) {
+		System.out.println("test" + vo);
+		List<UserVo> list2 = sqlSession.selectList( "user.classnameList",  vo.getUserNo() );
+		System.out.println("list2 : " + list2);
+		return list2;
+	}
+	
+	
+	
+	public String userIdByPhoneId( UserVo vo ) {
+		System.out.println(vo);
+		String retString = sqlSession.selectOne( "user.userIdByPhoneId",  vo );
+		System.out.println(retString);
+		return retString;
 	}
 	
 	
