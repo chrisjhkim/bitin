@@ -7,24 +7,26 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit2015.bitin.vo.MessageVo;
+import com.bit2015.bitin.vo.UserVo;
+
 @Repository
 public class ChattingDao {
 	
 	@Autowired
 	SqlSession sqlSession;
 	
-	public List<String> list (HashMap<String, Object> map) {
-		List<String> retList = null;
-		//TODO : retList 뽑아오는 과정
-		retList = sqlSession.selectList("chatting.list", map);
+	public List<MessageVo> list (UserVo authUser) {
+		List<MessageVo> retList = null;
+		retList = sqlSession.selectList("chatting.list", authUser);
 		return retList;
 	}
 	
 	
 	
-	public boolean send (HashMap<String, Object> map){
-		boolean retFlag = false;
-		retFlag = (1==sqlSession.insert("chatting.send", map));
-		return retFlag;
+	public List<MessageVo> send (MessageVo vo){
+		sqlSession.insert( "chatting.send", vo );
+		List<MessageVo>  retList= sqlSession.selectList("chatting.selectbyno", vo);
+		return retList;
 	}
 }

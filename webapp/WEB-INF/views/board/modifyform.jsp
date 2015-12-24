@@ -9,7 +9,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>writeform test</title>
+<title>modifyform test</title>
 
 <!-- Vendor CSS -->
 <link
@@ -65,7 +65,7 @@
 				${classNo }게시판<small>글 작성하기</small>
 				</h2>
 			</div>
-			<form class="board-form" method="post" action="/bitin/board/insert">
+			<form class="board-form" method="post" action="/bitin/board/update">
 			<input type="hidden" name="classNo" value="${classNo }">
 			<input type="hidden" name="userNo" value="${vo.userNo }">
 				<div class="input-group">
@@ -73,14 +73,14 @@
 						class="zmdi zmdi-collection-item"></i></span>
 					<div class="fg-line" style="width:92%">
 						<input type="text" name="title" class="form-control"
-							placeholder="제목을 입력해주세요.">
+							value="${vo.title }">
 					</div>
 
 				</div>
 				<br>
 				<div class="board-form">
 					<textarea id="board-content" class="textarea" name="content" id="board-content"
-						placeholder="내용을 입력해주세요."></textarea>
+						>${vo.content } }</textarea>
 				</div>
 
 				<div class="card-header">

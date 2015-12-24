@@ -10,13 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.ChattingService;
+
 import com.bit2015.bitin.vo.MessageVo;
 import com.bit2015.bitin.vo.UserVo;
+
 
 @Controller("ChattingController")		
 @RequestMapping("/chatting")	

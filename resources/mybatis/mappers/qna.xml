@@ -35,6 +35,7 @@
 		where q.to_who_no = (select user_no from b_user where user_id= #{receiverId } ) 
 		and c.class_no = q.class_no
 		and u.user_no = q.from_user_no
+		 order by created_date desc
 	</select>
 	
 	

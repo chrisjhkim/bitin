@@ -1,25 +1,14 @@
 package com.bit2015.bitin.controller;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.Timer;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.bit2015.bitin.api.thread.AttdThread;
-import com.bit2015.bitin.api.thread.EndAttd;
 import com.bit2015.bitin.service.AttdService;
 import com.bit2015.bitin.service.ClassService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.service.UtilService;
-import com.bit2015.bitin.vo.AttdNumberVo;
-import com.bit2015.bitin.vo.AttendanceVo;
-import com.bit2015.bitin.vo.ClassVo;
-import com.bit2015.bitin.vo.UserVo;
 
 
 @Controller

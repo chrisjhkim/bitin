@@ -292,12 +292,25 @@ public class UserController {
 	public Map<String, Object> getUserVo(
 			@RequestParam String userId) {
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
-		UserVo userVo = null;
+		UserVo userVo = new UserVo();
+		userVo = userService.getUserVo(userId);
 		retMap.put("data", userVo);
 		return retMap;
 	}
 	
 	
+	@ResponseBody
+	@RequestMapping("/useridbyphoneid")
+	public Map<String, Object> userIdByPhoneId(
+			@RequestBody HashMap<String, Object> map) {
+		HashMap<String, Object>retMap = new HashMap<String, Object>();
+		System.out.println("userIdByPhoneId"+map);
+		UserVo userVo = new UserVo();
+		userVo.setUserPhoneId((String) map.get("phoneId"));
+		
+		retMap.put("data", userService.userIdByPhoneId(userVo));
+		return retMap;
+	}
 	
 	
 }

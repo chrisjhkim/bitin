@@ -33,48 +33,10 @@
 <link href="/bitin/assets/css/app.min.2.css" rel="stylesheet">
 
 </head>
-
 <body>
 	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
-	<section id="content">
-		<div class="content">
-			<div class="card">
-				<div class="card-header">
-					<h4>
-						<button type="submit"
-							class="btn btn-primary btn m-t-5 waves-effect pull-right"
-							onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
-							style="margin-right: 8px; cursor: pointer;">글 작성</button>
-							${vo.className } <small>게시판</small>
-					</h4>
-					<br>
-				</div>
-
-				<div class="table-responsive">
-					<table id="data-table-basic" class="table table-striped">
-						<thead>
-							<tr>
-								<th data-column-id="no" data-type="numeric">No</th>
-								<th data-column-id="sender">작성자</th>
-								<th data-column-id="title" data-formatter="link">제 목</th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items='${list }' var='vo' varStatus='status'>
-								<tr>
-									<td>${vo.boardNo}</td>
-									<td>${vo.userName }</td>
-									<td>${vo.title }</td> 
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-	</section>
-
+	
 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 	<!-- Javascript Libraries -->
@@ -125,7 +87,7 @@
 	<script
 		src="/bitin/assets/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
 	<script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
-	
+
 	<script>
 		//Basic Example
 		$("#data-table-basic").bootgrid({

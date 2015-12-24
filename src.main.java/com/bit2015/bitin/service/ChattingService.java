@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.bit2015.bitin.dao.ChattingDao;
 import com.bit2015.bitin.dao.MessageDao;
+import com.bit2015.bitin.vo.MessageVo;
+import com.bit2015.bitin.vo.UserVo;
 
 @Service
 public class ChattingService {
@@ -17,19 +19,16 @@ public class ChattingService {
 	ChattingDao chattingDao;
 	
 	
-	public List<String>  list (HashMap<String, Object> map) {
-		List<String> retList = null;
-		//TODO : retList 뽑아오는 과정
-		retList = chattingDao.list(map);
+	public List<MessageVo> list (UserVo authUser) {
+		List<MessageVo> retList = null;
+		retList = chattingDao.list(authUser);
 		return retList;
 	}
 
 	
 	
-	public boolean send (HashMap<String, Object> map){
-		boolean retFlag = false;
-		retFlag = chattingDao.send(map);
-		return retFlag;
+	public List<MessageVo> send (MessageVo messageVo){
+		return chattingDao.send( messageVo );
 	}
 
 }

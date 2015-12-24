@@ -3,7 +3,6 @@ package com.bit2015.bitin.api.thread;
 import java.util.TimerTask;
 
 import com.bit2015.bitin.dao.AttdDao;
-import com.bit2015.bitin.dao.ClassDao;
 
 public class EndAttd extends TimerTask{
 	private Long classNo;

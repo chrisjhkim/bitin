@@ -169,5 +169,4 @@ public class UserService {
 		String retString = userDao.userIdByPhoneId(userVo);
 		return retString;
 	}
-	
 }

@@ -26,5 +26,6 @@
 		<mapper resource="mybatis/mappers/message.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
 		<mapper resource="mybatis/mappers/notice.xml" />
+		<mapper resource="mybatis/mappers/chatting.xml" />
 	</mappers>
 </configuration>

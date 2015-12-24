@@ -92,7 +92,7 @@
 	
 	<!-- userId 가 들어가 있는 수업들의 과목명과 담당 선생님이름 List<hashmap>으로 -->
 	<select id="getClassNameAndPhoneIdOfThatClassViaUserId" parameterType="string" resultType="hashmap">
-		SELECT c.class_NAME, u.USER_PHONE_ID
+		SELECT c.class_NAME, u.USER_PHONE_ID,u.user_Id
 		  FROM b_class c, b_class_user cu, b_user u,	(SELECT class_no
 																	   FROM b_class_user
 																	  WHERE user_no = (SELECT user_no
