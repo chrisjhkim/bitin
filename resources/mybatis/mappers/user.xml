@@ -18,77 +18,105 @@
 					'-',
 					'0'		)
 		]]>
-	</insert>	
-	
+	</insert>
+
 	<select id="getUserById" parameterType="string" resultType="UserVo">
 		SELECT user_no AS userNo,
-			   user_id AS userId,
-			   user_name AS userName,
-			   user_password AS userPassword,
-			   user_phone_id AS userPhoneId,
-			   user_type AS userType
+		user_id AS userId,
+		user_name AS userName,
+		user_password AS userPassword,
+		user_phone_id AS userPhoneId,
+		user_type AS userType
 		FROM b_user
 		WHERE user_id = #{userId }
 	</select>
-	
-	<select id="getUserVoByIdAndPassword" parameterType="UserVo" resultType="UserVo">
+
+	<select id="getUserVoByIdAndPassword" parameterType="UserVo"
+		resultType="UserVo">
 		SELECT user_no AS userNo,
-			   user_id AS userId,
-			   user_name AS userName,
-			   user_phone_id AS userPhoneId,
-			   user_type AS userType
+		user_id AS userId,
+		user_name AS userName,
+		user_phone_id AS userPhoneId,
+		user_type AS userType
 		FROM b_user
 		WHERE user_id= #{userId }
-		  AND user_password = #{userPassword }
+		AND user_password = #{userPassword }
 	</select>
+	<update id="updatePhoneId" parameterType="UserVo">
+		update b_user
+		set    user_phone_id = #{userPhoneId}
+		where  user_id = #{userId}
+	</update>
+	
+	
 
 	<select id="getUserListAll" resultType="UserVo">
-		SELECT user_no			 AS userNo, 
-			   user_id			 AS userId, 
-			   user_name		 AS userName, 
-			   user_password	 AS userPassword, 
-			   user_phone_id	 AS userPhoneId, 
-			   user_type		 AS userType 
+		SELECT user_no AS userNo,
+		user_id AS userId,
+		user_name AS userName,
+		user_password AS userPassword,
+		user_phone_id AS userPhoneId,
+		user_type AS userType
 		FROM b_user
 	</select>
-	<select id="getUserNoViaUserPhoneId" parameterType="string" resultType="long">
+	<select id="getUserNoViaUserPhoneId" parameterType="string"
+		resultType="long">
 		SELECT user_no
-		  FROM b_user
-		 WHERE user_phone_id = #{userPhoneId}
+		FROM b_user
+		WHERE user_phone_id = #{userPhoneId}
 	</select>
-	
-	<select id="getUserNoViaUserId" parameterType="string" resultType="long">
+
+	<select id="getUserNoViaUserId" parameterType="string"
+		resultType="long">
 		SELECT user_no
-		  FROM b_user
-		 WHERE user_id = #{userId } 
+		FROM b_user
+		WHERE user_id = #{userId }
 	</select>
-	
-	<select id="getPhoneIdListByClassNo" parameterType="long" resultType="string">
+
+	<select id="getPhoneIdListByClassNo" parameterType="long"
+		resultType="string">
 		SELECT user_phone_id from b_user
-		 WHERE user_no IN  (SELECT user_no 
-							  FROM b_class_user 
-							 WHERE class_no = #{classNo })
-	</select>	
-	
-	<select id="getClassNameListByTeacherId" parameterType="string" resultType="string" >
+		WHERE user_no IN (SELECT user_no
+		FROM b_class_user
+		WHERE class_no = #{classNo })
+	</select>
+
+	<select id="getClassNameListByTeacherId" parameterType="string"
+		resultType="string">
 		SELECT class_name ,class_no
-		FROM   b_class
-		WHERE  class_no IN (select class_no 
-							 from b_class_user 
-						     where user_no = (  SELECT user_no
-							 					FROM b_user
-												WHERE user_id = #{userId}    ))
+		FROM b_class
+		WHERE
+		class_no IN (select class_no
+		from b_class_user
+		where user_no = ( SELECT user_no
+		FROM b_user
+		WHERE user_id = #{userId} ))
 	</select>
-	
-	<select id="classmateList" parameterType="UserVO" resultType="UserVo" >
+
+	<select id="classmateList" parameterType="UserVO" resultType="UserVo">
 		SELECT user_name as userName
-		FROM   b_user
-		WHERE  user_no in (select user_no
-			   from b_class_user
-			   where class_no in (select class_no 
-			   from b_class_user
-		       where user_no = #{userNo}))
+		FROM b_user
+		WHERE user_no in (select
+		user_no
+		from b_class_user
+		where class_no in (select class_no
+		from b_class_user
+		where user_no = #{userNo}))
+	</select>
+
+	<select id="classnameList" parameterType="long" resultType="ClassVo">
+		select class_name as className,class_no as classNo
+		from B_CLASS
+		where class_no in (select class_no from b_class_user where user_no =
+		#{userNo})
 	</select>
 	
+	
+	
+	<select id="userIdByPhoneId" parameterType="UserVo" resultType="String">
+		select user_id
+		from B_user
+		where user_phone_id = #{userPhoneId}
+	</select>
 
 </mapper>
