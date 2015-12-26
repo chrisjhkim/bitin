@@ -6,6 +6,7 @@
 		<typeAlias alias="AttdNumberVo" type="com.bit2015.bitin.vo.AttdNumberVo"></typeAlias>
 		<typeAlias alias="AttendanceVo" type="com.bit2015.bitin.vo.AttendanceVo"></typeAlias>
 		<typeAlias alias="UserVo" type="com.bit2015.bitin.vo.UserVo"></typeAlias>
+		<typeAlias alias="ReplyVo" type="com.bit2015.bitin.vo.ReplyVo"></typeAlias>
 		<typeAlias alias="GroupVo" type="com.bit2015.bitin.vo.GroupVo"></typeAlias>
 		<typeAlias alias="ClassVo" type="com.bit2015.bitin.vo.ClassVo"></typeAlias>
 		<typeAlias alias="QnaQVo" type="com.bit2015.bitin.vo.QnaQVo"></typeAlias>
@@ -19,6 +20,7 @@
 	<mappers>	
 		<mapper resource="mybatis/mappers/attd.xml" />
 		<mapper resource="mybatis/mappers/qna.xml" />
+		<mapper resource="mybatis/mappers/reply.xml" />
 		<mapper resource="mybatis/mappers/user.xml" />
 		<mapper resource="mybatis/mappers/group.xml" />
 		<mapper resource="mybatis/mappers/class.xml" />
@@ -26,5 +28,6 @@
 		<mapper resource="mybatis/mappers/message.xml" />
 		<mapper resource="mybatis/mappers/board.xml" />
 		<mapper resource="mybatis/mappers/notice.xml" />
+		<mapper resource="mybatis/mappers/chatting.xml" />
 	</mappers>
 </configuration>

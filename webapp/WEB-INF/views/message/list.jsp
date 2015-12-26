@@ -30,6 +30,21 @@
 <link href="/bitin/assets/css/app.min.2.css" rel="stylesheet">
 </head>
 
+<!-- Javascript Libraries -->
+	<script src="/bitin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+	<script
+		src="/bitin/assets/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
+	<script
+		src="/bitin/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/bitin/assets/vendors/bower_components/Waves/dist/waves.min.js"></script>
+	<script src="/bitin/assets/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+	<script
+		src="/bitin/assets/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
+
+	<script src="/bitin/assets/js/functions.js"></script>
+	<script src="/bitin/assets/js/demo.js"></script>
+
 <body>
 	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
@@ -201,127 +216,109 @@
 
 
 
+<script>
+$(function() {
+	$(document).ready(function(){
+			 timer = setInterval( function () {
+				 $.ajax ({
+					 url : "/bitin/chatting/list2",
+					 cache : false,
+					 type : "post",
+					 success : function (response) {
+						 if( response.result == "fail" ) {				
+								console.error( response.message );
+								return;
+							}
+							//rendering
+							console.log( response.data );
+							$.each( response.data, function(index, data){
+								//console.log( data );
+								insertMessage( data, false );
+							});
+						}
+// 						error: function( jqXHR, status, e ){
+// 							console.error( status + " : " + e );
+// 						}
+				 });
+			 }, 2000);
+	});
+});
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-						<div class="lv-body">
-							<div class="lv-item media">
-								<div class="lv-avatar pull-left">
-									<img src="img/profile-pics/1.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<div class="ms-item">Quisque consequat arcu eget odio
-										cursus, ut tempor arcu vestibulum. Etiam ex arcu, porta a urna
-										non, lacinia pellentesque orci. Proin semper sagittis erat,
-										eget condimentum sapien viverra et. Mauris volutpat magna
-										nibh, et condimentum est rutrum a. Nunc sed turpis mi. In eu
-										massa a sem pulvinar lobortis.</div>
-									<small class="ms-date"><i class="zmdi zmdi-time"></i>
-										20/02/2015 at 09:00</small>
-								</div>
-							</div>
-
-							<div class="lv-item media right">
-								<div class="lv-avatar pull-right">
-									<img src="img/profile-pics/8.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<div class="ms-item">Mauris volutpat magna nibh, et
-										condimentum est rutrum a. Nunc sed turpis mi. In eu massa a
-										sem pulvinar lobortis.</div>
-									<small class="ms-date"><i class="zmdi zmdi-time"></i>
-										20/02/2015 at 09:30</small>
-								</div>
-							</div>
-
-							<div class="lv-item media">
-								<div class="lv-avatar pull-left">
-									<img src="img/profile-pics/1.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<div class="ms-item">Etiam ex arcumentum</div>
-									<small class="ms-date"><i class="zmdi zmdi-time"></i>
-										20/02/2015 at 09:33</small>
-								</div>
-							</div>
-
-							<div class="lv-item media right">
-								<div class="lv-avatar pull-right">
-									<img src="img/profile-pics/8.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<div class="ms-item">Etiam nec facilisis lacus. Nulla
-										imperdiet augue ullamcorper dui ullamcorper, eu laoreet sem
-										consectetur. Aenean et ligula risus. Praesent sed posuere sem.
-										Cum sociis natoque penatibus et magnis dis parturient montes,
+var insertMessage = function( data, isHead ) {
+	var temp2;
+	
+	
+	if(authUser.userNo == data.fromUserNo  ){
+		temp2 = 
+			"<div id='chatlist'  class='lv-body'>"	
+			+"<div class='lv-item media right'>"
+		+"<div class='lv-avatar pull-right'>"
+			+"<img src='img/profile-pics/8.jpg' alt=''></div>"
+		+"<div class='media-body'><div class='ms-item'>"+data.message+"</div>"
+			+"<small class='ms-date'><i class='zmdi zmdi-time'></i>"
+				+data.createdDate+"</small></div></div>";
+	}else {
+		 temp2 = 
+		"<div id='chatlist'  class='lv-body'>"	
+		+"<div class='lv-item media'>" 
+		+ "<div class='lv-avatar pull-left'>"
+		+ "<img src='img/profile-pics/1.jpg' alt=''>"
+		+"</div>"
+		+"<div class='media-body'>"
+		+"<div class='ms-item'>"+data.message+"</div>"
+		+"<small class='ms-date'><i class='zmdi zmdi-time'></i>"
+		+data.createdDate+"</small></div></div>";
+	}
+	
+	var $listDiv = $( "#chatlist" );
+	console.log( temp2 );
+	$listDiv.html( temp2 );
+	$listDiv.append( temp2 );
+}
+</script>
+			<div  id="chatlist" class="lv-body">	
+<%-- 						<c:forEach items='${chatlist }' var='vo' varStatus='status'> --%>
+<!-- 						<div > -->
+							<c:choose>
+								<c:when test='${authUser.userNo == vo.fromUserNo }'>						
+									<div class="lv-item media right">
+										<div class="lv-avatar pull-right">
+											<img src="img/profile-pics/8.jpg" alt="">
+										</div>
+										<div class="media-body">
+											<div class="ms-item">${vo.message }</div>
+											<small class="ms-date"><i class="zmdi zmdi-time"></i>
+												${vo.createdDate }</small>
+										</div>
 									</div>
-									<small class="ms-date"><i class="zmdi zmdi-time"></i>
-										20/02/2015 at 10:10</small>
-								</div>
-							</div>
-
-							<div class="lv-item media">
-								<div class="lv-avatar pull-left">
-									<img src="img/profile-pics/1.jpg" alt="">
-								</div>
-								<div class="media-body">
-									<div class="ms-item">Cum sociis natoque penatibus et
-										magnis dis parturient montes, nascetur ridiculus mus. Etiam ac
-										tortor ut elit sodales varius. Mauris id ipsum id mauris
-										malesuada tincidunt. Vestibulum elit massa, pulvinar at sapien
-										sed, luctus vestibulum eros. Etiam finibus tristique ante,
-										vitae rhoncus sapien volutpat eget</div>
-									<small class="ms-date"><i class="zmdi zmdi-time"></i>
-										20/02/2015 at 10:24</small>
-								</div>
-							</div>
+								</c:when>
+								<c:otherwise>
+									<div class="lv-item media">
+										<div class="lv-avatar pull-left">
+											<img src="img/profile-pics/1.jpg" alt="">
+										</div>
+										<div class="media-body">
+											<div class="ms-item">${vo.message }</div>
+											<small class="ms-date"><i class="zmdi zmdi-time"></i>
+												${vo.createdDate }</small>
+										</div>
+									</div>
+								</c:otherwise>
+							</c:choose>
+<!-- 							</div> -->
+<%-- 						</c:forEach> --%>
 						</div>
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-						
-
 						<div class="lv-footer ms-reply">
-							<textarea placeholder="What's on your mind..."></textarea>
-
-							<button>
-								<i class="zmdi zmdi-mail-send"></i>
-							</button>
-						</div>
-					</div>
+							<textarea name="message" id="chatting-message" placeholder="What's on your mind..."></textarea>
+							<button id="btn-add">  <i class="zmdi zmdi-mail-send"></i>  </button>
+						</div>					
+					
 				</div>
 			</div>
 		</div>
-	</section>
 	</section>
 
 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
@@ -338,21 +335,38 @@
 		</div>
 	</div>
 
-	<!-- Javascript Libraries -->
-	<script src="/bitin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>
-	<script
-		src="/bitin/assets/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-	<script
-		src="/bitin/assets/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script src="/bitin/assets/vendors/bower_components/Waves/dist/waves.min.js"></script>
-	<script src="/bitin/assets/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
-	<script
-		src="/bitin/assets/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
-
-	<script src="/bitin/assets/js/functions.js"></script>
-	<script src="/bitin/assets/js/demo.js"></script>
-
-
+	
+<script>
+var authUser = "${authUser.userNo }";
+$(function() {
+	$("#btn-add").click( function() {
+		//이름, 비밀번호, content 가져오기
+		var message = $( "#chatting-message" ).val();
+		console.log( "1231444" );	
+		
+		
+		//ajax
+		$.ajax( {
+			url : "/bitin/chatting/send",
+			type: "post",
+			
+			data: "message=" + message + "&fromUserNo=" + authUser,
+// 			toUserNo 추가해야됨
+			dataType: "json",
+			success: function( response ){
+				if( response.result == "fail" ) {				
+					console.error( response.message );
+					return;
+				}
+				console.log( response );			
+				//insertMessage( response.data, true );
+			},
+			error: function( jqXHR, status, e ){
+				console.error( status + " : " + e );
+			}
+		});
+	});
+});
+</script>
 </body>
 </html>

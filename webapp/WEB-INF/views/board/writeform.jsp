@@ -5,6 +5,7 @@
 	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -57,53 +58,57 @@
 <c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
 <body>
-
-	<section id="content">
-		<div class="card">
-			<div class="card-header">
-				<h2>
-				${classNo }게시판<small>글 작성하기</small>
-				</h2>
-			</div>
-			<form class="board-form" method="post" action="/bitin/board/insert">
-			<input type="hidden" name="classNo" value="${classNo }">
-			<input type="hidden" name="userNo" value="${vo.userNo }">
-				<div class="input-group">
-					<span class="input-group-addon"><i
-						class="zmdi zmdi-collection-item"></i></span>
-					<div class="fg-line" style="width:92%">
-						<input type="text" name="title" class="form-control"
-							placeholder="제목을 입력해주세요.">
-					</div>
-
-				</div>
-				<br>
-				<div class="board-form">
-					<textarea id="board-content" class="textarea" name="content" id="board-content"
-						placeholder="내용을 입력해주세요."></textarea>
-				</div>
-
+	<section id="container">
+		<div class="table-responsive"></div>
+		<div class="col-sm">
+			<div class="card">
 				<div class="card-header">
-					<button input type="button" onclick="location='/bitin/board/list/${classNo}'"
-						class="btn btn-link waves-effect pull-right">취소</button>
-					<button input type="submit"
-						class="btn btn-info waves-effect pull-right" value="등록">등록</button>
+					<h2>
+						<c:if test="${boardType==1 }">게시판 <small>BBS</small>
+						</c:if>
+						<c:if test="${boardType==2 }">공지사항 게시판<small>Notice</small>
+						</c:if>
+					</h2>
 				</div>
-			</form>
-			<br>
+					<form class="board-form" method="post" action="/bitin/board/insert">
+						<input type="hidden" name="classNo" value="${classNo }"> <input
+							type="hidden" name="userNo" value="${vo.userNo }"> <input
+							type="hidden" name="boardType" value="${boardType}">
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="zmdi zmdi-collection-item"></i></span>
+							<div class="fg-line" style="width: 94.5%;">
+								<input type="text" name="title" class="form-control"
+									placeholder="제목을 입력해주세요.">
+							</div>
+
+						</div>
+						<br>
+
+						<textarea id="board-content" class="textarea" name="content"
+							id="board-content" placeholder="내용을 입력해주세요."></textarea>
+							<br>
+					<div class="col-sm-6" style="margin-left:4.5px; margin-right:3.5px;">
+						<div class="btn-group btn-group-justified" role="group"
+							aria-label="...">
+							<div class="btn-group" role="group">
+								<button type="summit" class="btn btn-warning">작성하기</button>
+							</div>
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-danger" onclick="location='/bitin/board/list/${classNo}'">취소</button>
+							</div>
+						</div>
+					</div>
+					</form>
+
+					<br>
+				</div>
+			</div>
 	</section>
 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 	<!-- Page Loader -->
-	<div class="page-loader">
-		<div class="preloader pls-blue">
-			<svg class="pl-circular" viewBox="25 25 50 50">
-                    <circle class="plc-path" cx="50" cy="50" r="20" />
-                </svg>
 
-			<p>Please wait...</p>
-		</div>
-	</div>
 
 
 	<!-- Javascript Libraries -->

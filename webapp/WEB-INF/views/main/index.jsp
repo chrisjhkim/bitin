@@ -39,11 +39,9 @@
 	<section id="main">
 		<div class="container">
 			<br>
-
 			<div class="card-body card-padding">
 				<div id="carousel-example-generic" class="carousel slide"
 					data-ride="carousel">
-
 
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner" role="listbox">

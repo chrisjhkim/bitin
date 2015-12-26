@@ -37,117 +37,107 @@
 	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
 	<section id="container">
-		<div class="container">
-			<div class="table-responsive"></div>
-			<div class="row">
-				<div class="col-md-12">
-					<div class="card">
-						<div class="card-header">
+		<div class="table-responsive"></div>
+		<div class="col-sm">
+			<div class="card">
+				<div class="card-header">
+
 					<h2>
-						<button type="submit"
-							class="btn btn-primary btn m-t-5 waves-effect pull-right"
-							onclick="location.href='/bitin/board/list/modifyform/${vo.boardNo }'"
-							style="margin-right: 8px; cursor: pointer;">글 수정</button>
-						${vo.title } <small>${vo.boardNo } 번 게시물</small>
+						${boardVo.title } <small>작성자 : ${boardVo.userName }(
+							${boardVo.postNo } 번 게시물)</small>
 					</h2>
-							<div class="media">
-								<div class="pull-left">
-									<img class="lv-img" src="/bitin/assets/img/profile-pics/1.jpg"
-										alt="">
-								</div>
-
-								<div class="media-body m-t-5">
-									<h2>
-										${vo.userName} <small>Posted on ${vo.regDate }</small>
-									</h2>
-								</div>
-							</div>
+					<div class="media">
+						<div class="pull-left">
+							<img class="lv-img" src="/bitin/assets/img/profile-pics/1.jpg"
+								alt="">
 						</div>
 
-						<div class="card-body card-padding">
-							<p>${vo.content }</p>
-
-							<ul class="wall-attrs clearfix list-inline list-unstyled">
-								<li class="wa-stats"><span><i
-										class="zmdi zmdi-comments"></i> 36</span> <span class="active"><i
-										class="zmdi zmdi-favorite"></i> 220</span></li>
-
-								<li class="wa-users"><a href=""><img
-										src="/bitin/assets/img/profile-pics/1.jpg" alt=""></a> <a
-									href=""><img src="/bitin/assets/img/profile-pics/2.jpg"
-										alt=""></a> <a href=""><img
-										src="/bitin/assets/img/profile-pics/3.jpg" alt=""></a> <a
-									href=""><img src="/bitin/assets/img/profile-pics/5.jpg"
-										alt=""></a></li>
-							</ul>
+						<div class="media-body m-t-5">
+							<h2>
+								<small>Posted on ${boardVo.regDate }</small>
+							</h2>
 						</div>
+					</div>
 
-						<div class="wall-comment-list">
 
-							<!-- Comment Listing -->
-							<div class="wcl-list">
-								<div class="media">
-									<a href="" class="pull-left"> <img
-										src="/bitin/assets/img/profile-pics/5.jpg" alt=""
-										class="lv-img-sm">
-									</a>
+					<br>
+					<div class="card-body card-padding">${boardVo.content }</div>
+					<br>
 
-									<div class="pull-right p-0">
-										<ul class="actions">
-											<li class="dropdown" dropdown=""><a href=""
-												dropdown-toggle="" aria-haspopup="true"
-												aria-expanded="false"> <i class="zmdi zmdi-more-vert"></i>
-											</a>
-
-												<ul class="dropdown-menu dropdown-menu-right">
-													<li><a href="">Report</a></li>
-													<li><a href="">Delete</a></li>
-												</ul></li>
-										</ul>
-									</div>
-
-									<div class="media-body">
-										<a href="" class="a-title">댓글 단 사람 이름</a> <small
-											class="c-gray m-l-10">댓글 시간 댓글 시간</small>
-										<p class="m-t-5 m-b-0">댓글 입력 댓글 입력</p>
-									</div>
-								</div>
-
-								<div class="media">
-									<a href="" class="pull-left"> <img
-										src="/bitin/assets/img/profile-pics/4.jpg" alt=""
-										class="lv-img-sm">
-									</a>
-
-									<div class="media-body">
-										<a href="" class="a-title">Sam Anderson</a> <small
-											class="c-gray m-l-10">3 mins ago...</small>
-										<p class="m-t-5 m-b-0">Curabitur in arcu quis nulla
-											aliquam condimentum.</p>
-									</div>
-
-									<ul class="actions">
-										<li class="dropdown" dropdown=""><a href=""
-											dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
-												<i class="zmdi zmdi-more-vert"></i>
-										</a>
-
-											<ul class="dropdown-menu dropdown-menu-right">
-												<li><a href="">Report</a></li>
-												<li><a href="">Delete</a></li>
-											</ul></li>
-									</ul>
-								</div>
+					<ul class="wall-attrs clearfix list-inline list-unstyled">
+						<li class="wa-stats"><span><i
+								class="zmdi zmdi-comments"></i>${boardVo.viewCount }</span>
+						<li class="wa-users"><a href=""><img
+								src="/bitin/assets/img/profile-pics/1.jpg" alt=""></a> <a
+							href=""><img src="/bitin/assets/img/profile-pics/2.jpg"
+								alt=""></a> <a href=""><img
+								src="/bitin/assets/img/profile-pics/3.jpg" alt=""></a> <a
+							href=""><img src="/bitin/assets/img/profile-pics/5.jpg"
+								alt=""></a></li>
+					</ul>
+				</div>
+				<br>
+				<div class="col-sm">
+					<div class="card">
+						<div class="btn-group btn-group-justified" role="group"
+							aria-label="...">
+							<div class="btn-group" role="group">
+								<button type="button"
+									class="btn btn-default zmdi zmdi-arrow-left zmdi-hc-fw">
+									이전</button>
 							</div>
-
-							<!-- Comment form -->
-							<div class="wcl-form">
-								<div class="wc-comment">
-									<div class="wcc-inner wcc-toggle">댓글을 작성해주세요</div>
-								</div>
+							<div class="btn-group" role="group"
+								onclick="location='/bitin/board/list/${classNo}'">
+								<button type="button"
+									class="btn btn-default zmdi zmdi-apps zmdi-hc-fw">목록</button>
+							</div>
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-default">
+									다음<i class="zmdi zmdi-arrow-right zmdi-hc-fw"></i>
+								</button>
 							</div>
 						</div>
 					</div>
+				</div>
+
+				<!-- Comment Listing -->
+				<div class="container">
+					<a href="" class="pull-left"> <img
+						src="/bitin/assets/img/profile-pics/5.jpg" alt=""
+						class="lv-img-sm">
+					</a>
+
+					<div class="pull-right p-0">
+						<ul class="actions">
+							<li class="dropdown" dropdown=""><a href=""
+								dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+									<i class="zmdi zmdi-more-vert"></i>
+							</a>
+
+								<ul class="dropdown-menu dropdown-menu-right">
+									<li><a href="">Report</a></li>
+									<li><a href="">Delete</a></li>
+								</ul></li>
+						</ul>
+					</div>
+					<c:forEach items='${ReplyVo}' var='vo' varStatus='status'>
+						<div class="media-body">
+							<a href="" class="a-title">${ReplyVo.userName }</a> <small
+								class="c-gray m-l-10">${ReplyVo.regDate }</small>
+							<p class="m-t-5 m-b-0">${ReplyVo.reply }</p>
+						</div>
+					</c:forEach>
+				</div>
+
+				<div class="card wall-posting">
+					<div class="card-body card-padding">
+						<textarea class="wp-text" data-auto-size placeholder="댓글을 작성하세요"
+							style="background-color: #f2f2f2;"></textarea>
+						<button class="btn btn-warning btn-block"
+							onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
+							style="margin-right: 8px; cursor: pointer;">댓글 달기</button>
+					</div>
+					<br>
 				</div>
 			</div>
 		</div>

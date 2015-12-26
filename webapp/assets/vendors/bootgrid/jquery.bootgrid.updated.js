@@ -909,7 +909,7 @@
                 tbody.html(tpl.loading.resolve(getParams.call(that, { columns: count })));
                 if (that.rowCount !== -1 && padding > 0)
                 {
-                    tbody.find("tr > td").css("padding", "10px 0 " + padding + "px");
+                    tbody.find("tr > td").css("padding", "20px 0 " + padding + "px");
                 }
             }
         }, 250);

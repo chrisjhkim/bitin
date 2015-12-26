@@ -1419,13 +1419,13 @@ textarea {
 }
 
 a {
-  color: #2196f3;
+  color: #5e5e5e;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #0a6ebd;
+  color: #5e5e5e;
   text-decoration: none;
 }
 
@@ -2024,7 +2024,7 @@ pre code {
 }
 
 .row {
-  margin-left: -15px;
+  margin-left: -20px;
   margin-right: -15px;
 }
 
@@ -2992,7 +2992,7 @@ th {
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
   padding: 10px;
-  line-height: 1.42857143;
+  line-height: 1;
   vertical-align: top;
   border-top: 1px solid #f0f0f0;
   font-size: 11px;
@@ -10091,8 +10091,7 @@ h6 small,
 
 #main {
   position: relative;
-  padding-bottom: 70px;
-  padding-top: 0px;
+  padding-top: 35px;
 }
 
 .container.c-alt {
@@ -10388,7 +10387,7 @@ h6 small,
 
 #header {
   box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3);
-  min-height: 70px;
+ min-height: 70px;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -11560,13 +11559,13 @@ a.lv-footer:hover {
 
 @media screen and (min-width: 768px) {
   .card .card-header:not(.ch-alt) {
-    padding: 23px 25px;
+    padding: 26px 25px;
   }
 }
 
 @media screen and (max-width: 991px) {
   .card .card-header:not(.ch-alt) {
-    padding: 18px;
+    padding: 35px 17px 0 25px;
   }
 }
 
@@ -12840,7 +12839,7 @@ a.lv-footer:hover {
 
 .profile-view .pv-header {
   position: relative;
-  height: 145px;
+  height: 166px;
   width: 100%;
   background-image: url('../img/headers/sm/4.png');
   background-repeat: no-repeat;
@@ -13139,6 +13138,7 @@ a.lv-footer:hover {
 .table > tbody > tr > td:last-child,
 .table > tfoot > tr > td:last-child {
   padding-right: 30px;
+  text-align-last: center;
 }
 
 .table > tbody > tr.active > td,

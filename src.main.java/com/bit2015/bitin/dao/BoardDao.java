@@ -11,42 +11,52 @@ import com.bit2015.bitin.vo.ClassVo;
 
 @Repository
 public class BoardDao {
-	
+
 	@Autowired
 	SqlSession sqlSession;
 
 	/*
-	 *  update 글 수정
+	 * update 글 수정
 	 */
-	public void updateBoard( BoardVo vo ) {
-		sqlSession.update( "board.update", vo );
-	}
-	
-	public List<BoardVo> getList(Long classNo) {
-		System.out.println("classNo: "+classNo);
-		List<BoardVo> list = sqlSession.selectList( "board.selectList", classNo);
-		System.out.println("list test2" + list);
-		return list;
-	
+	public void updateBoard(BoardVo vo) {
+		sqlSession.update("board.update", vo);
 	}
 
-	public ClassVo getStirng( Long classNo ) {
+	public List<BoardVo> getList(Long classNo) {
+		System.out.println("classNo: " + classNo);
+		List<BoardVo> list = sqlSession.selectList("board.selectList", classNo);
+		System.out.println("list test2" + list);
+		return list;
+
+	}
+
+	public ClassVo getStirng(Long classNo) {
 		System.out.println("test : " + classNo);
-		ClassVo vo = sqlSession.selectOne( "board.selectBoardName", classNo );
+		ClassVo vo = sqlSession.selectOne("board.selectBoardName", classNo);
 		System.out.println("daovo : " + vo);
 		return vo;
 	}
-	
-	public void updateViewCount( Long no ) {
-		sqlSession.update( "board.updateViewCount", no );
+
+	public void updateViewCount(Long postNo) {
+		sqlSession.update("board.updateViewCount", postNo);
 	}
-	
-	public BoardVo get( Long boardNo ) {
-		BoardVo vo = sqlSession.selectOne( "board.selectByNo", boardNo );
+
+	public BoardVo get(Long boardNo) {
+		BoardVo vo = sqlSession.selectOne("board.selectByNo", boardNo);
 		return vo;
 	}
-	
-	public void insert( BoardVo vo ) {
-		sqlSession.insert( "board.insert", vo );
+
+	public void insert(BoardVo vo) {
+		sqlSession.insert("board.insert", vo);
 	}
+
+	public BoardVo getPostByPostNo(Long postNo) {
+		BoardVo retVo = null;
+		retVo = sqlSession.selectOne("board.getPostByPostNo", postNo);
+		return retVo;
+	}
+	public void insertReply(BoardVo vo) {
+		sqlSession.insert("board.insertReply", vo);
+	}
+   
 }
