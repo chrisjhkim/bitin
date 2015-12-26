@@ -1,5 +1,6 @@
 package com.bit2015.bitin.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -115,8 +116,8 @@ public class UserDao {
 	 * @return userId가 들어가 있는 수업의 목록
 	 * List<String >    형태로 
 	 */
-	public List<String>  getClassNameListByTeacherId (String userId) {
-		List<String> retList = null;
+	public List<HashMap<String, Object>>  getClassNameListByTeacherId (String userId) {
+		List<HashMap<String, Object>> retList = null;
 		retList = sqlSession.selectList("user.getClassNameListByTeacherId", userId);
 		return retList;
 	}

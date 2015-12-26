@@ -8,14 +8,26 @@
 <mapper namespace="chatting">
 
 
-	<select id="list" parameterType="UserVo" resultType="MessageVo" >
-							 select from_user_no 	AS 	fromUserNo,
+	<select id="list" parameterType="hashmap" resultType="MessageVo" >
+<!-- 							 select from_user_no 	AS 	fromUserNo, -->
+<!-- 							 		to_user_no		AS	toUserNo, -->
+<!-- 							 		created_date	AS	createdDate, -->
+<!-- 							 		message			AS	message -->
+<!-- 							 from   b_chatting -->
+<!-- 						     where  to_user_no =  (select user_no from b_user where user_id=#{userId }) or from_user_no =  (select user_no from b_user where user_id=#{userId }) -->
+<!-- 							 order by created_date asc -->
+
+
+
+					 select from_user_no 	AS 	fromUserNo,
 							 		to_user_no		AS	toUserNo,
 							 		created_date	AS	createdDate,
 							 		message			AS	message
 							 from   b_chatting
-						     where  to_user_no =  (select user_no from b_user where user_id=#{userId }) or from_user_no =  (select user_no from b_user where user_id=#{userId })
+						     where  to_user_no =  #{toUserNo} and from_user_no = #{fromUserNo}
 							 order by created_date asc
+							 			 
+							 
 	</select>
 
 

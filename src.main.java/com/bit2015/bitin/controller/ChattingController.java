@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,28 +36,32 @@ public class ChattingController {
 	 */
 	
 	
-	@RequestMapping("/list")
-	public String aa (@AuthUser UserVo authUser, Model model ) {
-		System.out.println("리스트1111111     들어오는값" + authUser);
-		List<MessageVo> list = chattingService.list(authUser);
+	@RequestMapping("/list/{userNo}")
+	public String aa (
+			@PathVariable ("userNo") Long userNo, @AuthUser UserVo authUser, Model model ) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("data", list);
+		map.put("fromUserNo", userNo);
+		map.put("toUserNo", authUser.getUserNo());
+		
+		
+		List<MessageVo> list = chattingService.list(map);
 		model.addAttribute( "chatlist", list );
-		System.out.println("리스트111111        반환값" + model);
+		System.out.println("/list/userNo chatList :_ "+list);
+		model.addAttribute("toUserNo",  authUser.getUserNo());
 		return "/message/list";
 	}
 	
-	@ResponseBody 
-	@RequestMapping("/list2")
-	public Map<String, Object> list(@AuthUser UserVo authUser, Model model ) {
-		System.out.println("리스트2222222      들어오는값" + authUser);
-		List<MessageVo> list = chattingService.list(authUser);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("data", list);
-		model.addAttribute( "chatlist", list );
-		System.out.println("리스트2222222         반환값" + map.get("data"));
-		return map;
-	}
+//	@ResponseBody 
+//	@RequestMapping("/list2")
+//	public Map<String, Object> list(@AuthUser UserVo authUser, Model model ) {
+//		System.out.println("리스트2222222      들어오는값" + authUser);
+//		List<MessageVo> list = chattingService.list(authUser);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("data", list);
+//		model.addAttribute( "chatlist", list );
+//		System.out.println("리스트2222222         반환값" + map.get("data"));
+//		return map;
+//	}
 		
 	@ResponseBody 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)

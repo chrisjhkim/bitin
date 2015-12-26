@@ -267,7 +267,7 @@ public class UserController {
 		String userId = (String)map.get("userId");
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		
-		List<String> retList = userService.getClassNameListByTeacherId(userId);
+		List<HashMap<String, Object>> retList = userService.getClassNameListByTeacherId(userId);
 		
 		
 		retMap.put("result", "success");

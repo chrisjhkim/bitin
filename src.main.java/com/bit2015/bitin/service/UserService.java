@@ -1,5 +1,6 @@
 package com.bit2015.bitin.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -133,8 +134,8 @@ public class UserService {
 	 * @return userId가 들어가 있는 수업의 목록
 	 * List<String >    형태로 
 	 */
-	public List<String>  getClassNameListByTeacherId (String userId) {
-		List<String> retList = null;
+	public List<HashMap<String, Object>>  getClassNameListByTeacherId (String userId) {
+		List<HashMap<String, Object>>retList = null;
 		//TODO : retList 뽑아오는 과정
 		retList = userDao.getClassNameListByTeacherId(userId);
 		return retList;

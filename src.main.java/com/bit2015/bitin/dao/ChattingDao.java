@@ -2,6 +2,7 @@ package com.bit2015.bitin.dao;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,10 @@ public class ChattingDao {
 	@Autowired
 	SqlSession sqlSession;
 	
-	public List<MessageVo> list (UserVo authUser) {
+	public List<MessageVo> list (Map<String, Object> map) {
 		List<MessageVo> retList = null;
-		retList = sqlSession.selectList("chatting.list", authUser);
+		System.out.println("채팅다오:"+map);
+		retList = sqlSession.selectList("chatting.list", map);
 		return retList;
 	}
 	

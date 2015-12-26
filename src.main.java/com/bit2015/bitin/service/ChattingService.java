@@ -2,6 +2,7 @@ package com.bit2015.bitin.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,9 +20,9 @@ public class ChattingService {
 	ChattingDao chattingDao;
 	
 	
-	public List<MessageVo> list (UserVo authUser) {
+	public List<MessageVo> list (Map<String, Object> map) {
 		List<MessageVo> retList = null;
-		retList = chattingDao.list(authUser);
+		retList = chattingDao.list(map);
 		return retList;
 	}
 
