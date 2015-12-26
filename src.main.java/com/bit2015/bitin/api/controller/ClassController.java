@@ -148,6 +148,7 @@ public class ClassController {
 			}
 			else{
 				resString="success";
+				System.out.println(classInfoList);
 				retMap.put("data", classInfoList);
 			}
 		}

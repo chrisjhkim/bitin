@@ -8,14 +8,14 @@
 <mapper namespace="chatting">
 
 
-	<select id="list" parameterType="map" resultType="MessageVo" >
+	<select id="list" parameterType="UserVo" resultType="MessageVo" >
 							 select from_user_no 	AS 	fromUserNo,
 							 		to_user_no		AS	toUserNo,
 							 		created_date	AS	createdDate,
 							 		message			AS	message
-							 from   b_message
-						     where  to_user_no =  (select user_no from b_user where user_id=#{userId}) or from_user_no =  (select user_no from b_user where user_id=#{userId})
-							 order by created_date desc	
+							 from   b_chatting
+						     where  to_user_no =  (select user_no from b_user where user_id=#{userId }) or from_user_no =  (select user_no from b_user where user_id=#{userId })
+							 order by created_date asc
 	</select>
 
 
@@ -23,12 +23,26 @@
 
 	<insert id="send" parameterType="hashmap">
 		<![CDATA[
-			INSERT INTO b_message
+			INSERT INTO b_chatting
 			VALUES (#{fromUserNo},
 					#{toUserNo},
 					SYSDATE,
 					#{message})
 		]]>
 	</insert>
+	
+	
+	
+	
+		<select id="selectbyno" resultType="MessageVo" parameterType="long">
+		<![CDATA[
+		  select message
+		    from b_chatting
+		]]>
+	</select>
+	
+	
+	
+	
 	
 </mapper>

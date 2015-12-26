@@ -42,6 +42,13 @@
 		WHERE user_id= #{userId }
 		AND user_password = #{userPassword }
 	</select>
+	<update id="updatePhoneId" parameterType="UserVo">
+		update b_user
+		set    user_phone_id = #{userPhoneId}
+		where  user_id = #{userId}
+	</update>
+	
+	
 
 	<select id="getUserListAll" resultType="UserVo">
 		SELECT user_no AS userNo,
@@ -95,6 +102,21 @@
 		where class_no in (select class_no
 		from b_class_user
 		where user_no = #{userNo}))
+	</select>
+
+	<select id="classnameList" parameterType="long" resultType="ClassVo">
+		select class_name as className,class_no as classNo
+		from B_CLASS
+		where class_no in (select class_no from b_class_user where user_no =
+		#{userNo})
+
+	</select>	
+	
+	
+	<select id="userIdByPhoneId" parameterType="UserVo" resultType="String">
+		select user_id
+		from B_user
+		where user_phone_id = #{userPhoneId}
 	</select>
 
 	<select id="classnameList" parameterType="long" resultType="ClassVo">

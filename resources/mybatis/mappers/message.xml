@@ -13,6 +13,7 @@
 							 		message			AS	message
 							 from b_message
 						     where to_user_no =  (select user_no from b_user where user_id=#{userId})
+						      order by created_date asc
 	</select>
 	
 	
@@ -24,6 +25,7 @@
 							 		message			AS	message
 							 from b_message
 						     where from_user_no =  (select user_no from b_user where user_id=#{userId})
+						      order by created_date asc
 	</select>
 
 	

@@ -99,7 +99,7 @@ public class VoteDao {
 		List<String> list = null;
 		System.out.println(voteNumber);
 		list=sqlSession.selectList("vote.voteListByVoteNo", voteNumber);
-		System.out.println(list.get(1));
+
 		return list;
 	}
 	

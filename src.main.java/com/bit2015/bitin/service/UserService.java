@@ -70,7 +70,8 @@ public class UserService {
 	}
 	
 	public UserVo getUserVoViaIdAndPassword( UserVo userVo ){
-		UserVo retVo = userDao.getUserVoViaIdAndPassword(userVo); 
+		userDao.updatePhoneId(userVo);
+		UserVo retVo = userDao.getUserVoViaIdAndPassword(userVo);
 		return retVo;
 	}
 	
@@ -154,10 +155,18 @@ public class UserService {
 		List<UserVo> list = userDao.classmateList( vo );
 		return list;
 	}
-
+	
+	
 	public List<UserVo> classnameList(UserVo vo){
 		List<UserVo> list2 = userDao.classnameList( vo );
 		System.out.println("list2" + list2);
 		return list2;
+	}
+	
+	
+	
+	public String userIdByPhoneId(UserVo userVo){
+		String retString = userDao.userIdByPhoneId(userVo);
+		return retString;
 	}
 }
