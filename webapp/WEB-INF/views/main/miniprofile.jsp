@@ -44,20 +44,20 @@
                             </div>
                             
                             <div class="pv-body">
-                                <h2>Malinda Hollaway</h2>
-                                <small>Praesent vitae justo purus. In hendrerit lorem nislac lacinia urnaunc vitae ante id magna </small>
+                                <h2>${userName }</h2>
+                                <small>간단한 자기 소개를 합니다.</small>
                             
                                 <ul class="pv-contact">
-                                    <li><i class="zmdi zmdi-pin"></i> Jupitor</li>
-                                    <li><i class="zmdi zmdi-phone"></i> +11 55694785</li>
+                                    <li><i class="zmdi zmdi-pin"></i>bebop84@naver.com</li>
+                                    <li><i class="zmdi zmdi-phone"></i>010-9053-2445</li>
                                 </ul>
                                 
                                 <ul class="pv-follow">
-                                    <li>589 Followers</li>
-                                    <li>8545 Followings</li>
+                                    <li>전공</li>
+                                    <li>학생 또는 선생 (직위)</li>
                                 </ul>
                                 
-                                <a href="" class="pv-follow-btn">Follow</a>
+                                <a href="" class="pv-follow-btn">채팅 바로가기</a>
                             </div>
                         </div>
 	</section>

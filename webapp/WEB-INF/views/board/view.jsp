@@ -67,13 +67,6 @@
 					<ul class="wall-attrs clearfix list-inline list-unstyled">
 						<li class="wa-stats"><span><i
 								class="zmdi zmdi-comments"></i>${boardVo.viewCount }</span>
-						<li class="wa-users"><a href=""><img
-								src="/bitin/assets/img/profile-pics/1.jpg" alt=""></a> <a
-							href=""><img src="/bitin/assets/img/profile-pics/2.jpg"
-								alt=""></a> <a href=""><img
-								src="/bitin/assets/img/profile-pics/3.jpg" alt=""></a> <a
-							href=""><img src="/bitin/assets/img/profile-pics/5.jpg"
-								alt=""></a></li>
 					</ul>
 				</div>
 				<br>

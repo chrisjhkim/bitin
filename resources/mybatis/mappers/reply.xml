@@ -28,7 +28,7 @@
 	    and r.user_no = u.user_no
 	</select>
 	
-	<insert id="insert" parameterType="replyVo">
+	<insert id="insertReply" parameterType="ReplyVo">
 		<![CDATA[
 		insert into b_reply 
 		values ( #{postNo }, #{userNo }, #{reply} ,SYSDATE)
