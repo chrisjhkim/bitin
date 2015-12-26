@@ -31,8 +31,8 @@ import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.UserVo;
 
 
-@Controller
-@RequestMapping("/tester")
+@Controller("chrisController")
+@RequestMapping("/chris")
 public class ChrisTestController {
 
 	@Autowired

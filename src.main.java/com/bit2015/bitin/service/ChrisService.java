@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.bit2015.bitin.dao.ChrisDao;
 import com.bit2015.bitin.dao.ClassDao;
 import com.bit2015.bitin.dao.UserDao;
 import com.bit2015.bitin.vo.AttendanceVo;
 
+@Service
 public class ChrisService {
 	@Autowired
 	ChrisDao chrisDao;
