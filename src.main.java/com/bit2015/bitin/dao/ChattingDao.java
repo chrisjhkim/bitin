@@ -19,7 +19,6 @@ public class ChattingDao {
 	
 	public List<MessageVo> list (Map<String, Object> map) {
 		List<MessageVo> retList = null;
-		System.out.println("채팅다오:"+map);
 		retList = sqlSession.selectList("chatting.list", map);
 		return retList;
 	}

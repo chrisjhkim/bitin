@@ -42,12 +42,11 @@ public class ChattingController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("fromUserNo", userNo);
 		map.put("toUserNo", authUser.getUserNo());
-		
-		
+		System.out.println("채팅 컨트롤러 리스트 :" + map);
 		List<MessageVo> list = chattingService.list(map);
 		model.addAttribute( "chatlist", list );
-		System.out.println("/list/userNo chatList :_ "+list);
-		model.addAttribute("toUserNo",  authUser.getUserNo());
+		model.addAttribute("toUserNo",  userNo);
+		System.out.println("채팅 컨트롤러 리스트 :" + model);
 		return "/message/list";
 	}
 	
@@ -65,8 +64,10 @@ public class ChattingController {
 		
 	@ResponseBody 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public  Map<String, Object> send (@ModelAttribute MessageVo vo  ) {
+	public  Map<String, Object> send (@ModelAttribute MessageVo vo, @AuthUser UserVo authUser, Model model) {
 		List<MessageVo> list = new ArrayList<MessageVo>();
+		
+		
 		list = chattingService.send( vo );	
 		
 		Map<String, Object> map = new HashMap<String, Object>();

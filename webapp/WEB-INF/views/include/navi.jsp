@@ -352,7 +352,7 @@
 
 		<div class="listview">
 			<c:forEach items='${classMate }' var='vo' varStatus='status'>
-				<a class="lv-item" href="/bitin/miniprofile/${vo.userNo }">
+				<a class="lv-item" href="/bitin/chatting/list/${vo.userNo }">
 					<div class="media">
 						<div class="pull-left p-relative">
 							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/2.jpg"
