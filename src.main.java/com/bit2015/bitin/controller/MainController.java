@@ -70,6 +70,7 @@ public class MainController {
 		return "/main/index";
 	}
 
+	
 	@RequestMapping("/loginform")
 	public String loginform() {
 		return "/main/loginform";

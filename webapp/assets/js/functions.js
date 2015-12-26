@@ -373,7 +373,7 @@ $(document).ready(function(){
     */
     $('body').on('click', '.profile-menu > a', function(e){
         e.preventDefault();
-        $(this).parent().toggleClass('toggled');
+        //$(this).parent().toggleClass('toggled');
 	    $(this).next().slideToggle(200);
     });
 

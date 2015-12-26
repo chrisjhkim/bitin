@@ -20,7 +20,7 @@
 	</select>
 
 		
-	<select id="selectList" parameterType="long"  resultType="BoardVo">
+	<!-- <select id="selectList" parameterType="long"  resultType="BoardVo">
 			SELECT class_no as classNo,
 				   board_no as boardNo,
 				   title as title,
@@ -31,8 +31,22 @@
 			  FROM b_board,b_user
 			  where b_board.CLASS_NO=#{classNo }
 			   and b_board.USER_NO=b_user.USER_NO
-	</select>
-	<!-- **************************************************************************************************************** -->
+	</select> -->
+	
+<select id="selectList" parameterType="long"  resultType="BoardVo">
+         SELECT class_no as classNo,
+               post_no as postNo,
+               title as title,
+               content as content,
+               user_name as userName,
+               view_cnt as viewCount,
+               to_char(reg_date, 'mm-dd' ) as regDate
+           FROM b_board,b_user
+           where b_board.CLASS_NO=#{classNo }
+            and b_board.board_type = 1
+            and b_board.USER_NO=b_user.USER_NO
+
+   </select>	<!-- **************************************************************************************************************** -->
 	<select id="selectBoardName" parameterType="long" resultType="ClassVo">
 	        select class_name as className
 	               from b_class
@@ -75,8 +89,41 @@
 	<insert id="insert" parameterType="BoardVo">
 		<![CDATA[
 		insert into b_board 
-		values ( #{classNo }, b_board_no_seq.nextval, #{title }, #{content }, #{userNo }, 0, SYSDATE )
+		values ( #{classNo }, b_board_no_seq.nextval, #{title }, #{content }, #{userNo }, 0, SYSDATE, #{boardType})
 				]]>			 
 	</insert>
+	
+	<select id="getPostByPostNo" parameterType="long" resultType="BoardVo">
+      SELECT b.class_no AS classNO,
+            b.post_no AS postNo,
+            b.title AS title,
+            b.content,
+            b.user_no AS userNO,
+            b.view_cnt AS viewCount,
+            b.reg_date AS regDate,
+            b.board_type AS boardType,
+         u.user_name AS userName
+      FROM B_BOARD b, b_user u      
+      WHERE post_no = #{postNo }
+      AND b.user_no = u.user_no
+   </select>
+   
+   <insert id="insertReply" parameterType="BoardVo">
+		<![CDATA[
+		insert into B_reply 
+		values ( #{postNo }, #{userNo}, #{reply }, SYSDATE)
+				]]>			 
+	</insert>
+	
+	<select id="getReplyByPostno" parameterType="long" resultType="ReplyVo">
+	    select r.post_no as postNo,
+	           u.user_name as userName,
+	           r.reply,
+	           r.reg_date as regDate,
+	    from b_user u. b_reply r
+	    where post_no = #{postNo }
+	    and b.post_no = r.post_no,
+	        r.user_no = u.user_no
+	</select>
 	
 </mapper>

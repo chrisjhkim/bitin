@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="reply">
+	<!-- 
+	<select id="getPostByPostNo" parameterType="long" resultType="BoardVo">
+      SELECT b.class_no AS classNO,
+            b.post_no AS postNo,
+            b.title AS title,
+            b.content,
+            b.user_no AS userNO,
+            b.view_cnt AS viewCount,
+            b.reg_date AS regDate,
+            b.board_type AS boardType,
+         u.user_name AS userName
+      FROM B_BOARD b, b_user u      
+      WHERE post_no = #{postNo }
+      AND b.user_no = u.user_no
+   </select>
+    -->
+	<select id="getReplyByPostNo" parameterType="long" resultType="ReplyVo">
+	    	select r.post_no as postNo,
+	           u.user_name as userName,
+	           r.reply,
+	           r.reg_date as regDate
+	    from b_user u, b_reply r
+	    where post_no = #{postNo}
+	    and r.user_no = u.user_no
+	</select>
+	
+	<insert id="insert" parameterType="replyVo">
+		<![CDATA[
+		insert into b_reply 
+		values ( #{postNo }, #{userNo }, #{reply} ,SYSDATE)
+				]]>			 
+	</insert>
+</mapper>

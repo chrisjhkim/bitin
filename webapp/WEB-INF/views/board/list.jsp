@@ -40,32 +40,27 @@
 	<section id="content">
 		<div class="content">
 			<div class="card">
-				<div class="card-header">
-					<h4>
-						<button type="submit"
-							class="btn btn-primary btn m-t-5 waves-effect pull-right"
-							onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
-							style="margin-right: 8px; cursor: pointer;">글 작성</button>
-							${vo.className } <small>게시판</small>
-					</h4>
-					<br>
+				<div class="card-padding card-body">
+					<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
+						style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button>
 				</div>
-
 				<div class="table-responsive">
 					<table id="data-table-basic" class="table table-striped">
 						<thead>
 							<tr>
-								<th data-column-id="no" data-type="numeric">No</th>
+								<th data-column-id="no" data-order="desc" data-type="numeric">No</th>
 								<th data-column-id="sender">작성자</th>
 								<th data-column-id="title" data-formatter="link">제 목</th>
+								<th data-column-id="date">작성일</th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items='${list }' var='vo' varStatus='status'>
 								<tr>
-									<td>${vo.boardNo}</td>
+									<td>${vo.postNo}</td>
 									<td>${vo.userName }</td>
-									<td>${vo.title }</td> 
+									<td>${vo.title }</td>
+									<td>${vo.regDate }</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -125,23 +120,25 @@
 	<script
 		src="/bitin/assets/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js"></script>
 	<script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
-	
+
 	<script>
 		//Basic Example
-		$("#data-table-basic").bootgrid({
-			css : {
-				icon : 'zmdi icon',
-				iconColumns : 'zmdi-view-module',
-				iconDown : 'zmdi-expand-more',
-				iconRefresh : 'zmdi-refresh',
-				iconUp : 'zmdi-expand-less'
-			},
-			formatters : {
-				"link" : function(column, row) {
-					return "<a href=\"view/"+row.no+"\">" + row.title + "</a>";
-				}
-			}
-		});
+		$("#data-table-basic").bootgrid(
+				{
+					css : {
+						icon : 'zmdi icon',
+						iconColumns : 'zmdi-view-module',
+						iconDown : 'zmdi-expand-more',
+						iconRefresh : 'zmdi-refresh',
+						iconUp : 'zmdi-expand-less'
+					},
+					formatters : {
+						"link" : function(column, row) {
+							return "<a href=\"/bitin/board/view/"+row.no+"\">"
+									+ row.title + "</a>";
+						}
+					}
+				});
 	</script>
 </body>
 </html>
