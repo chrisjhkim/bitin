@@ -19,5 +19,9 @@ public class ReplyService {
 		List<ReplyVo> replyVo = replyDao.getReplyByPostNo(postNo);
 		return replyVo;
 	}
+	
+	public void writeReply(ReplyVo vo) {
+		replyDao.insertReply(vo);
+	}
 
 }

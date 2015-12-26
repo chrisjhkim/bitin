@@ -52,8 +52,4 @@ public class BoardService {
 		return retVo;
 	}
 
-	public void writeReply(BoardVo vo) {
-		boardDao.insertReply(vo);
-	}
-
 }

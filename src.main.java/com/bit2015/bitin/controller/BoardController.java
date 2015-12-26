@@ -78,9 +78,9 @@ public class BoardController {
 	@RequestMapping("/view/{postNo}")
 	public String viewForm(@PathVariable("postNo") Long postNo, Model model) {
 		BoardVo boardVo = boardService.getPostByPostNo(postNo);
-		List<ReplyVo> replyVo = replyService.getReplyByPostNo(postNo);
-		System.out.println("replyVo cont" + replyVo);
 		model.addAttribute("boardVo", boardVo);
+		List<ReplyVo> list = replyService.getReplyByPostNo(postNo);
+		model.addAttribute("list", list);
 		boardService.updateViewCount(postNo);
 		return "/board/view";
 	}
@@ -98,17 +98,19 @@ public class BoardController {
 
 		return "redirect:/board/list/" + classNo;
 	}
-
-	@RequestMapping("")
-	public String insertReply(@RequestParam(value="classNO")Long classNo,@RequestParam(value = "reply") String reply, Model model, HttpSession session, @ModelAttribute BoardVo vo) {
+	
+	@RequestMapping("/reply")
+	public String insert(@RequestParam(value = "reply") String reply,
+			@RequestParam(value = "postNo") Long postNo, HttpSession session, @ModelAttribute ReplyVo vo) {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
-			return "redirect:/board";
+			return "redirect:/bitin/index";
 		}
 		vo.setUserNo(authUser.getUserNo());
-		boardService.writeReply(vo);
-		
-		return "redirect:/board/list/" + classNo;
+		replyService.writeReply(vo);
+
+		return "redirect:/board/view/" + postNo;
 	}
+
 
 }

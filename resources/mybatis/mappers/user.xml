@@ -119,12 +119,5 @@
 		where user_phone_id = #{userPhoneId}
 	</select>
 
-	<select id="classnameList" parameterType="long" resultType="ClassVo">
-		select class_name as className,class_no as classNo
-		from B_CLASS
-		where class_no in (select class_no from b_class_user where user_no =
-		#{userNo})
-	</select>
-
 
 </mapper>

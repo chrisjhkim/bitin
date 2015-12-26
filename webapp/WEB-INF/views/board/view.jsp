@@ -87,7 +87,7 @@
 									이전</button>
 							</div>
 							<div class="btn-group" role="group"
-								onclick="location='/bitin/board/list/${classNo}'">
+								onclick="location='/bitin/board/list/${boardVo.classNo}'">
 								<button type="button"
 									class="btn btn-default zmdi zmdi-apps zmdi-hc-fw">목록</button>
 							</div>
@@ -101,44 +101,34 @@
 				</div>
 
 				<!-- Comment Listing -->
-				<div class="container">
-					<a href="" class="pull-left"> <img
-						src="/bitin/assets/img/profile-pics/5.jpg" alt=""
-						class="lv-img-sm">
-					</a>
-
-					<div class="pull-right p-0">
-						<ul class="actions">
-							<li class="dropdown" dropdown=""><a href=""
-								dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
-									<i class="zmdi zmdi-more-vert"></i>
+				 <form class="reply-form" method="post" action="/bitin/board/reply">
+					<div class="container">
+						<c:forEach items='${list}' var='vo' varStatus='status'>
+							<a href="" class="pull-left"> <img
+								src="/bitin/assets/img/profile-pics/5.jpg" alt=""
+								class="lv-img-sm">
 							</a>
 
-								<ul class="dropdown-menu dropdown-menu-right">
-									<li><a href="">Report</a></li>
-									<li><a href="">Delete</a></li>
-								</ul></li>
-						</ul>
+							<div class="media-body">
+								<a href="" class="a-title">${vo.userName }</a> <small
+									class="c-gray m-l-10">${vo.regDate }</small>
+								<p class="m-t-5 m-b-0">${vo.reply }</p>
+							</div>
+							<br>
+						</c:forEach>
 					</div>
-					<c:forEach items='${ReplyVo}' var='vo' varStatus='status'>
-						<div class="media-body">
-							<a href="" class="a-title">${ReplyVo.userName }</a> <small
-								class="c-gray m-l-10">${ReplyVo.regDate }</small>
-							<p class="m-t-5 m-b-0">${ReplyVo.reply }</p>
-						</div>
-					</c:forEach>
-				</div>
 
-				<div class="card wall-posting">
-					<div class="card-body card-padding">
-						<textarea class="wp-text" data-auto-size placeholder="댓글을 작성하세요"
-							style="background-color: #f2f2f2;"></textarea>
-						<button class="btn btn-warning btn-block"
-							onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
-							style="margin-right: 8px; cursor: pointer;">댓글 달기</button>
+					<div class="card wall-posting">
+						<div class="card-body card-padding">
+							<input type="hidden" name="postNo" value="${postNo }"> <input
+								type="hidden" name="userNo" value="${userNo }">
+							<textarea id="reply" class="wp-text" name="reply" placeholder="댓글을 작성하세요" style="background-color: #f2f2f2;"></textarea>
+							<button type="summit" class="btn btn-warning btn-block"
+								style="margin-right: 8px; cursor: pointer;">댓글 달기</button>
+						</div>
+						<br>
 					</div>
-					<br>
-				</div>
+				</form>
 			</div>
 		</div>
 	</section>

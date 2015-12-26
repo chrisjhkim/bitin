@@ -55,8 +55,5 @@ public class BoardDao {
 		retVo = sqlSession.selectOne("board.getPostByPostNo", postNo);
 		return retVo;
 	}
-	public void insertReply(BoardVo vo) {
-		sqlSession.insert("board.insertReply", vo);
-	}
-   
+	
 }

@@ -86,7 +86,7 @@
 						<br>
 
 						<textarea id="board-content" class="textarea" name="content"
-							id="board-content" placeholder="내용을 입력해주세요."></textarea>
+							placeholder="내용을 입력해주세요."></textarea>
 							<br>
 					<div class="col-sm-6" style="margin-left:4.5px; margin-right:3.5px;">
 						<div class="btn-group btn-group-justified" role="group"
