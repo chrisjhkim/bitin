@@ -5,11 +5,9 @@
 	pageEncoding="UTF-8"%>
 <header id="header" class="clearfix" data-current-skin="blue">
 	<ul class="header-inner">
-		<c:choose>
+		<%-- <c:choose>
 			<c:when test='${empty authUser }'>
 
-				<li class="hidden-xs"><a href="/bitin/index" class="m-l-10"><img
-						src="/bitin/assets/img/demo/logo.png" alt=""></a></li>
 				<li class="pull-right"><a href="/bitin/loginform" id="login"
 					title="login" data-toggle="popover" data-placement="bottom"><i
 						class="btn btn-success" value="login"> Login </i></a></li>
@@ -18,16 +16,9 @@
 						class="btn btn-warning" value="join"> Join </i>
 				</a></li>
 			</c:when>
-			<c:otherwise>
-				<li id="menu-trigger" data-trigger="#sidebar">
-					<div
-						class="btn btn-default btn-icon waves-effect waves-circle waves-float zmdi zmdi-apps">
-					</div>
-				</li>
-				<li class="hidden-xs"><a href="/bitin/index" class="m-l-10"><img
-						src="/bitin/assets/img/demo/logo.png" alt=""></a></li>
-
-
+			<c:otherwise> --%>
+				<li id="menu-trigger" data-trigger="#sidebar" class="logo hidden-sm">
+                <img src="/bitin/assets/img/demo/logo.png" alt=""></li>
 				<li class="pull-right">
 					<ul class="top-menu">
 
@@ -270,8 +261,6 @@
 						</li>
 					</ul>
 				</li>
-			</c:otherwise>
-		</c:choose>
 	</ul>
 
 
@@ -294,15 +283,17 @@
 				</div>
 
 				<div class="profile-info">
-					${authUser.userName  } <i class="zmdi zmdi-caret-down"></i>
+					${authUser.userName  } 님이 접속중입니다. <i class="zmdi zmdi-caret-down"> click</i>
 				</div>
 			</a>
 
 			<ul class="main-menu">
 				<li><a href="profile-about.html"><i
 						class="zmdi zmdi-account"></i> 내 정보</a></li>
+						<li><a href="/bitin/loginform"><i
+						class="zmdi zmdi-time-restore"></i> Log-in</a></li>
 				<li><a href="/bitin/user/logout"><i
-						class="zmdi zmdi-time-restore"></i> Logout</a></li>
+						class="zmdi zmdi-time-restore"></i> Log-out</a></li>
 			</ul>
 		</div>
 
@@ -355,13 +346,13 @@
 
 		<div class="chat-search">
 			<div class="fg-line">
-				<input type="text" class="form-control" placeholder="친구검색">
+				<input type="text" class="form-control" placeholder="친구목록">
 			</div>
 		</div>
 
 		<div class="listview">
 			<c:forEach items='${classMate }' var='vo' varStatus='status'>
-				<a class="lv-item" href="/bitin/user/profile/${vo.userNo }">
+				<a class="lv-item" href="/bitin/miniprofile/${vo.userNo }">
 					<div class="media">
 						<div class="pull-left p-relative">
 							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/2.jpg"
