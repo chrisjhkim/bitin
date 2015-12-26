@@ -22,7 +22,7 @@
 	
 	
 	  <!-- Interceptors -->
-    <mvc:interceptors>
+    <!-- <mvc:interceptors>
         <mvc:interceptor>
         	<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/user/login" />
@@ -38,7 +38,7 @@
         	<mvc:mapping path="/user/logout" />
     		<bean class="com.bit2015.bitin.interceptor.AuthLogoutInterceptor" />
         </mvc:interceptor>        
-    </mvc:interceptors>
+    </mvc:interceptors> -->
     
     
 	<!-- 메세지 컨버터 등록 -->

@@ -122,6 +122,12 @@ public class UserDao {
 		return userVo;
 	}
 	
+	public String getUserNameViaUserNo ( Long userNo ) {
+		String userName = null;
+		userName = sqlSession.selectOne("user.getUserNameViaUserNo", userNo);
+		return userName;
+	}
+	
 	
 	
 }

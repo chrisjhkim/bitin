@@ -56,9 +56,9 @@ public class ClassService {
 	 * @param userNo
 	 * @return
 	 */
-	public List<ClassVo> getClassNameTimeListByUserNo(Long userNo ){
-		List<ClassVo> retList = null;
-		retList = classDao.getClassNameTimeListByUserNo(userNo);
+	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo , String nowDate){
+		List<HashMap<String, Object>> retList = null;
+		retList = classDao.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
 		return retList;
 	}
 	/************* 송이 사용중
@@ -89,6 +89,7 @@ public class ClassService {
 	 * className 겹치면 안됨
 	 */
 	public Long getClassNoViaClassName (String className ) {
+		
 		Long retLong = null;
 		retLong = classDao.getClassNoViaClassName(className);
 		return retLong;
@@ -113,6 +114,12 @@ public class ClassService {
 	public List<UserVo> getUserInfoListViaClassNo ( Long classNo) {
 		List<UserVo> retList = null;
 		retList = classDao.getUserInfoListViaClassNo( classNo);
+		return retList;
+	}
+	
+	public List<String> getStudentPhoneListViaClassNo (Long classNo ) {
+		List<String> retList = null;
+		retList = classDao.getStudentPhoneListViaClassNo(classNo);
 		return retList;
 	}
 }

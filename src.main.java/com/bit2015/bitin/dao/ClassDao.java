@@ -1,5 +1,6 @@
 package com.bit2015.bitin.dao;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.UserVo;
+import com.sun.jmx.snmp.Timestamp;
 
 @Repository
 public class ClassDao {
@@ -80,9 +82,39 @@ public class ClassDao {
 	 * @param userNo
 	 * @return
 	 */
-	public List<ClassVo> getClassNameTimeListByUserNo(Long userNo ){
-		List<ClassVo> retList = null;
-		retList = sqlSession.selectList("class.getClassNameTimeListByUserNo", userNo);
+	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo, String nowDate ){
+		List<HashMap<String, Object>> retList = null;
+		
+		HashMap<String, Object>inputMap = new HashMap<String, Object>();
+		inputMap.put("userNo", userNo);
+		inputMap.put("date",nowDate);
+		
+		retList = sqlSession.selectList("attd.getClassInfoWhichWasConfusingForNoReason",inputMap);
+		
+		/*retList = sqlSession.selectList("class.getClassNameNoTimeListByUserNo", userNo);
+		for ( HashMap<String, Object> vo : retList) {
+			System.out.println("--------------------------------");
+			
+			Long classNo = ((BigDecimal)vo.get("CLASSNO")).longValue();
+			String strNo = ((BigDecimal)vo.get("CLASSNO")).longValue()+"";
+			HashMap<String, Object>inputMap = new HashMap<String, Object>();
+			inputMap.put("classNo", classNo);
+			inputMap.put("date",nowDate);
+			
+			
+			
+			HashMap<String, Object>tempMap = sqlSession.selectOne("attd.getRecentTimerAndDateViaClassNoAndDate",inputMap);
+			if( tempMap!= null){
+				if(tempMap.get("TIMERMIN") != null ) {
+					Long timer = ((BigDecimal)tempMap.get("TIMERMIN")).longValue();
+					vo.put("timer", timer);
+				}
+				if(tempMap.get("CREATEDDATE") != null ) {
+					String startTime = (String)tempMap.get("CREATEDDATE")+"";
+					vo.put("startTime", startTime);
+				}
+			}
+		}*/
 		return retList;
 	}
 	/**
@@ -138,6 +170,37 @@ public class ClassDao {
 	public List<Long> getStudentNoListViaClassNo ( Long classNo ) {
 		List<Long> retList = null;
 		retList = sqlSession.selectList("class.getStudentNoListViaClassNo", classNo);
+		return retList;
+	}
+	
+	public List<Long> getAttdNumListViaClassNoAndDates( Long classNo, String startDate, String endDate ) {
+		List<Long> retList = null;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("classNo", classNo);
+		inputMap.put("startDate", startDate);
+		inputMap.put("endDate", endDate);
+		retList = sqlSession.selectList("class.getAttdNumListViaClassNo", inputMap);
+		System.out.println("@dao : inputMap : "+inputMap);
+		System.out.println("@dao : attdList : "+retList);
+		return retList;
+	}
+	
+	public String getClassNameViaAttdNo ( Long attdNo ) {
+		String retString = null;
+		retString = sqlSession.selectOne("class.getClassNameViaAttdNo", attdNo );
+		return retString;
+	}
+	
+	public Long getClassNoViaAttdNo ( Long attdNo ) {
+		Long retLong = null;
+		retLong = sqlSession.selectOne("class.getClassNoViaAttdNo", attdNo );
+		return retLong;
+	}
+	
+	
+	public List<String> getStudentPhoneListViaClassNo (Long classNo ) {
+		List<String> retList = null;
+		retList = sqlSession.selectList("class.getStudentPhoneListViaClassNo", classNo);
 		return retList;
 	}
 }

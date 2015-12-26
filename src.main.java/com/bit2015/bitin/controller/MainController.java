@@ -60,7 +60,9 @@ public class MainController {
 	}
 
 	@RequestMapping("/index")
-	public String index() {
+	public String index(
+			@RequestParam(value="id")String id 	) {
+		System.out.println("5:49: "+id);
 		return "/main/index";
 	}
 

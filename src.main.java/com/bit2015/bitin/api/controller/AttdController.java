@@ -25,15 +25,27 @@ public class AttdController {
 	UtilService utilService;
 	
 	/************* TEST DONE 송이가 사용
+	 * userId가 듣고 있는 수업들중에 checkDay 에 출책한것들 정보들 목록
+	 * 
 	 * @param inputMap  (checkDay , userId )필수
-	 * @return 
 	 * checkDay "YYYY/M/D" 형식으로 들어와서 utilService에서 YYYYMMDD 로 변환해서 DB에 넣음
+	 * 
+	 * 
+	 * @return 
+	 * data 안에
+	 * CREATED_DATE , RANDOM_NUMBER, CLASS_NO, ATTD_NO, CLASS_NAME, START_TIME, TOTAL_USER, ATTD_TOTAL_USER 보냄
+	 * 
+	 * TOTAL_USER : 수업듣는 총 인원  
+	 * ATTD_TOTAL_USER : 출석한 총 인원
+	 * 
+	 * TODO : 이거 총인원들이 선생포함이였던거 같음
 	 */
 	@ResponseBody
 	@RequestMapping("/classattd-by-date-and-user")
 	public Map<String, Object> getClassAttdInfoListByAttdNoAndUserNo( 
 			@RequestBody HashMap<String, Object> inputMap ) { //이거안되면 HashMap<> 대신 String 으로 해서 util 에 있는거 쓰기 
 //		System.out.println("/classattd-by-date @ inputMap : "+inputMap);
+		System.out.println("15:22 @1");
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		
@@ -45,6 +57,7 @@ public class AttdController {
 			System.out.println("안들어온 값 있음");
 			retMap.put("message", "userId or checkDay 가 null 임.");
 		}
+		System.out.println("15:23 @1");
 		String strDate=utilService.changeDateFormat(checkDay); 
 		Long userNo = userService.getUserNoViaUserId(userId);
 		
@@ -61,16 +74,35 @@ public class AttdController {
 	public Map<String, Object> getAttdStatusListByUserNo(
 			@RequestBody HashMap<String, Object> inputMap ) {
 //		System.out.println("byUserNo : input "+inputMap);
+		System.out.println("15:26 @1 input : "+inputMap);
 		String retString = "fail";
+		System.out.println("15:32 @1");
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
+		System.out.println("15:32 @2");
 
-		Long userNo = (long)inputMap.get("userNo");
+		Long userNo = null;
+		String userId = null;
+		
+		if( inputMap.get("userNo") == null ) {
+			if( inputMap.get("userId")==null ) {
+				System.out.println("userNo, userId 중 하나는 보내야됨 . 서버잘못 아님");
+				retMap.put("message",  "userNo, userId 중 하나는 보내야됨 .");
+			}else {//아이디만 들어온 경우
+				userId = (String)inputMap.get("userId");
+				userNo = (long)userService.getUserNoViaUserId(userId);
+			}
+		}else{// userNo 들어온 경우
+		}
+		
+		System.out.println("ha");
+//			List<HashMap<String,Object>> attList = attdService.getAttdStatusListByUserNo(userNo);
 		List<HashMap<String,Object>> attList = attdService.getAttdStatusListByUserNo(userNo);
 		retMap.put("data", attList);
 		retString= "success";
+			
+		
 		
 		retMap.put("result", retString);
-		
 		System.out.println("@Attd @2 - retMap : "+retMap);
 		return retMap;
 	}
@@ -79,13 +111,26 @@ public class AttdController {
 	@RequestMapping("/by-attdno")
 	public Map<String, Object> getClassAttdInfoListByAttdNo( 
 			@RequestBody HashMap<String, Object> inputMap ) {
+		System.out.println("@/by-attdno : inputMap : "+inputMap);
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
-		Long attdNo = (long)inputMap.get("attdNo");
+		
+		if( inputMap.get("attdNo") == null ) {
+			System.out.println("attdNo == null");
+		}
+		String strAttdNo = (String)inputMap.get("attdNo");
+		Double doubleAttdNo = Double.parseDouble(strAttdNo);
+		Long attdNo = doubleAttdNo.longValue();
+
+		
 		List<HashMap<String	, Object>>attdList = attdService.getClassAttdInfoListByAttdNo(attdNo);
+		System.out.println("@3");
 				
-//		System.out.println("byAttdNo : input "+inputMap);
 		retMap.put("data",attdList);
+		
+		String className = attdService.getClassNameViaAttdNo(attdNo);
+		retMap.put("data2", className);
+		
 		retString = "success";
 		retMap.put("result", retString);
 		

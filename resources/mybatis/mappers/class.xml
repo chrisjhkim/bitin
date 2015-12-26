@@ -81,11 +81,12 @@
 							  FROM b_class_user
 						     WHERE user_no =#{userNo} ) 
 	</select>
-	<select id="getClassNameTimeListByUserNo" parameterType="long" resultType="ClassVo">
+	<select id="getClassNameNoTimeListByUserNo" parameterType="long" resultType="hashmap">
 		SELECT class_name AS className,
-			   start_time AS startTime
+			   start_time AS startTime,
+			   class_no AS classNo
 		  FROM b_class
-		 WHERE class_no IN (SELECT class_no,start_time
+		 WHERE class_no IN (SELECT class_no
 							  FROM b_class_user
 						     WHERE user_no =#{userNo} ) 
 	</select>
@@ -155,4 +156,35 @@
 		   AND class_role = 'student'
 	</select>
 	
+	<select id="getStudentPhoneListViaClassNo" parameterType="long" resultType="string">
+		SELECT user_phone_id 
+		FROM B_USER
+		WHERE user_no IN (SELECT user_no 
+							FROM B_CLASS_USER
+						   WHERE class_no = #{classNo } 
+							 AND class_role = 'student'		)
+	</select>
+	
+	<select id="getAttdNumListViaClassNo" parameterType="hashmap" resultType="long">
+		SELECT attd_no 
+		  FROM B_ATTD_NUMBER b
+		 WHERE class_no = #{classNo }
+		   AND created_date between to_date(#{startDate },'YYYYMMDD HH24') 
+							    and to_date(#{endDate },'YYYYMMDD HH24mi')+1
+		ORDER BY created_date
+	</select>
+	
+	<select id="getClassNameViaAttdNo" parameterType="long" resultType="string">
+		SELECT class_name
+		  FROM b_class
+		 WHERE class_no = (SELECT class_no 
+							 FROM B_ATTD_NUMBER 
+							WHERE attd_no = #{attdNo })
+	</select>
+	<select id="getClassNoViaAttdNo" parameterType="long" resultType="long">
+		SELECT class_no
+		  FROM B_ATTD_NUMBER
+		 WHERE ATTD_NO=#{attdNo }
+	</select>
 </mapper>
+

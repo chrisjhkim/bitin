@@ -656,11 +656,13 @@
 
     function registerRowEvents(tbody)
     {
+    	console.log("check-1")
         var that = this,
             selectBoxSelector = getCssSelector(this.options.css.selectBox);
 
         if (this.selection)
         {
+        	console.log("check-2")
             tbody.off("click" + namespace, selectBoxSelector)
                 .on("click" + namespace, selectBoxSelector, function(e)
                 {
@@ -683,9 +685,20 @@
         tbody.off("click" + namespace, "> tr")
             .on("click" + namespace, "> tr", function(e)
             {
-                e.stopPropagation();
+            	/////////////TEST/////////////
+         /*   	console.log("hoho 1: " +e);
+            	console.log(e);
+            	console.log("hoho 2: " +namespace);
+            	console.log(namespace);
+            	console.log("hoho 3: " +tbody);
+            	console.log(tbody);
+            	console.log("hoho 4: " +$(this));
+            	console.log($(this));*/
+            	///////////// END OF TEST/////////////            	
+            	
+//                e.stopPropagation();
 
-                var $this = $(this),
+        /*        var $this = $(this),
                     id = (that.identifier == null) ? $this.data("row-id") :
                         that.converter.from($this.data("row-id") + ""),
                     row = (that.identifier == null) ? that.currentRows[id] :
@@ -703,7 +716,7 @@
                     }
                 }
 
-                that.element.trigger("click" + namespace, [that.columns, row]);
+                that.element.trigger("click" + namespace, [that.columns, row]);*/
             });
     }
 
@@ -979,7 +992,11 @@
         this.columns = [];
         this.current = 1;
         this.currentRows = [];
-        this.identifier = null; // The first column ID that is marked as identifier
+        
+        /////////////////////////////TODO 원래 false였음
+        this.identifier = false; // The first column ID that is marked as identifier
+/////////////////////////////
+        
         this.selection = false;
         this.converter = null; // The converter for the column that is marked as identifier
         this.rowCount = ($.isArray(rowCount)) ? rowCount[0] : rowCount;
@@ -1293,7 +1310,7 @@
          **/
         labels: {
             all: "All",
-            infos: "Showing {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries",
+            infos: "Test  {{ctx.start}} to {{ctx.end}} of {{ctx.total}} entries",
             loading: "Loading...",
             noResults: "No results found!",
             refresh: "Refresh",
@@ -1363,7 +1380,8 @@
             cell: "<td class=\"{{ctx.css}}\" style=\"{{ctx.style}}\">{{ctx.content}}</td>",
             footer: "<div id=\"{{ctx.id}}\" class=\"{{css.footer}}\"><div class=\"row\"><div class=\"col-sm-6\"><p class=\"{{css.pagination}}\"></p></div><div class=\"col-sm-6 infoBar\"><p class=\"{{css.infos}}\"></p></div></div></div>",
             header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p></div></div></div>",
-            headerCell: "<th data-column-id=\"{{ctx.column.id}}\" class=\"{{ctx.css}}\" style=\"{{ctx.style}}\"><a href=\"javascript:void(0);\" class=\"{{css.columnHeaderAnchor}} {{ctx.sortable}}\"><span class=\"{{css.columnHeaderText}}\">{{ctx.column.text}}</span>{{ctx.icon}}</a></th>",
+            //headerCell: "<th data-column-id=\"{{ctx.column.id}}\" class=\"{{ctx.css}}\" style=\"{{ctx.style}}\"><a href=\"javascript:void(0);\" class=\"{{css.columnHeaderAnchor}} {{ctx.sortable}}\"><span class=\"{{css.columnHeaderText}}\">{{ctx.column.text}}</span>{{ctx.icon}}</a></th>",
+            headerCell: "<th id=\"{{ctx.column.id}}\" data-column-id=\"{{ctx.column.id}}\" class=\"{{ctx.css}}\" style=\"{{ctx.style}}\"><a href=\"javascript:void(0);\" class=\"{{css.columnHeaderAnchor}} {{ctx.sortable}}\"><span class=\"{{css.columnHeaderText}}\">{{ctx.column.text}}</span>{{ctx.icon}}</a></th>",
             icon: "<span class=\"{{css.icon}} {{ctx.iconCss}}\"></span>",
             infos: "<div class=\"{{css.infos}}\">{{lbl.infos}}</div>",
             loading: "<tr><td colspan=\"{{ctx.columns}}\" class=\"loading\">{{lbl.loading}}</td></tr>",

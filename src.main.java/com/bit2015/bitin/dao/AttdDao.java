@@ -23,6 +23,7 @@ public class AttdDao {
 	 * @return 성공하면 true return
 	 */
 	public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
+		
 		boolean retFlag = false;
 		retFlag = (1==sqlSession.insert("attd.insertAttdNumberVo", attdNumberVo) );
 		return retFlag;
@@ -35,6 +36,7 @@ public class AttdDao {
 	 */
 	public boolean insertStartAttd (AttendanceVo attdVo) {
 		boolean retFlag = false;
+		//TODO : attendanceVo 에서 classNo에서 attdNo 로 바뀜. 수정필요한거는 수정하기
 		retFlag = (1== sqlSession.insert("attd.insertStartAttd",attdVo));
 		return retFlag;
 	}
@@ -44,28 +46,39 @@ public class AttdDao {
 	 * @return 지각으로 update된 row 숫자
 	 * 변경된 숫자 없으면 -1L return
 	 *  * 해당 classNo 의 출첵중을 모두 결석으로 변경
-	 */
+	 *//*
 	public Long updateEndAttdViaClassNo (Long classNo ) {
 		Long retLong = -1L;
 		System.out.println("@dao : classNo : "+classNo);
 		retLong = (long)sqlSession.update("attd.updateEndAtttdViaClassNo" , classNo);
 		return retLong;
-	}
+	}*/
 	
 	
 	
 	
-	/************** 송이 사용중
-	 * @param strDate (YYYYMMDD) 형식
-	 * @param userNo
-	 * @return 	해당 유저(선생)가  출석체크 실행한 특정 date의 수업목록들 List<강의명, startTime,  출석한 인원수, 전체인원수>
+	/************* TEST DONE 송이가 사용
+	 * userId가 듣고 있는 수업들중에 checkDay 에 출책한것들 정보들 목록
+	 * 
+	 * @param inputMap  (checkDay , userId )필수
+	 * checkDay "YYYY/M/D" 형식으로 들어와서 utilService에서 YYYYMMDD 로 변환해서 DB에 넣음
+	 * 
+	 * 
+	 * @return 
+	 * data 안에
+	 * CREATED_DATE , RANDOM_NUMBER, CLASS_NO, ATTD_NO, CLASS_NAME, START_TIME, TOTAL_USER, ATTD_TOTAL_USER 보냄
+	 * 
+	 * TOTAL_USER : 수업듣는 총 인원  
+	 * ATTD_TOTAL_USER : 출석한 총 인원
+	 * 
+	 * TODO : 이거 총인원들이 선생포함이였던거 같음
 	 */
 	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNoAndUserNo ( String strDate, Long userNo,String classRole ) {
 		System.out.println("the dao");
 		List<HashMap<String, Object>> retList = null;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("userNo", userNo);//10L
-		inputMap.put("strDate", "20151208");
+		inputMap.put("strDate", "20151208"); //20151208 TODO 
 		inputMap.put("classRole", classRole);
 		retList = sqlSession.selectList("attd.getClassAttdByDateAndUserNo", inputMap );
 		System.out.println("The Dao result : "+retList);
@@ -85,6 +98,14 @@ public class AttdDao {
 		retString = sqlSession.selectOne("attd.getAttdStatusViaAttdNoAndUserNo", inputMap);
 		return retString;
 	}
+	public String getDescriptionViaAttdNoAndUserNo( Long attdNo, Long userNo) {
+		String retString = null;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("attdNo", attdNo);
+		inputMap.put("userNo", userNo);
+		retString = sqlSession.selectOne("attd.getDescriptionViaAttdNoAndUserNo", inputMap);
+		return retString;
+	}
 	
 	public Long getClassNoByAttdNo ( Long attdNo ) {
 		Long retLong = null;
@@ -96,5 +117,70 @@ public class AttdDao {
 		List<HashMap<String, Object>> retList = null;
 		retList = sqlSession.selectList("attd.getAttdStatusListByUserNo", userNo);
 		return retList;
+	}
+	
+	public String getAttdDateViaAttdNo (Long attdNo ) {
+		String retString = null;
+		retString = sqlSession.selectOne("attd.getAttdDateViaAttdNo",attdNo);
+		return retString;
+	}
+	
+	public Long getAttdNoOfRecentTimeNullViaClassNo( Long classNo ) {
+		Long retLong = null;
+		retLong = sqlSession.selectOne("attd.getAttdNoOfRecentTimeNullViaClassNo", classNo);
+		return retLong;
+	}
+	
+	public Long updateTimerAndCreatedDate (Long timer, Long attdNo , String startTime) {
+		Long retLong = -1L;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("timer", timer);
+		inputMap.put("attdNo",attdNo);
+		inputMap.put("startTime", startTime);
+		retLong = (long)sqlSession.update("attd.updateAttdTime", inputMap);
+		return retLong;
+	}
+	
+	public HashMap<String,Object> getRecentTimerAndDateViaClassNo ( Long classNo ) {
+		HashMap<String,Object> retMap = null;
+		sqlSession.selectList("attd.getRecentTimerAndDateViaClassNo",classNo);
+		return retMap;
+	}
+	
+	public Long getAttdNoViaClassDateAndClassNo (String classDate, Long classNo , Long attdIndex) {
+		Long retLong = null;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("classDate", classDate);
+		inputMap.put("classNo", classNo);
+		inputMap.put("attdIndex", attdIndex);
+		System.out.println("inputMap : "+inputMap);
+		retLong = sqlSession.selectOne("attd.getAttdNoViaClassDateAndClassNo", inputMap);
+		return retLong;
+	}
+	
+	public boolean insertAttdVo ( AttendanceVo attdVo ) {
+		boolean retFlag = false;
+		System.out.println("@dao : "+attdVo);
+		retFlag = (1 == sqlSession.insert("attd.insertAttdVo", attdVo));
+		return retFlag;
+	}
+	
+	public boolean deleteAttd ( Long userNo, Long attdNo ) {
+		boolean retFlag = false;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("userNo", userNo);
+		inputMap.put("attdNo", attdNo);
+		sqlSession.delete("attd.delteAttd",inputMap);
+		return retFlag;
+	}
+
+	public boolean updateAttd(Long oldUserNo, Long oldAttdNo, String newAttdStatus) {
+		boolean retFlag = false;
+		AttendanceVo inputVo = new AttendanceVo();
+		inputVo.setUserNo(oldUserNo);
+		inputVo.setAttdNo(oldAttdNo);
+		inputVo.setAttdStatus(newAttdStatus);
+		retFlag = ( 1== sqlSession.update("attd.updateAttd", inputVo));
+		return retFlag;
 	}
 }

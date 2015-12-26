@@ -31,7 +31,18 @@ public class UtilService {
 		return randomLong;
 	}
 	
-	
+	/**
+	 *  코드 줄 수 줄이려고 씀
+	 * System.out.println("log");
+	 * retMap.put("message", "log");
+	 * @param retMap
+	 * @return retMap
+	 */
+	public HashMap<String, Object> failReport( HashMap<String,Object>retMap, String log) {
+		retMap.put("message", log);
+		System.out.println(log);
+		return retMap;
+	}
 	/**
 	 * @param yjQVo
 	 * @return QnaQVo

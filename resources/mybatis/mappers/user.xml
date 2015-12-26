@@ -80,6 +80,11 @@
 												WHERE user_id = #{userId}    ))
 	</select>
 	
+	<select id="getUserNameViaUserNo" parameterType="long" resultType="string">
+		SELECT user_name as userName
+		  FROM b_user
+		 WHERE user_no = #{userNo }
+	</select>
 	
 
 </mapper>

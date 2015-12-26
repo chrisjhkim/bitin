@@ -282,7 +282,23 @@ public class UserController {
 		return retMap;
 	}
 	
-	
+	@ResponseBody
+	@RequestMapping("/check")
+	public Map<String, Object> doAttd(
+			@RequestBody HashMap<String, Object> inputMap	) {
+		System.out.println("/api/user/check inputMap : "+inputMap);
+		HashMap<String, Object> retMap = new HashMap<String, Object>();
+		
+//		retMap.put("data", retList);
+		
+		
+		/*if( 문제){
+			retMap.put("result", "fail");
+			retMap.put("message", "실패이유");
+		}*/
+		retMap.put("result", "success");
+		return retMap;
+	}
 	
 	
 	

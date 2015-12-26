@@ -10,7 +10,7 @@ SELECT to_char(SYSDATE,'mm/dd/yyyy hh:MM:ss') from dual;
 SELECT * from b_attendance;
 SELECT * from b_attendance
 WHERE class_date  between to_date('2015 12 07 11 15','YYYYMMDDHHmi') and to_date('2015 12 07 11 15','YYYYMMDDHHmi')+10/(24*60);
---07ÀÏ 11½Ã 15ºÐ ºÎÅÍ     25ºÐ±îÁö
+--07ï¿½ï¿½ 11ï¿½ï¿½ 15ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½     25ï¿½Ð±ï¿½ï¿½ï¿½
 
 
 
@@ -20,9 +20,9 @@ SELECT to_date('2015 12 07 11 ','YYYYMMDDHHmi')+10/(24*60) from dual;
 
 SELECT to_char(SYSDATE,'YYYYMMDDHH') from dual;
 SELECT to_date('2015 10 24 1 15','YYYYMMDDHHmi') from dual;
-SELECT to_date('20151024','YYYYMMDDHH')+1 from dual; --  +1 ÀÏ
-SELECT to_date('20151024','YYYYMMDDHH')+1/24 from dual; --  +1 ½Ã°£
-SELECT to_date('20151024','YYYYMMDDHH')+1/(24*60) from dual; --  +1ºÐ
+SELECT to_date('20151024','YYYYMMDDHH')+1 from dual; --  +1 day
+SELECT to_date('20151024','YYYYMMDDHH')+1/24 from dual; --  +1 hour
+SELECT to_date('20151024','YYYYMMDDHH')+1/(24*60) from dual; --  +1min
 
 
  
