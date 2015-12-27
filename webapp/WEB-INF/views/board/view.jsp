@@ -46,6 +46,7 @@
 						${boardVo.title } <small>작성자 : ${boardVo.userName }(
 							${boardVo.postNo } 번 게시물)</small>
 					</h2>
+
 					<div class="media">
 						<div class="pull-left">
 							<img class="lv-img" src="/bitin/assets/img/profile-pics/1.jpg"
@@ -94,7 +95,7 @@
 				</div>
 
 				<!-- Comment Listing -->
-				 <form class="reply-form" method="post" action="/bitin/board/reply">
+				<form class="reply-form" method="post" action="/bitin/board/reply">
 					<div class="container">
 						<c:forEach items='${list}' var='vo' varStatus='status'>
 							<a href="" class="pull-left"> <img
@@ -115,7 +116,8 @@
 						<div class="card-body card-padding">
 							<input type="hidden" name="postNo" value="${postNo }"> <input
 								type="hidden" name="userNo" value="${userNo }">
-							<textarea id="reply" class="wp-text" name="reply" placeholder="댓글을 작성하세요" style="background-color: #f2f2f2;"></textarea>
+							<textarea id="reply" class="wp-text" name="reply"
+								placeholder="댓글을 작성하세요" style="background-color: #f2f2f2;"></textarea>
 							<button type="summit" class="btn btn-warning btn-block"
 								style="margin-right: 8px; cursor: pointer;">댓글 달기</button>
 						</div>
