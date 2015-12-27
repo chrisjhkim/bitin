@@ -26,9 +26,10 @@ public class ChrisService {
 			String startDate,
 			String endDate	) {
 		List<HashMap<String, Object>> retList = new ArrayList<HashMap<String,Object>>();
-		
+		System.out.println("@@1");
 		List<Long> stuList = chrisDao.getStudentNoListViaClassNo(classNo);								//userNo 목록
 		List<Long> attdNumList = chrisDao.getAttdNumListViaClassNoAndDates(classNo, startDate, endDate);   // attdNo 목록
+		System.out.println("@@2");
 		for(Long userNo : stuList ) {														
 			HashMap<String, Object> onePerson = new HashMap<String, Object>();
 			onePerson.put("userNo", userNo);													
@@ -58,4 +59,42 @@ public class ChrisService {
 		return retList;
 	}
 	
+	public Long getClassNoViaAttdNo(Long attdNo){
+		Long retLong = null;
+		retLong = chrisDao.getClassNoViaAttdNo(attdNo);
+		return retLong;
+	}
+	public Long getAttdNoViaClassDateAndClassNo (String classDate, Long classNo , Long attdIndex) {
+		Long retLong = null;
+		retLong = chrisDao.getAttdNoViaClassDateAndClassNo(classDate, classNo, attdIndex);
+		return retLong;
+	}
+	public String getAttdStatusViaAttdNoAndUserNo( Long attdNo , Long userNo ){
+		String retString = null;
+		retString = chrisDao.getAttdStatusViaAttdNoAndUserNo(attdNo, userNo);
+		return retString;
+	}
+	public boolean insertAttdVo ( AttendanceVo attdVo ) {
+		boolean retFlag = false;
+		if( attdVo.getAttdNo()==null || attdVo.getAttdStatus()==null || attdVo.getUserNo()==null){
+			System.out.println("@attdService insertAttdVo 뭔가 null 임. ");
+			return false;
+		}
+		if( attdVo.getDescription() == null ){
+			attdVo.setDescription("-");
+		}
+		retFlag = chrisDao.insertAttdVo(attdVo);
+		return retFlag;
+	}
+
+	public boolean deleteAttd ( Long userNo, Long attdNo ) {
+		boolean retFlag = false;
+		retFlag = chrisDao.deleteAttd(userNo, attdNo);
+		return retFlag;
+	}
+	public boolean updateAttd(Long oldUserNo, Long oldAttdNo, String newAttdStatus) {
+		boolean retFlag = false;
+		retFlag = chrisDao.updateAttd(oldUserNo, oldAttdNo, newAttdStatus);
+		return retFlag;
+	}
 }

@@ -6,6 +6,8 @@ public class AttendanceVo {
 	private String classDate;
 	private String attdStatus;
 	private String description;
+	
+	
 	public Long getUserNo() {
 		return userNo;
 	}

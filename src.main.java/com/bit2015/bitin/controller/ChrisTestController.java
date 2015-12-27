@@ -51,11 +51,7 @@ public class ChrisTestController {
 	@ResponseBody
 	@RequestMapping("/ck")
 	public Map<String, Object> getAttdStatusViaClassNoAndDates ( 
-//			@RequestParam(value="startDate")String startDate,
-//			@RequestParam(value="endDate")String endDate,
-//			@RequestParam(value="classNo")Long classNo
 			) {
-//		System.out.println("date: "+startDate + " ~ "+endDate);
 		Long classNo = 3L;
 		System.out.println("classNo : "+classNo);
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
@@ -77,19 +73,22 @@ public class ChrisTestController {
 	 */
 	@RequestMapping("/main")
 	public String TesterMain( Model model ) {  
-		
+		System.out.println("@1");
 		Long classNo = 3L;
 		
 		
 		List<HashMap<String, Object>> dataList = null;
 		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 01 08","2015 12 31" );
+		System.out.println("@2");
 //		dataList = attdService.getAttdStatusViaClassNoAndDates(classNo, "2015 12 08","2015 12 16" );
 		
 //test결과 되는건데 필요가 없어짐		Long attdNumCount = (long)((ArrayList<HashMap<String, Object>>)dataList.get(0).get("attdList")).size();
 		model.addAttribute("dataList", dataList);
 		System.out.println("출석 일수 size : "+           ((List<AttendanceVo>)dataList.get(0).get("attdList")).size()          );
+		System.out.println("@3");
 		
 		model.addAttribute("attdCounter", ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size()) );
+		System.out.println("@4");
 		String dateDupCheck = "-";
 		Long dupCounter = 1L;
 		for( HashMap<String, Object>person : dataList){
@@ -112,10 +111,58 @@ public class ChrisTestController {
 		
 		
 		System.out.println("/main result : "+dataList);
+		
+		return "junhyun-test/temp-attd";
+	}
+	@RequestMapping("/main2")
+	public String TesterMain2( Model model ) {  
+		System.out.println("@1");
+		Long classNo = 3L;
+		
+		
+		List<HashMap<String, Object>> dataList = null;
+		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 01 08","2015 12 31" );
+		System.out.println("@2");
+//		dataList = attdService.getAttdStatusViaClassNoAndDates(classNo, "2015 12 08","2015 12 16" );
+		
+//test결과 되는건데 필요가 없어짐		Long attdNumCount = (long)((ArrayList<HashMap<String, Object>>)dataList.get(0).get("attdList")).size();
+		model.addAttribute("dataList", dataList);
+		System.out.println("출석 일수 size : "+           ((List<AttendanceVo>)dataList.get(0).get("attdList")).size()          );
+		System.out.println("@3");
+		
+		model.addAttribute("attdCounter", ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size()) );
+		System.out.println("@4");
+		String dateDupCheck = "-";
+		Long dupCounter = 1L;
+		for( HashMap<String, Object>person : dataList){
+			dupCounter=2L;
+			
+			List<AttendanceVo>personalAttdList = (List<AttendanceVo>)person.get("attdList");
+			for(AttendanceVo attdVo : personalAttdList) {
+				String classDate = attdVo.getClassDate();
+				String temp;
+				temp = classDate.substring(0, 2) + "월"+classDate.substring(2) + "일";
+				if( dateDupCheck.equals(classDate) ){
+					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
+					temp += "_"+dupCounter;
+					dupCounter +=1;
+				}
+				dateDupCheck = classDate;
+				attdVo.setClassDate(temp);
+			}
+		}
+		
+		
+		System.out.println("/main result : "+dataList);
+		
+		return "junhyun-test/temp";
+	}
+
+}
 //		System.out.println(attdService.getClassNameViaAttdNo(1L));
-		
-		
-		
+
+
+
 /////////////////////////////////////////////////////////
 //		Test 하고 남은 코드들
 //		System.out.println("result 100 "+attdService.getClassAttdInfoListByAttdNo(100L));
@@ -129,10 +176,10 @@ public class ChrisTestController {
 //		
 //		System.out.println(attdService.getAttdStatusListByUserNo(10L));
 //		
-		
-		
+
+
 //		attdService.endAttd(3L);
-		
+
 //		List<UserVo> userList = classService.getUserInfoListViaClassNo(3L);
 //		AttendanceVo attdVo = new AttendanceVo();
 //		attdVo.setClassNo(3L);
@@ -140,14 +187,14 @@ public class ChrisTestController {
 //			attdVo.setUserNo(vo.getUserNo());
 //			attdService.startAttd(attdVo);
 //		}
-		
+
 //		classService.getUserInfoListViaClassNo(3L); 
-		
+
 //		classService.getClassNameAndNoByUserId("chrisjhkim" );
-		
+
 //		classService.joinClass(7L, 3L, "student");
 //		classService.joinClass(10L, 3L, "teacher");
-		
+
 //		ClassVo classVo = new ClassVo();
 //		classVo.setClassRef("-");
 //		classVo.setGroupNo(1L);
@@ -159,7 +206,7 @@ public class ChrisTestController {
 //		classVo.setStartTime("-");
 //		classVo.setEndTime("-");
 //		classService.insertClass(classVo);
-		
+
 //		System.out.println(classService.getClassNoViaClassName("전기회로"));
 //		
 //		System.out.println(util.createRandomNumber());
@@ -168,8 +215,3 @@ public class ChrisTestController {
 //		attdVo.setClassNo(1L);
 //		attdVo.setRandomNumber(1522L);
 //		attdService.insertAttdNumberVo(attdVo);
-		
-		return "junhyun-test/attd-class";
-	}
-
-}

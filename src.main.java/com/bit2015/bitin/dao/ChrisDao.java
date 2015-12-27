@@ -15,27 +15,39 @@ public class ChrisDao {
 	@Autowired
 	SqlSession sqlSession;
 
+	/** 사용중
+	 * @param classNo
+	 * @return
+	 */
 	public List<Long> getStudentNoListViaClassNo ( Long classNo ) {
 		List<Long> retList = null;
-		retList = sqlSession.selectList("class.getStudentNoListViaClassNo", classNo);
+		retList = sqlSession.selectList("chris.getStudentNoListViaClassNo", classNo);
 		return retList;
 	}
 	
 	
+	/** 사용중
+	 * @param classNo
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
 	public List<Long> getAttdNumListViaClassNoAndDates( Long classNo, String startDate, String endDate ) {
 		List<Long> retList = null;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("classNo", classNo);
 		inputMap.put("startDate", startDate);
 		inputMap.put("endDate", endDate);
-		retList = sqlSession.selectList("class.getAttdNumListViaClassNo", inputMap);
-		System.out.println("@dao : inputMap : "+inputMap);
-		System.out.println("@dao : attdList : "+retList);
+		retList = sqlSession.selectList("chris.getAttdNumListViaClassNo", inputMap);
 		return retList;
 	}
+	/** 사용중
+	 * @param userNo
+	 * @return
+	 */
 	public String getUserNameViaUserNo ( Long userNo ) {
 		String userName = null;
-		userName = sqlSession.selectOne("user.getUserNameViaUserNo", userNo);
+		userName = sqlSession.selectOne("chris.getUserNameViaUserNo", userNo);
 		return userName;
 	}
 	
@@ -91,14 +103,12 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 	 * TODO : 이거 총인원들이 선생포함이였던거 같음
 	 */
 	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNoAndUserNo ( String strDate, Long userNo,String classRole ) {
-		System.out.println("the dao");
 		List<HashMap<String, Object>> retList = null;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("userNo", userNo);//10L
 		inputMap.put("strDate", "20151208"); //20151208 TODO 
 		inputMap.put("classRole", classRole);
 		retList = sqlSession.selectList("attd.getClassAttdByDateAndUserNo", inputMap );
-		System.out.println("The Dao result : "+retList);
 		return retList;
 	}
 
@@ -115,18 +125,22 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		retString = sqlSession.selectOne("attd.getAttdStatusViaAttdNoAndUserNo", inputMap);
 		return retString;
 	}
+	/** 사용중
+	 * @param attdNo
+	 * @param userNo
+	 * @return
+	 */
 	public String getDescriptionViaAttdNoAndUserNo( Long attdNo, Long userNo) {
 		String retString = null;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("attdNo", attdNo);
 		inputMap.put("userNo", userNo);
-		retString = sqlSession.selectOne("attd.getDescriptionViaAttdNoAndUserNo", inputMap);
+		retString = sqlSession.selectOne("chris.getDescriptionViaAttdNoAndUserNo", inputMap);
 		return retString;
 	}
 	
 	public Long getClassNoByAttdNo ( Long attdNo ) {
 		Long retLong = null;
-		System.out.println("attdNo @: "+ attdNo);
 		retLong =  sqlSession.selectOne("attd.getClassNoByAttdNo", attdNo);
 		return retLong;
 	}
@@ -136,9 +150,13 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		return retList;
 	}
 	
+	/** 사용중
+	 * @param attdNo
+	 * @return
+	 */
 	public String getAttdDateViaAttdNo (Long attdNo ) {
 		String retString = null;
-		retString = sqlSession.selectOne("attd.getAttdDateViaAttdNo",attdNo);
+		retString = sqlSession.selectOne("chris.getAttdDateViaAttdNo",attdNo);
 		return retString;
 	}
 	
@@ -164,30 +182,39 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		return retMap;
 	}
 	
+	/** 사용중
+	 * @param classDate
+	 * @param classNo
+	 * @param attdIndex
+	 * @return
+	 */
 	public Long getAttdNoViaClassDateAndClassNo (String classDate, Long classNo , Long attdIndex) {
 		Long retLong = null;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("classDate", classDate);
 		inputMap.put("classNo", classNo);
 		inputMap.put("attdIndex", attdIndex);
-		System.out.println("inputMap : "+inputMap);
-		retLong = sqlSession.selectOne("attd.getAttdNoViaClassDateAndClassNo", inputMap);
+		retLong = sqlSession.selectOne("chris.getAttdNoViaClassDateAndClassNo", inputMap);
 		return retLong;
 	}
 	
 	public boolean insertAttdVo ( AttendanceVo attdVo ) {
 		boolean retFlag = false;
-		System.out.println("@dao : "+attdVo);
-		retFlag = (1 == sqlSession.insert("attd.insertAttdVo", attdVo));
+		retFlag = (1 == sqlSession.insert("chris.insertAttdVo", attdVo));
 		return retFlag;
 	}
 	
+	/** 사용중
+	 * @param userNo
+	 * @param attdNo
+	 * @return
+	 */
 	public boolean deleteAttd ( Long userNo, Long attdNo ) {
 		boolean retFlag = false;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("userNo", userNo);
 		inputMap.put("attdNo", attdNo);
-		sqlSession.delete("attd.delteAttd",inputMap);
+		sqlSession.delete("chris.delteAttd",inputMap);
 		return retFlag;
 	}
 
@@ -197,7 +224,18 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		inputVo.setUserNo(oldUserNo);
 		inputVo.setAttdNo(oldAttdNo);
 		inputVo.setAttdStatus(newAttdStatus);
-		retFlag = ( 1== sqlSession.update("attd.updateAttd", inputVo));
+		retFlag = ( 1== sqlSession.update("chris.updateAttd", inputVo));
 		return retFlag;
 	}
+	/** 사용중
+	 * @param attdNo 
+	 * @return
+	 */
+	public Long getClassNoViaAttdNo ( Long attdNo ) {
+		Long retLong = null;
+		retLong = sqlSession.selectOne("chris.getClassNoViaAttdNo", attdNo );
+		return retLong;
+	}
+	
+	
 }

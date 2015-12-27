@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+
+
+
+<mapper namespace="chris">
+	<select id="getStudentNoListViaClassNo" parameterType="long" resultType="long">
+		SELECT user_no
+		  FROM b_class_user
+		 WHERE class_no = #{classNo }
+		   AND class_role = 'student'
+	</select>
+	<select id="getAttdNumListViaClassNo" parameterType="hashmap" resultType="long">
+		SELECT attd_no 
+		  FROM B_ATTD_NUMBER b
+		 WHERE class_no = #{classNo }
+		   AND created_date between to_date(#{startDate },'YYYYMMDD HH24') 
+							    and to_date(#{endDate },'YYYYMMDD HH24mi')+1
+		ORDER BY created_date
+	</select>
+	
+		<select id="getUserNameViaUserNo" parameterType="long" resultType="string">
+		SELECT user_name as userName
+		  FROM b_user
+		 WHERE user_no = #{userNo }
+	</select>
+	<select id="getAttdDateViaAttdNo" parameterType="long" resultType="string">
+		SELECT to_char(created_date, 'MMDD')
+		  FROM b_attd_number b
+		 WHERE attd_no = #{attdNo }
+	</select>
+	<select id="getDescriptionViaAttdNoAndUserNo" parameterType="hashmap" resultType="string">
+		SELECT description 
+		  FROM b_attendance
+		 WHERE attd_no = #{attdNo} 
+		   AND user_no= #{userNo}
+	</select>
+	
+	<select id="getClassNoViaAttdNo" parameterType="long" resultType="long">
+		SELECT class_no
+		  FROM B_ATTD_NUMBER
+		 WHERE ATTD_NO=#{attdNo }
+	</select>
+	<select id="getAttdNoViaClassDateAndClassNo" parameterType="hashmap" resultType="long">
+		SELECT attd_no
+		FROM (	SELECT created_date, class_no, attd_no, rownum as temporder
+				FROM	(SELECT created_date, class_no, attd_no
+						   FROM B_ATTD_NUMBER 
+						  WHERE created_date BETWEEN TO_DATE(#{classDate},'YYYYMMDDHH24mi') 
+												 AND TO_DATE(#{classDate},'YYYYMMDDHH24mi')+1
+							AND class_no = #{classNo }
+						ORDER BY created_date asc)				)
+		WHERE temporder =#{attdIndex}
+		
+	</select>
+	<delete id="delteAttd" parameterType="hashmap">
+		DELETE FROM b_attendance 
+		 WHERE user_no = #{userNo } 
+		   AND attd_no = #{attdNo }
+	</delete>
+	<insert id="insertAttdVo" parameterType="AttendanceVo">
+		INSERT INTO b_attendance
+		VALUES (#{userNo },
+				#{attdStatus },
+				#{description },
+				#{attdNo } )
+	</insert>
+	<update id="updateAttd" parameterType="AttendanceVo">
+		UPDATE B_ATTENDANCE 
+		   SET attd_status= #{attdStatus }
+		 WHERE user_no = #{userNo } 
+		   AND attd_no = #{attdNo }
+	</update>
+</mapper>
