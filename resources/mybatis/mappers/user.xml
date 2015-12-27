@@ -117,6 +117,13 @@
 		FROM b_class		
 		WHERE class_no IN (SELECT class_no from b_class_user where user_no =#{userNo})			
   	</select>		
+  	<select id="getProfilebyUserNo" parameterType="long" resultType="UserVo">
+      SELECT user_id as userId,
+            user_name as userName,
+            user_type as userType
+      FROM B_user      
+      WHERE user_no = #{userNo }
+   </select>
 
 
 

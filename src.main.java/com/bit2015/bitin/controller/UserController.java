@@ -1,11 +1,16 @@
 package com.bit2015.bitin.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.bit2015.bitin.service.UserService;
+import com.bit2015.bitin.vo.ReplyVo;
 import com.bit2015.bitin.vo.UserVo;
 
 @Controller("userController")
@@ -56,6 +61,15 @@ public class UserController {
 		System.out.println(userVo);
 		userService.insertUser(userVo);
 		return "main/index";
+	}
+	
+	//miniprofil connection Minyoung
+	@RequestMapping("/miniprofile/{userNo}")
+	public String viewForm(@PathVariable("userNo") Long userNo, Model model) {
+		UserVo userVo = userService.getProfilebyUserNo(userNo);
+		System.out.println("UserVo profile test : " +userVo);
+		model.addAttribute("userVo", userVo);
+		return "/main/miniprofile";
 	}
 	
 }

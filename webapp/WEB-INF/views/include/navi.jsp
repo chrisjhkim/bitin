@@ -283,7 +283,7 @@
 				</div>
 
 				<div class="profile-info">
-					${authUser.userName  } 님이 접속중입니다. <i class="zmdi zmdi-caret-down"> click</i>
+					${authUser.userName  } 님이 접속중</i>
 				</div>
 			</a>
 
@@ -352,7 +352,7 @@
 
 		<div class="listview">
 			<c:forEach items='${classMate }' var='vo' varStatus='status'>
-				<a class="lv-item" href="/bitin/miniprofile/${vo.userNo }">
+				<a class="lv-item" href="/bitin/user/miniprofile/${vo.userNo }">
 					<div class="media">
 						<div class="pull-left p-relative">
 							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/2.jpg"

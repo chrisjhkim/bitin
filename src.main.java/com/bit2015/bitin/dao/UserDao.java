@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit2015.bitin.vo.BoardVo;
 import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.UserVo;
 
@@ -152,6 +153,11 @@ public class UserDao {
 		String retString = sqlSession.selectOne( "user.userIdByPhoneId",  vo );
 		System.out.println(retString);
 		return retString;
+	}
+	
+	public UserVo getProfilebyUserNo(Long userNo) {
+		UserVo userVo = sqlSession.selectOne("user.getProfilebyUserNo", userNo);
+		return userVo;
 	}
 	
 	
