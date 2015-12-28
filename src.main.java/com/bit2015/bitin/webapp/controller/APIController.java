@@ -45,6 +45,7 @@ public class APIController {
 		}else{
 			list = chattingService.send( vo );	
 		}
+		chrisService.plusOneUnreadCountByUserNo((long)vo.getToUserNo());
 		
 		
 		
