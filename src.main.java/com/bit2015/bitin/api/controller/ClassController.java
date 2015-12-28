@@ -70,13 +70,13 @@ public class ClassController {
 				attdNumberVo.setClassNo(classNo);
 				attdNumberVo.setRandomNumber(randomLong); 
 				if( !attdService.insertAttdNumberVo(attdNumberVo) ) {  //랜덤 숫자 저장
-					List<UserVo> userList = classService.getUserInfoListViaClassNo(classNo); //학생 리스트구해서
-					AttendanceVo attdVo = new AttendanceVo();
-					attdVo.setClassNo(classNo);
-					for(UserVo vo : userList) {				//학생들 각각
-						attdVo.setUserNo(vo.getUserNo());
-						attdService.startAttd(attdVo);		// 출석중 으로 변경
-					}
+//					List<UserVo> userList = classService.getUserInfoListViaClassNo(classNo); //학생 리스트구해서
+//					AttendanceVo attdVo = new AttendanceVo();
+//					attdVo.setClassNo(classNo);
+//					for(UserVo vo : userList) {				//학생들 각각
+//						attdVo.setUserNo(vo.getUserNo());
+//						attdService.startAttd(attdVo);		// 출석중 으로 변경
+//					}
 					System.out.println("AttdNumVo DB insert실패");
 					resString="fail";
 					retMap.put("message", "insert실패 서버잘못");

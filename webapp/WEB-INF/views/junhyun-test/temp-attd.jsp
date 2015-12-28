@@ -308,7 +308,7 @@ function redX(column, row, status){
  	var date = column.text;
  	var userName = row.name;
  	var attdStatus = status; 
-	return "<div class=\"form-group  has-feedback has-error \">"
+	return "<div class=\"form-group   has-error \">"
 				+"<label class=\"attd-status control-label \" for=\"inputError2\" "
 					+"data-toggle=\"modal\" data-target=\"#date-edit-form\"" //modal 설정
 					+"data-temp-column-id=\""+column.id+"\"  "	//세로 어느 줄인지

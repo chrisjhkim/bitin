@@ -97,4 +97,31 @@
 		  FROM b_board
 		 WHERE post_no = #{postNo }			
 	</select>
+	<select id="getUserVoViaUserId" parameterType="string" resultType="UserVo">
+		SELECT user_no as userNo,
+				user_id as userId,
+				user_name as userName,
+				user_password as userPassword,
+				user_phone_id as userPhoneId,
+				user_type as userType,
+				unread_count as unreadCount
+		FROM b_user
+		where user_id = #{userId }
+	</select>
+	<select id="getRecentChatsViaUserNo" parameterType="long" resultType="hashmap">
+		<![CDATA[
+		SELECT *
+		  FROM (	SELECT  from_user_no, 
+							to_user_no, 
+							created_date, 
+							message,
+							rownum as tempOrder 
+					  FROM (SELECT *  
+							  FROM b_chatting
+							 WHERE to_user_no =#{userNo }
+							ORDER BY created_date
+							)
+		) WHERE tempOrder <=5
+		]]>
+	</select>
 </mapper>
