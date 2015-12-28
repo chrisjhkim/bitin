@@ -111,14 +111,16 @@
 	<select id="getRecentChatsViaUserNo" parameterType="long" resultType="hashmap">
 		<![CDATA[
 		SELECT *
-		  FROM (	SELECT  from_user_no, 
+		  FROM (	SELECT  from_user_no,
 							to_user_no, 
+							from_user_name,
 							created_date, 
 							message,
 							rownum as tempOrder 
-					  FROM (SELECT *  
-							  FROM b_chatting
-							 WHERE to_user_no =#{userNo }
+					  FROM (SELECT c.from_user_no, c.to_user_no, c.created_date, c.message, u.USER_NAME as from_user_name
+							  FROM b_chatting c, b_user u
+							 WHERE to_user_no = #{userNo }
+							   AND from_user_no = u.user_no
 							ORDER BY created_date
 							)
 		) WHERE tempOrder <=5

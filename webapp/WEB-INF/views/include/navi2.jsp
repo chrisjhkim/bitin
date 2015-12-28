@@ -39,69 +39,21 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 						<div class="listview">
 							<div class="lv-header">Messages</div>
 							<div class="lv-body">
-								<a class="lv-item" href="/bitin/chatting/list">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/1.jpg" alt="">
+								
+								<c:forEach items="${recentChatList }" var='vo'>
+									<a class="lv-item" href="/bitin/chatting/list">
+										<div class="media">
+											<div class="pull-left">
+												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO }.jpg" alt="">
+											</div>
+											<div class="media-body">
+												<div class="lv-title">${vo.FROM_USER_NAME }</div>
+												<small class="lv-small">${vo.MESSAGE }</small>
+											</div>
 										</div>
-										<div class="media-body">
-											<div class="lv-title">David Belle</div>
-											<small class="lv-small">Cum sociis natoque penatibus
-												et magnis dis parturient montes</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/2.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Jonathan Morris</div>
-											<small class="lv-small">Nunc quis diam diamurabitur
-												at dolor elementum, dictum turpis vel</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/3.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Fredric Mitchell Jr.</div>
-											<small class="lv-small">Phasellus a ante et est
-												ornare accumsan at vel magnauis blandit turpis at augue
-												ultricies</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/4.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Glenn Jecobs</div>
-											<small class="lv-small">Ut vitae lacus sem
-												ellentesque maximus, nunc sit amet varius dignissim, dui est
-												consectetur neque</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/4.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Bill Phillips</div>
-											<small class="lv-small">Proin laoreet commodo eros id
-												faucibus. Donec ligula quam, imperdiet vel ante placerat</small>
-										</div>
-									</div>
-								</a>
+									</a> 
+								</c:forEach>
+								
 							</div>
 							<a class="lv-footer" href="">View All</a>
 						</div>

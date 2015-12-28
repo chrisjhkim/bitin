@@ -1,5 +1,6 @@
 package com.bit2015.bitin.webapp.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,10 +35,10 @@ public class MainController {
 	public String index(
 			Model model,
 			@RequestParam(value="userId", required=false)String userId	) {
+		
 		System.out.println("userId : "+userId);
 		UserVo userVo = chrisService.getUserVoViaUserId(userId);
 		System.out.println("userVo : " +userVo);
-		chrisService.getRecentChatsByUserNo(userVo.getUserNo());
 		
 		
 		
@@ -46,7 +47,14 @@ public class MainController {
 			model.addAttribute( "classMate", list );
 			List<UserVo> list2 = userService.classnameList(userVo);
 			model.addAttribute( "className", list2 );
+			model.addAttribute("authUser", userVo);
+			
+			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(userVo.getUserNo());
+			model.addAttribute("recentChatList", recentChatList);
+			
 		}
+		
+		
 		
 		
 		
