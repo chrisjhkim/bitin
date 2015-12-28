@@ -32,9 +32,14 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<li id="top-search"><a href=""><i
 						class="tm-icon zmdi zmdi-search"></i></a></li>
 
-				<li class="dropdown"><a data-toggle="dropdown" href=""> <i
-						class="tm-icon zmdi zmdi-email"></i> <i class="tmn-counts">6</i>
-				</a>
+				<li class="dropdown">
+					<a data-toggle="dropdown" href="">
+						<i class="tm-icon zmdi zmdi-email"></i>
+						<c:if test="${authUser.unreadCount>0 }">
+							<i class="tmn-counts">${authUser.unreadCount }</i>
+						</c:if>
+					</a>
+					
 					<div class="dropdown-menu dropdown-menu-lg pull-right">
 						<div class="listview">
 							<div class="lv-header">Messages</div>
@@ -42,7 +47,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 								
 								<c:forEach items="${recentChatList }" var='vo'>
 <!-- 									<a class="lv-item" href="/bitin/chatting/list"> -->
-									<a class="lv-item" href="/bitin/webapp/chatting">
+									<a class="lv-item" href="/bitin/webapp/chatting?myNo=${authUser.userNo }&otherNo=${vo.FROM_USER_NO}">
 										<div class="media">
 											<div class="pull-left">
 												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO }.jpg" alt="">

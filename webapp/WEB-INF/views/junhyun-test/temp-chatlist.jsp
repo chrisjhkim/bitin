@@ -263,7 +263,7 @@
 
 						//ajax
 						$.ajax({
-							url : "/bitin/chatting/send",
+							url : "/bitin/webapp-api/send",
 							type : "post",
 							data : "message=" + message + "&fromUserNo="
 									+ authUser + "&toUserNo=" + toUserNo,

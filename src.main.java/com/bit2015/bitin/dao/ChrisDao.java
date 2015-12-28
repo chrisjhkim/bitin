@@ -258,10 +258,16 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		return userVo;
 	}
 	
+	public String getUserIdViaUserNo ( Long userNo ) {
+		String retString = null;
+		retString = sqlSession.selectOne("chris.getUserIdViaUserNo", userNo);
+		return retString;
+	}
 	public List<HashMap<String, Object>> getRecentChatsByUserNo (Long userNo) {
 		List<HashMap<String, Object>> retList = null;
 		retList = sqlSession.selectList("chris.getRecentChatsViaUserNo", userNo);
 		System.out.println("chat result : "+retList);
 		return retList;
 	}
+	
 }

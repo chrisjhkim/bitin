@@ -126,4 +126,9 @@
 		) WHERE tempOrder <=5
 		]]>
 	</select>
+	<select id="getUserIdViaUserNo" parameterType="long" resultType="string">
+		SELECT user_id
+		FROM b_user
+		WHERE user_no = #{userNo }
+	</select>
 </mapper>

@@ -116,6 +116,11 @@ public class ChrisService {
 		}
 		return userVo;
 	}
+	public String getUserIdViaUserNo ( Long userNo ) {
+		String retString = null;
+		retString = chrisDao.getUserIdViaUserNo(userNo);
+		return retString;
+	}
 	public List<HashMap<String, Object>> getRecentChatsByUserNo (Long userNo) {
 		List<HashMap<String, Object>> retList = null;
 		retList = chrisDao.getRecentChatsByUserNo(userNo);

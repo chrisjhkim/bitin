@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.annotation.Auth;
 import com.bit2015.bitin.annotation.AuthUser;
+import com.bit2015.bitin.service.ChattingService;
 import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.ClassService;
 import com.bit2015.bitin.service.UserService;
@@ -31,6 +32,8 @@ public class MainController {
 	ClassService classService;
 	@Autowired
 	ChrisService chrisService;
+	@Autowired
+	ChattingService chattingService;
 
 //	@Auth
 	@RequestMapping("/index")
@@ -64,43 +67,54 @@ public class MainController {
 	}
 
 	
-//	@RequestMapping("/chatting")
-//	public String chatting (
-//			@RequestParam(value="myNo", required=false)Long myUserNo,
-//			@RequestParam(value="otherNo", required=false)Long otherUserNo,
+	@RequestMapping("/chatting")
+	public String chatting (
+			@RequestParam(value="myNo", required=false)Long myUserNo,
+			@RequestParam(value="otherNo", required=false)Long otherUserNo,
 //			@PathVariable ("userNo") Long userNo, 
 //			@AuthUser UserVo authUser, 
-//			Model model ) {
-//		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		
-//		String userName = userService.getUserNamebyUserNo(userNo);
-//		
-//		map.put("fromUserNo", userNo);
-//		map.put("toUserNo", authUser.getUserNo());
-//		
-//		List<MessageVo> list = chattingService.list(map);
-//		model.addAttribute( "chatlist", list );
-//		model.addAttribute("toUserNo",  userNo);
-//		model.addAttribute("userName", userName);
-//		int a = list.size();
-//		if(a==0){
-//			
-//		}else{
-//		model.addAttribute("lastTime", (   (MessageVo)list.get( a-1 )).getCreatedDate());		
-//		}
-//		
-//		
-//		
-//
-//		if( authUser!= null){
-//			List<UserVo> list1 = userService.classmateList(authUser);
-//			model.addAttribute( "classMate", list1 );
-//			List<UserVo> list2 = userService.classnameList(authUser);
-//			model.addAttribute( "className", list2 );
-//		}
-//		return "/message/list";
-//	}
+			Model model ) {
+		
+		
+		String otherUserName = userService.getUserNamebyUserNo(otherUserNo);
+		
+		String myUserId = chrisService.getUserIdViaUserNo(myUserNo);
+		UserVo myUserVo = chrisService.getUserVoViaUserId(myUserId);
+		model.addAttribute("authUser", myUserVo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("toUserNo", myUserVo.getUserNo());
+		map.put("fromUserNo", otherUserNo);
+		
+		List<MessageVo> list = chattingService.list(map);
+		model.addAttribute( "chatlist", list );
+		model.addAttribute("toUserNo",  otherUserNo);
+		model.addAttribute("userName", otherUserName);
+		int a = list.size();
+		if(a==0){
+			
+		}else{
+		model.addAttribute("lastTime", (   (MessageVo)list.get( a-1 )).getCreatedDate());		
+		}
+		
+		
+		
+
+		if( myUserVo!= null){
+			List<UserVo> classMateList = userService.classmateList(myUserVo);
+			model.addAttribute( "classMate", classMateList );
+			List<UserVo> list2 = userService.classnameList(myUserVo);
+			model.addAttribute( "className", list2 );
+			model.addAttribute("authUser", myUserVo);
+			
+			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(myUserVo.getUserNo());
+			model.addAttribute("recentChatList", recentChatList);
+			
+		}
+		
+		
+		return "/junhyun-test/temp-chatlist";
+	}
 	
 
 }
