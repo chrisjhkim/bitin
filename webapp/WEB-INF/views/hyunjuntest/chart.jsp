@@ -32,7 +32,7 @@
 	<div class="content">
 		<div class="card">
 			<div class="card-padding card-body">
-<%-- 				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"	style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button> --%>
+				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"	style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button>
 			</div>
 			<div class="card-header">
 				<h2>Pie Chart</h2>
@@ -96,93 +96,32 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
-	var voteNumber = "${voteNumber }";
-	
-	$(function() {
-
-					 $.ajax ({
-						 url : "/bitin/api/vote/votechart2/"+voteNumber,
-						 cache : false,
-						 type : "post",
-						 success : function (response) {
-							 if( response.result == "fail" ) {				
-									console.error( response.message );
-									return;
-								}
-								console.log( 'sadfefsdf'+response.data1 );
-										$.each( response.data2, function(index, data){
-											console.log( data );
-											insert( data, index );
-											insert2(data, data2);
-										});
-							}
-					 });
-	});
-
 	
 	
-// 	function List() {
-// 		   this.elements = {};
-// 		   this.idx = 0;
-// 		   this.length = 0;
-// 		}
-
-// 		List.prototype.add = function(element) {
-// 		   this.length++;
-// 		   this.elements[this.idx++] = element;
-// 		};
-
-// 		List.prototype.get = function(idx) {
-// 		   return this.elements[idx];
-// 		};
-
-// 		var list = new List();
-	
-// 		list = "${voteContent}";
-// 		var voteContent = "${voteContent}";
-// 		console.log(voteContent);
-// 		for(var i = 1; i< voteContent.length ; i++){
-// 			console.log(voteContent);
-// 		}
-		
-var insert = function( data, index ) {
-	var pieData = [
-	               {data: 1, color: '#F44336', label: 'data'},
-	               {data: 2, color: '#03A9F4', label: 'Nissan'},
-	               {data: 3, color: '#8BC34A', label: 'Hyundai'},
-	               {data: 4, color: '#FFEB3B', label: 'Scion'},
-	               {data: 4, color: '#009688', label: '김현준'},
-	           ];
-	
-}
-	
-//     var pieData = [
-//         {data: 1, color: '#F44336', label: 'Toyota'},
-//         {data: 2, color: '#03A9F4', label: 'Nissan'},
-//         {data: 3, color: '#8BC34A', label: 'Hyundai'},
-//         {data: 4, color: '#FFEB3B', label: 'Scion'},
-//         {data: 4, color: '#009688', label: '김현준'},
-//     ];
-    
-    /* Pie Chart */
-    
-var insert2 = function(data, index) {
-	var label1 = "${voteContent[0]}";
-	var label2 = "${voteContent}";
-	var label3 = "${data}";
-	console.log('label 1, 2' + label1 + label2)
-	console.log(data.voteNumber)
-	console.log('라벨3다음')
-	
+	var contentName  = "${data2[0]}";
+	var selectedCount = "${data}";
+	console.log('tester : '+contentName)
+	console.log('tester : '+selectedCount)
+	  for(i=0; i<contentName.length ; i++){
+		  var contentName  = "${data2["+i+"]}";
+		  
+	    }
 	
     var pieData = [
+          
                    
-        {data: 1, color: '#F44336', label: 'jk'},
+                   
+                   
+        {data: 1, color: '#F44336', label: 'Toyota'},
         {data: 2, color: '#03A9F4', label: 'Nissan'},
         {data: 3, color: '#8BC34A', label: 'Hyundai'},
         {data: 4, color: '#FFEB3B', label: 'Scion'},
-        {data: 4, color: '#009688', label: '김현준'},
+        {data: 4, color: '#009688', label: 'Daihatsu'},
+         
     ];
+    
+    /* Pie Chart */
+    
     if($('#pie-chart')[0]){
         $.plot('#pie-chart', pieData, {
             series: {
@@ -218,7 +157,43 @@ var insert2 = function(data, index) {
         });
     }
     
-}
+    /* Donut Chart */
+
+    if($('#donut-chart')[0]){
+        $.plot('#donut-chart', pieData, {
+            series: {
+                pie: {
+                    innerRadius: 0.5,
+                    show: true,
+                    stroke: { 
+                        width: 2,
+                    },
+                },
+            },
+            legend: {
+                container: '.flc-donut',
+                backgroundOpacity: 0.5,
+                noColumns: 0,
+                backgroundColor: "white",
+                lineWidth: 0
+            },
+            grid: {
+                hoverable: true,
+                clickable: true
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                shifts: {
+                    x: 20,
+                    y: 0
+                },
+                defaultTheme: false,
+                cssClass: 'flot-tooltip'
+            }
+            
+        });
+    }
 });
 
 </script>

@@ -232,9 +232,11 @@ public class VoteController {
 		return "/hyunjuntest/temp-chart";
 	}
 	
-	@ResponseBody 
-	@RequestMapping("/votechart2/{voteNumber}")
-	public HashMap<String, Object> voteChart2(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
+//	@ResponseBody 
+//	@RequestMapping("/votechart2/{voteNumber}")
+//	public HashMap<String, Object> voteChart2(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
+	@RequestMapping("/chris/{voteNumber}")
+	public String voteChart2(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
 				
 		
 //				VoteVo voteVo = voteService.voteChart(voteNumber);
@@ -284,10 +286,20 @@ public class VoteController {
 				}
 		retMap.put("data2", lastlist2);
 		retMap.put("data", lastlist);
+		System.out.println("data2" + lastlist2);
+		System.out.println("data" + lastlist);
 		
-		
-
-		return retMap;
+		model.addAttribute("data", lastlist);
+		model.addAttribute("data2",lastlist2);
+		System.out.println("model : " +model);
+//		return retMap;
+		return "/hyunjuntest/chart";
+	}
+	
+	
+	@RequestMapping("/chris1/{voteNumber}")
+	public String voteChart21(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
+		return "/hyunjuntest/chart";
 	}
 	
 }

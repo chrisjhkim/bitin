@@ -257,6 +257,7 @@
 		$(function() {
 			$("#btn-add").click(
 					function() {
+
 						//이름, 비밀번호, content 가져오기
 						var message = $("#chatting-message").val();
 

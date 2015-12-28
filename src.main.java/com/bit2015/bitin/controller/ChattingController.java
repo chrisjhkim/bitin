@@ -91,6 +91,7 @@ public class ChattingController {
 	@ResponseBody 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
 	public  Map<String, Object> send (@ModelAttribute MessageVo vo, @AuthUser UserVo authUser, Model model) {
+		System.out.println("sdafasfafwaefwae");
 		List<MessageVo> list = new ArrayList<MessageVo>();
 		String a = "";
 		String az = vo.getMessage();
