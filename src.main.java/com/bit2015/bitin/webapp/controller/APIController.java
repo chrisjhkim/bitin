@@ -56,7 +56,7 @@ public class APIController {
 	}
 	
 	@ResponseBody 
-	@RequestMapping("/list2")
+	@RequestMapping("/apilist")
 	public Map<String, Object> list(
 			@RequestParam(value="toUserNo", required=false)Long userNo,
 			@RequestParam(value="chrisTempUserNo", required=false)Long chrisTempUserNo,
