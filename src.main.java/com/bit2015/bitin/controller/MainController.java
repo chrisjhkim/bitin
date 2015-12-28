@@ -64,6 +64,7 @@ public class MainController {
 		if( authUser!= null){
 			List<UserVo> list = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list );
+			model.addAttribute("classMateSize", list.size());
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );
 		}
@@ -117,5 +118,6 @@ public class MainController {
 	 * 
 	 * 
 	 */
+	 
 
 }

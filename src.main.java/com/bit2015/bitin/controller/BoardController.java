@@ -90,6 +90,7 @@ public class BoardController {
 		if( authUser!= null){
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
+			model.addAttribute("classMateSize", list1.size());
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );
 		}
@@ -126,6 +127,7 @@ public class BoardController {
 		if( authUser!= null){
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
+			model.addAttribute("classMateSize", list1.size());
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );
 		}

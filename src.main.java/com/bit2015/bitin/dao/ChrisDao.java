@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.bit2015.bitin.vo.AttdNumberVo;
 import com.bit2015.bitin.vo.AttendanceVo;
+import com.bit2015.bitin.vo.UserVo;
 
 @Repository
 public class ChrisDao {
@@ -249,5 +250,18 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		Long retLong = null;
 		retLong = sqlSession.selectOne("chris.getLastRandomNumberByClassNo", classNo);
 		return retLong;
+	}
+	
+	public UserVo getUserVoViaUserId( String userId ) {
+		UserVo userVo = null;
+		userVo = sqlSession.selectOne("chris.getUserVoViaUserId", userId);
+		return userVo;
+	}
+	
+	public List<HashMap<String, Object>> getRecentChatsByUserNo (Long userNo) {
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("chris.getRecentChatsViaUserNo", userNo);
+		System.out.println("chat result : "+retList);
+		return retList;
 	}
 }

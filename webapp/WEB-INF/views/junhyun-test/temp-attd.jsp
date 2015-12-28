@@ -333,6 +333,7 @@
 		src="/bitin/assets/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js"></script>
 	<script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
 
+<<<<<<< HEAD
 	<!-- modal 선 처리  -->
 	<script type="text/javascript">
 		$(function() {
@@ -342,6 +343,149 @@
 							function(event) {
 								console.log("modal 선 처리 1 !")
 								var button = $(event.relatedTarget);
+=======
+<!-- modal 선 처리  -->
+<script type="text/javascript">
+$(function(){
+	$('#date-edit-form').on('show.bs.modal', function (event) {
+		console.log("modal 선 처리 1 !")
+		var button = $(event.relatedTarget);
+		
+		
+		var tempDate  = $('label[data-date='+gDate+'][data-userno='+gUserNo+']').data('date');
+		var tempUserNo= $('label[data-date='+gDate+'][data-userno='+gUserNo+']').data('userno');
+		var tempUserName = $('label[data-date='+gDate+'][data-userno='+gUserNo+']').data('name');
+	    var modal = $(this);
+	    tempDate= tempDate+"";	//string 으로 바꿈
+	    console.log('2:35 '+gDate)
+	    var gDateMonth = gDate.substring(0,2);
+	    var gDateDay = gDate.substring(3,5);
+		
+	    console.log('gDate'+gDate +'// gUserNo :'+gUserNo);
+ 	    console.log('tempDate '+tempDate + '// tempUserNo : '+tempUserNo +'tempUserName' +tempUserName)
+	    console.log("length : "+tempDate.length)
+	    
+	    var newTag;
+	    if ( tempDate.length >6) {
+	    	newTag = "<h4>"+tempUserName+"님의 "+gDateMonth+"월 "+gDateDay+"일 "+ gDate.substring(7)+"번째 출석을 수정합니다</h4>";
+	    }
+	    else {
+		    newTag = "<h4>"+gDateMonth+"월 "+gDateDay+"일 "+tempUserName+"의 출석을 수정합니다</h4>";
+	    }
+	    modal.find('#hoho').empty();
+	    modal.find('#hoho').prepend(newTag);
+	
+//되는데 data-status 로 하려고 	    var tempStatus = button.data('status');
+// 	    console.log("------------@1: "+$('label[data-date='+gDate+'][data-userno='+gUserNo+']').attr('data-status'));
+	    
+	    var tempStatus = $('label[data-date='+gDate+'][data-userno='+gUserNo+']').attr('data-status');
+	    if( tempStatus == "no" ){
+		    modal.find('#modal-label3').addClass('btn-danger');
+		    
+		    modal.find('#modal-label1').removeClass('btn-success');
+		    modal.find('#modal-label2').removeClass('btn-warning');
+			modal.find('#modal-label4').removeClass('btn-info')
+		    
+	    }else if( tempStatus == "yes" ){
+		    modal.find('#modal-label1').addClass('btn-success');
+		    
+		    modal.find('#modal-label2').removeClass('btn-warning');
+			modal.find('#modal-label3').removeClass('btn-danger');
+			modal.find('#modal-label4').removeClass('btn-info')
+	    }else if(tempStatus == "late" ){
+		    modal.find('#modal-label2').addClass('btn-warning');
+		    
+			modal.find('#modal-label4').removeClass('btn-info')
+		    modal.find('#modal-label1').removeClass('btn-success');
+			modal.find('#modal-label3').removeClass('btn-danger');
+	    }else if(tempStatus == "info" ){
+			modal.find('#modal-label4').addClass('btn-info')
+		    
+		    modal.find('#modal-label1').removeClass('btn-success');
+		    modal.find('#modal-label2').removeClass('btn-warning');
+			modal.find('#modal-label3').removeClass('btn-danger');
+	    }
+	});
+});
+</script>
+<!-- Data Table -->
+<script>
+<!-- 값들 O X 처리 function -->
+function greenO(column, row, status){
+	var userNo = row.userNo;
+ 	var date = column.text;
+ 	var userName = row.name;
+ 	var attdStatus = status; 
+	return "<div class=\"form-group  has-feedback has-success\">"
+				+"<label class=\"attd-status control-label \" for=\"inputError2\" "
+					+"data-toggle=\"modal\" data-target=\"#date-edit-form\"" //modal 설정
+					+"data-temp-column-id=\""+column.id+"\"  "	//세로 어느 줄인지
+					+"data-date=\""+date+"\" data-userno=\""+userNo+"\" "
+					+"data-name=\""+userName+"\""
+					+"data-status=\""+"yes"+"\" "
+					+"onclick=\"valueGetter("+userNo+",'"+date+"');\">" 
+	  			+"<i class=\"zmdi zmdi-circle-o zmdi-hc-fw f-20  \"></i></label>"
+	  	+"</div>"; 
+} 
+function redX(column, row, status){
+	var userNo = row.userNo;
+ 	var date = column.text;
+ 	var userName = row.name;
+ 	var attdStatus = status; 
+	return "<div class=\"form-group   has-error \">"
+				+"<label class=\"attd-status control-label \" for=\"inputError2\" "
+					+"data-toggle=\"modal\" data-target=\"#date-edit-form\"" //modal 설정
+					+"data-temp-column-id=\""+column.id+"\"  "	//세로 어느 줄인지
+					+"data-date=\""+date+"\" data-userno=\""+userNo+"\" "
+					+"data-name=\""+userName+"\""
+					+"data-status=\""+"no"+"\" "
+					+"data-trigger=\"#sidebar\""
+					+"onclick=\"valueGetter("+userNo+",'"+date+"');\">" 
+	  			+"<i class=\"zmdi zmdi-close zmdi-hc-fw f-20  \"></i></label>"
+	  	+"</div>"; 
+} 
+function orangeTriangle(column, row, status){
+	var userNo = row.userNo;
+ 	var date = column.text;
+ 	var userName = row.name;
+ 	var attdStatus = status; 
+	return "<div class=\"form-group  has-feedback has-warning \">"
+				+"<label class=\"attd-status control-label \" for=\"inputError2\" "
+					+"data-toggle=\"modal\" data-target=\"#date-edit-form\"" //modal 설정
+					+"data-temp-column-id=\""+column.id+"\"  "	//세로 어느 줄인지
+					+"data-date=\""+date+"\" data-userno=\""+userNo+"\" "
+					+"data-name=\""+userName+"\""
+					+"data-status=\""+"late"+"\" "
+					+"data-trigger=\"#sidebar\""
+					+"onclick=\"valueGetter("+userNo+",'"+date+"');\">" 
+	  			+"<i class=\"zmdi zmdi-triangle-up zmdi-hc-fw f-20  \"></i></label>"
+	  	+"</div>"; 
+} 
+function blueInfo(column, row, status){
+	var userNo = row.userNo;
+ 	var date = column.text;
+ 	var userName = row.name;
+ 	var attdStatus = status; 
+	return "<div class=\"form-group  has-feedback \">"
+				+"<label class=\"attd-status control-label \" for=\"inputError2\" "
+					+"data-toggle=\"modal\" data-target=\"#date-edit-form\"" //modal 설정
+					+"data-temp-column-id=\""+column.id+"\"  "	//세로 어느 줄인지
+					+"data-date=\""+date+"\" data-userno=\""+userNo+"\" "
+					+"data-name=\""+userName+"\""
+					+"data-status=\""+"late"+"\" "
+					+"data-trigger=\"#sidebar\""
+					+"onclick=\"valueGetter("+userNo+",'"+date+"');\">" 
+	  			+"<i class=\"zmdi zmdi-alert-circle-o zmdi-hc-fw f-20 text-info \"></i></label>"
+	  	+"</div>"; 
+} 
+</script>
+<!-- 전역변수 선언-->
+<script type="text/javascript">
+var gDate = "abc";
+var gUserNo = 0;
+var gStatus = "";
+</script>
+>>>>>>> branch 'master' of https://github.com/chrisjhkim/bitin.git
 
 								var tempDate = $(
 										'label[data-date=' + gDate

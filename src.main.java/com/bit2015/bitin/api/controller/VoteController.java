@@ -241,11 +241,52 @@ public class VoteController {
 				
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("voteNumber", voteNumber);
-				List<String> list = voteService.votingState(map);
+				List<String> firstlist = voteService.votingState(map);
 				HashMap<String, Object> retMap = new HashMap<>();
 				retMap.put( "voteNumber", voteNumber );
-				retMap.put( "data", list );
+				retMap.put( "data", firstlist );
 				System.out.println("sdfsdf"+model);
+				
+				
+				
+				
+				
+				
+				List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
+				List<String> list = voteService.votingState(map);
+				
+				System.out.println("votingstate 테스트222" +list.size());
+				System.out.println("votingstate 테스트333" +list);
+				
+				System.out.println( "------->" + list );	
+				
+				for ( int a=0 ; a < list.size(); a++){
+					HashMap<String, Object>insertMap = new HashMap<String, Object>();
+					
+					String state = list.get( a );
+					map.put("voteContent", state );
+					int selectCount = voteService.extract( map );
+					
+					insertMap.put("contentName", state);
+					insertMap.put("selectedCount",  selectCount );
+
+					mapList.add(insertMap);
+				}
+				
+				retMap.put("data1",mapList );
+				List<Integer> lastlist = new ArrayList<>();
+				List<String> lastlist2 = new ArrayList<>();
+				for ( int a=0 ; a < mapList.size(); a++){
+					lastlist.add(a, (Integer) mapList.get(a).get("selectedCount"));
+				}
+				for ( int a=0 ; a < mapList.size(); a++){
+					lastlist2.add(a,  (String) mapList.get(a).get("contentName"));
+				}
+		retMap.put("data2", lastlist2);
+		retMap.put("data", lastlist);
+		
+		
+
 		return retMap;
 	}
 	

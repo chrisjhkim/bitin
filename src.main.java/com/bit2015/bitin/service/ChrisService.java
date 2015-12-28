@@ -11,6 +11,7 @@ import com.bit2015.bitin.dao.ChrisDao;
 import com.bit2015.bitin.dao.ClassDao;
 import com.bit2015.bitin.dao.UserDao;
 import com.bit2015.bitin.vo.AttendanceVo;
+import com.bit2015.bitin.vo.UserVo;
 
 @Service
 public class ChrisService {
@@ -106,5 +107,18 @@ public class ChrisService {
 		Long retLong = null;
 		retLong = chrisDao.getLastRandomNumberByClassNo(classNo);
 		return retLong; 
+	}
+	public UserVo getUserVoViaUserId( String userId ) {
+		
+		UserVo userVo = null;
+		if( userId != null ) {
+			userVo = chrisDao.getUserVoViaUserId(userId);
+		}
+		return userVo;
+	}
+	public List<HashMap<String, Object>> getRecentChatsByUserNo (Long userNo) {
+		List<HashMap<String, Object>> retList = null;
+		retList = chrisDao.getRecentChatsByUserNo(userNo);
+		return retList;
 	}
 }
