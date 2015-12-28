@@ -102,4 +102,9 @@ public class ChrisService {
 		retLong =chrisDao.getClassNoViaPostNo(postNo);
 		return retLong; 
 	}
+	public Long getLastRandomNumberByClassNo ( Long classNo ) {
+		Long retLong = null;
+		retLong = chrisDao.getLastRandomNumberByClassNo(classNo);
+		return retLong; 
+	}
 }
