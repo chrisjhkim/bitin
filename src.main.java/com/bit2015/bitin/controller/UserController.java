@@ -67,7 +67,6 @@ public class UserController {
 	@RequestMapping("/miniprofile/{userNo}")
 	public String viewForm(@PathVariable("userNo") Long userNo, Model model) {
 		UserVo userVo = userService.getProfilebyUserNo(userNo);
-		System.out.println("UserVo profile test : " +userVo);
 		model.addAttribute("userVo", userVo);
 		return "/main/miniprofile";
 	}

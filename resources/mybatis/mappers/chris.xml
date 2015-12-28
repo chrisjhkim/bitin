@@ -73,4 +73,12 @@
 		 WHERE user_no = #{userNo } 
 		   AND attd_no = #{attdNo }
 	</update>
+	
+		<select id="getClassNoViaPostNo" resultType="long" parameterType="long">
+		<![CDATA[
+		select class_no as classNo
+		  from b_board
+		 where post_no = #{postNo }			
+		]]>
+	</select>
 </mapper>
