@@ -109,11 +109,11 @@ $(document).ready(function(){
 									console.error( response.message );
 									return;
 								}
-								console.log( response.data );
-										$.each( response.data, function(index, data){
+								console.log( 'sadfefsdf'+response.data1 );
+										$.each( response.data2, function(index, data){
 											console.log( data );
 											insert( data, index );
-											insert2();
+											insert2(data, data2);
 										});
 							}
 					 });
@@ -166,18 +166,18 @@ var insert = function( data, index ) {
     
     /* Pie Chart */
     
-var insert2 = function() {
+var insert2 = function(data, index) {
 	var label1 = "${voteContent[0]}";
 	var label2 = "${voteContent}";
 	var label3 = "${data}";
 	console.log('label 1, 2' + label1 + label2)
-	console.log(label3)
+	console.log(data.voteNumber)
 	console.log('라벨3다음')
 	
 	
     var pieData = [
                    
-        {data: 1, color: '#F44336', label: 'Toyota'},
+        {data: 1, color: '#F44336', label: 'jk'},
         {data: 2, color: '#03A9F4', label: 'Nissan'},
         {data: 3, color: '#8BC34A', label: 'Hyundai'},
         {data: 4, color: '#FFEB3B', label: 'Scion'},

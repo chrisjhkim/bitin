@@ -274,7 +274,18 @@ public class VoteController {
 				}
 				
 				retMap.put("data1",mapList );
-				System.out.println("리턴되는 보트차트"+mapList);
+				List<Integer> lastlist = new ArrayList<>();
+				List<String> lastlist2 = new ArrayList<>();
+				for ( int a=0 ; a < mapList.size(); a++){
+					lastlist.add(a, (Integer) mapList.get(a).get("selectedCount"));
+				}
+				for ( int a=0 ; a < mapList.size(); a++){
+					lastlist2.add(a,  (String) mapList.get(a).get("contentName"));
+				}
+		retMap.put("data2", lastlist2);
+		retMap.put("data", lastlist);
+		
+		
 
 		return retMap;
 	}
