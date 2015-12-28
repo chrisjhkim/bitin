@@ -85,12 +85,16 @@ public class ChrisTestController {
 	 * 그냥test 용도
 	 */
 	@RequestMapping("/main")
-	public String TesterMain( Model model ) {  
+	public String TesterMain( 
+			Model model,
+			@RequestParam(value="from", required=false, defaultValue="2015 01 08")String startDate,
+			@RequestParam(value="to", required=false, defaultValue="2015 12 31")String endDate
+			) {  
 		Long classNo = 3L;
 		
 		
 		List<HashMap<String, Object>> dataList = null;
-		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 01 08","2015 12 16" );
+		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, startDate, endDate );		//출석한 날짜들 구하기
 //		dataList = attdService.getAttdStatusViaClassNoAndDates(classNo, "2015 12 08","2015 12 16" );
 		
 //test결과 되는건데 필요가 없어짐		Long attdNumCount = (long)((ArrayList<HashMap<String, Object>>)dataList.get(0).get("attdList")).size();
@@ -104,9 +108,8 @@ public class ChrisTestController {
 		Long dupCounter = 1L;
 		for( HashMap<String, Object>person : dataList){ //개인마다
 			dupCounter=2L;
-			Long yesCounter = 0L;
-			Long yesOrInfoCounter = 0L;
-			Long yesOrInfoOrLateCounter = 0L;
+			Long yesNoLateTotalCounter = 0L;//
+			Long yesOrLateCounter = 0L;//
 			List<AttendanceVo>personalAttdList = (List<AttendanceVo>)person.get("attdList");
 			for(AttendanceVo attdVo : personalAttdList) {		//출첵한 날마다
 				String classDate = attdVo.getClassDate();
@@ -116,24 +119,24 @@ public class ChrisTestController {
 //					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
 					temp += "_"+dupCounter;
 					dupCounter +=1;
+				}else {
+					dupCounter = 2L;
 				}
 				if(attdVo.getAttdStatus().equals("yes")){
-					yesCounter++;
-					yesOrInfoCounter++;
-					yesOrInfoOrLateCounter++;
+					yesOrLateCounter++;//
+					yesNoLateTotalCounter++;//
 				}else if( attdVo.getAttdStatus().equals("info")){
-					yesOrInfoCounter++;
-					yesOrInfoOrLateCounter++;
 				}else if (attdVo.getAttdStatus().equals("late")) {
-					yesOrInfoOrLateCounter++;
+					yesOrLateCounter++;//
+					yesNoLateTotalCounter++;//
+				}else if( attdVo.getAttdStatus().equals("no")) {
+					yesNoLateTotalCounter++;//
 				}
 				
 				dateDupCheck = classDate;
 				attdVo.setClassDate(temp);
 			}
-			person.put("attdYesRate", 100*yesCounter/attdTotalCounter);
-			person.put("attdYesOrInfoRate", 100*yesOrInfoCounter/attdTotalCounter);
-			person.put("attdYesOrInfoOrLateRate", 100*yesOrInfoOrLateCounter/attdTotalCounter);
+			person.put("attdRate", 100*yesOrLateCounter/yesNoLateTotalCounter);
 		}
 		
 		
@@ -172,7 +175,9 @@ public class ChrisTestController {
 				if( dateDupCheck.equals(classDate) ){
 //					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
 					temp += "_"+dupCounter;
-					dupCounter +=1;
+					dupCounter += 1;
+				}else{
+					dupCounter = 2L;
 				}
 				dateDupCheck = classDate;
 				attdVo.setClassDate(temp);

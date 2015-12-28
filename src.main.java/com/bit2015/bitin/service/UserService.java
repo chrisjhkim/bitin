@@ -73,7 +73,9 @@ public class UserService {
 	}
 	
 	public UserVo getUserVoViaIdAndPassword( UserVo userVo ){
-		userDao.updatePhoneId(userVo);
+		if( userVo.getUserPhoneId()  != null ){
+			userDao.updatePhoneId(userVo);
+		}
 		UserVo retVo = userDao.getUserVoViaIdAndPassword(userVo);
 		return retVo;
 	}

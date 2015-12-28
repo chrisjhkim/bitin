@@ -244,4 +244,10 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		System.out.println("dao classNo "+retLong);
 		return retLong;
 	}
+	
+	public Long getLastRandomNumberByClassNo ( Long classNo ) {
+		Long retLong = null;
+		retLong = sqlSession.selectOne("chris.getLastRandomNumberByClassNo", classNo);
+		return retLong;
+	}
 }

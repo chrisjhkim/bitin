@@ -156,6 +156,7 @@ public class UserController {
 			}
 		}
 		retMap.put("result", resString);
+		System.out.println("/loginwith retMap : "+retMap);
 		return retMap;
 		
 	}
