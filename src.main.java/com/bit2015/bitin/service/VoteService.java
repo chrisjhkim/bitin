@@ -97,9 +97,9 @@ public class VoteService {
 	
 	
 	
-//	public VoteVo voteChart(Long voteNumber) {
-//		VoteVo voteVo = voteDao.voteChart(voteNumber);
-//		return voteVo;
-//	}
+	public String voteTitle(Long voteNumber) {
+		String a = voteDao.voteTitle(voteNumber);
+		return a;
+	}
 	
 }

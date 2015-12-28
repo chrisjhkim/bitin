@@ -147,4 +147,11 @@
 				
 	</select>
 	
+	
+	<select id="voteTitle" parameterType="Long" resultType="String">
+		select vote_title
+		from  b_vote_title
+		where vote_number = #{voteNumber} 
+				
+	</select>
 </mapper>

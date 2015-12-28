@@ -265,7 +265,8 @@ public class VoteController {
 		retMap.put("data", lastlist);
 		System.out.println("data2" + lastlist2);
 		System.out.println("data" + lastlist);
-		
+		String aa = voteService.voteTitle(voteNumber);
+		model.addAttribute("voteTitle", aa);
 		model.addAttribute("data", lastlist);
 		model.addAttribute("data2",lastlist2);
 		model.addAttribute("data3", list.size());
