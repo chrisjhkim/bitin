@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.BoardService;
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.ReplyService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.BoardVo;
@@ -24,21 +25,20 @@ import com.bit2015.bitin.vo.UserVo;
 @Controller("BoardController")
 @RequestMapping("/board")
 public class BoardController {
-	@Autowired
-	UserService userService;
+
 	@Autowired
 	BoardService boardService;
 	@Autowired
 	ReplyService replyService;
+	@Autowired
+	ChrisService chrisService;
+	@Autowired
+	UserService userService;
 
 	@RequestMapping("/writeform/{classNo}")
 	public String writeForm(@AuthUser UserVo authUser, @PathVariable("classNo") Long classNo, Model model) {
 		model.addAttribute("classNo", classNo);
 		model.addAttribute("boardType", 1L);
-		
-		
-		
-
 		if( authUser!= null){
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
@@ -48,14 +48,10 @@ public class BoardController {
 		return "/board/writeform";
 	}
 
-	@RequestMapping("/list/modifyform/{boardNo}")
-	public String modifyform(@AuthUser UserVo authUser, @PathVariable("boardNo") Long boardNo, Model model) {
-		BoardVo vo = boardService.viewBoard(boardNo);
-		model.addAttribute("vo", vo);
-		
-		
-		
-		
+	@RequestMapping("/modifyform/{postNo}")
+	public String modifyform(@AuthUser UserVo authUser, @PathVariable("postNo") Long postNo, Model model) {
+		BoardVo boardVo = boardService.getPostByPostNo(postNo);
+		model.addAttribute("boardVo", boardVo);
 		if( authUser!= null){
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
@@ -64,6 +60,21 @@ public class BoardController {
 		}
 		return "/board/modifyform";
 	}
+	
+	@RequestMapping("/modify")
+	public String modify(@RequestParam(value = "content") String content, @RequestParam(value = "title") String title,
+			@RequestParam(value = "postNo") Long postNo, HttpSession session, @ModelAttribute BoardVo vo) {
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+
+		if (authUser == null) {
+			return "redirect:/board";
+		}
+		boardService.updateBoard(vo);
+
+		return "redirect:/board/view/" + postNo;
+	}
+	
+	
 
 	/**
 	 * @param model
@@ -76,11 +87,6 @@ public class BoardController {
 		model.addAttribute("list", list);
 		ClassVo vo = boardService.viewBoardName(classNo);
 		model.addAttribute("vo", vo);
-		
-		
-		
-		
-		
 		if( authUser!= null){
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
@@ -89,7 +95,7 @@ public class BoardController {
 		}
 		return "/board/list";
 	}
-
+/*
 	@RequestMapping("/update")
 	public String update(HttpSession session, @ModelAttribute BoardVo vo) {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
@@ -103,6 +109,7 @@ public class BoardController {
 		return "redirect:/board";
 	}
 
+*/	
 	/**
 	 * @param no
 	 * @param model
@@ -110,16 +117,12 @@ public class BoardController {
 	 */
 
 	@RequestMapping("/view/{postNo}")
-	public String viewForm(@AuthUser UserVo authUser , @PathVariable("postNo") Long postNo, Model model) {
+	public String viewForm(@AuthUser UserVo authUser, @PathVariable("postNo") Long postNo, Model model) {
 		BoardVo boardVo = boardService.getPostByPostNo(postNo);
 		model.addAttribute("boardVo", boardVo);
 		List<ReplyVo> list = replyService.getReplyByPostNo(postNo);
 		model.addAttribute("list", list);
 		boardService.updateViewCount(postNo);
-		
-		
-		
-		
 		if( authUser!= null){
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
@@ -155,6 +158,13 @@ public class BoardController {
 
 		return "redirect:/board/view/" + postNo;
 	}
+	
+	@RequestMapping( "/delete/{postNo}" )
+	public String delete(@PathVariable( "postNo" ) Long postNo) {
+		Long classNo = chrisService.getClassNoViaPostNo(postNo);
+		boardService.deleteBoard(postNo);
+		return "redirect:/board/list/" + classNo;
+	}	
 
 
 }

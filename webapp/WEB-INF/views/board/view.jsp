@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	pageContext.setAttribute("newLine", "\n");
+%>
 
 <!DOCTYPE html>
 <head>
@@ -46,6 +49,22 @@
 						${boardVo.title } <small>작성자 : ${boardVo.userName }(
 							${boardVo.postNo } 번 게시물)</small>
 					</h2>
+					<ul class="actions">
+						<li class="dropdown"><a href="" data-toggle="dropdown"> <i
+								class="zmdi zmdi-more-vert" style="margin-top: 20px;"></i>
+						</a>
+
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="">작성자 프로필</a></li>
+								<li><a href="/bitin/board/modifyform/${boardVo.postNo }">글
+										수정</a></li>
+								<li><a href="/bitin/board/delete/${boardVo.postNo }"><input type="hidden" name="classNo" value="${boardVo.classNo }">글 삭제</a></li>
+							</ul></li>
+					</ul>
+				</div>
+				<div class="card-header">
+
+
 					<div class="media">
 						<div class="pull-left">
 							<img class="lv-img" src="/bitin/assets/img/profile-pics/1.jpg"
@@ -61,7 +80,7 @@
 
 
 					<br>
-					<div class="card-body card-padding">${boardVo.content }</div>
+					<div class="card-body card-padding">${fn:replace( boardVo.content, newLine, '<br>' ) }</div>
 					<br>
 
 					<ul class="wall-attrs clearfix list-inline list-unstyled">
@@ -94,7 +113,7 @@
 				</div>
 
 				<!-- Comment Listing -->
-				 <form class="reply-form" method="post" action="/bitin/board/reply">
+				<form class="reply-form" method="post" action="/bitin/board/reply">
 					<div class="container">
 						<c:forEach items='${list}' var='vo' varStatus='status'>
 							<a href="" class="pull-left"> <img
@@ -110,12 +129,13 @@
 							<br>
 						</c:forEach>
 					</div>
-
+					${fn:replace(fn:replace(string, cr, ""), lf, "")}
 					<div class="card wall-posting">
 						<div class="card-body card-padding">
 							<input type="hidden" name="postNo" value="${postNo }"> <input
 								type="hidden" name="userNo" value="${userNo }">
-							<textarea id="reply" class="wp-text" name="reply" placeholder="댓글을 작성하세요" style="background-color: #f2f2f2;"></textarea>
+							<textarea id="reply" class="wp-text" name="reply"
+								placeholder="댓글을 작성하세요" style="background-color: #f2f2f2;"></textarea>
 							<button type="summit" class="btn btn-warning btn-block"
 								style="margin-right: 8px; cursor: pointer;">댓글 달기</button>
 						</div>

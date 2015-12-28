@@ -95,4 +95,11 @@ public class VoteService {
 		return a;
 	}
 	
+	
+	
+//	public VoteVo voteChart(Long voteNumber) {
+//		VoteVo voteVo = voteDao.voteChart(voteNumber);
+//		return voteVo;
+//	}
+	
 }

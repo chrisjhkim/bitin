@@ -21,19 +21,19 @@ public class BoardDao {
 	public void updateBoard(BoardVo vo) {
 		sqlSession.update("board.update", vo);
 	}
+	
+	public void delete(Long postNo ) {
+		sqlSession.delete( "board.delete", postNo );
+	}
 
 	public List<BoardVo> getList(Long classNo) {
-		System.out.println("classNo: " + classNo);
 		List<BoardVo> list = sqlSession.selectList("board.selectList", classNo);
-		System.out.println("list test2" + list);
 		return list;
 
 	}
 
 	public ClassVo getStirng(Long classNo) {
-		System.out.println("test : " + classNo);
 		ClassVo vo = sqlSession.selectOne("board.selectBoardName", classNo);
-		System.out.println("daovo : " + vo);
 		return vo;
 	}
 
@@ -41,8 +41,8 @@ public class BoardDao {
 		sqlSession.update("board.updateViewCount", postNo);
 	}
 
-	public BoardVo get(Long boardNo) {
-		BoardVo vo = sqlSession.selectOne("board.selectByNo", boardNo);
+	public BoardVo get(Long postNo) {
+		BoardVo vo = sqlSession.selectOne("board.selectByNo", postNo);
 		return vo;
 	}
 
@@ -54,6 +54,15 @@ public class BoardDao {
 		BoardVo retVo = null;
 		retVo = sqlSession.selectOne("board.getPostByPostNo", postNo);
 		return retVo;
+	}
+	
+	public void update( BoardVo vo ) {
+		sqlSession.update( "board.update", vo );
+	}
+	
+	public BoardVo getClassNo( Long postNo ) {
+		BoardVo boardVo = sqlSession.selectOne( "board.selectClassNobyPostNo", postNo );
+		return boardVo;
 	}
 	
 }

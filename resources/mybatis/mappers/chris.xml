@@ -73,6 +73,7 @@
 		 WHERE user_no = #{userNo } 
 		   AND attd_no = #{attdNo }
 	</update>
+<<<<<<< HEAD
 	<select id="getLastRandomNumberByClassNo" parameterType="long" resultType="long">
 		SELECT random_number
 		FROM (
@@ -93,6 +94,10 @@
 		) where temporder=1
 	</select>
 			<select id="getClassNoViaPostNo" resultType="long" parameterType="long">
+=======
+	
+		<select id="getClassNoViaPostNo" resultType="long" parameterType="long">
+>>>>>>> branch 'master' of https://github.com/chrisjhkim/bitin.git
 		<![CDATA[
 		select class_no as classNo
 		  from b_board

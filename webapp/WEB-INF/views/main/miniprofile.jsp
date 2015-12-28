@@ -44,17 +44,17 @@
                             </div>
                             
                             <div class="pv-body">
-                                <h2>${userName }</h2>
+                                <h2>${userVo.userName }</h2>
                                 <small>간단한 자기 소개를 합니다.</small>
                             
                                 <ul class="pv-contact">
-                                    <li><i class="zmdi zmdi-pin"></i>bebop84@naver.com</li>
-                                    <li><i class="zmdi zmdi-phone"></i>010-9053-2445</li>
+                                    <li><i class="zmdi zmdi-pin"></i> ${userVo.userId }@stubit.com</li>
+                                    <li><i class="zmdi zmdi-phone"></i> 010.9053.2445</li>
                                 </ul>
                                 
                                 <ul class="pv-follow">
                                     <li>전공</li>
-                                    <li>학생 또는 선생 (직위)</li>
+                                    <li>${userVo.userType }</li>
                                 </ul>
                                 
                                 <a href="" class="pv-follow-btn">채팅 바로가기</a>

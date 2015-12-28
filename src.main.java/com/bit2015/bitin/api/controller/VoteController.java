@@ -7,12 +7,16 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.UtilService;
 import com.bit2015.bitin.service.VoteService;
+import com.bit2015.bitin.vo.UserVo;
 import com.bit2015.bitin.vo.VoteVo;
 
 
@@ -210,5 +214,21 @@ public class VoteController {
 		return retMap;
 	}
 	
+	
+	
+	
+	@RequestMapping("/votechart/{voteNumber}")
+	public String voteChart(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
+				
+		
+//				VoteVo voteVo = voteService.voteChart(voteNumber);
+				
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("voteNumber", voteNumber);
+				List<String> list = voteService.votingState(map);
+				model.addAttribute( "voteCotent", list );
+				System.out.println("sdfsdf"+model);
+		return "/hyunjuntest/temp-chart";
+	}
 	
 }

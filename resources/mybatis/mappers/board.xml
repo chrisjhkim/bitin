@@ -74,15 +74,6 @@
 		]]>
 	</select>
 	
-	<update id="update" parameterType="BoardVo">
-		<![CDATA[
-		update b_board
-		   set title = #{title }, content = #{content }
-         where board_no as bardNo = #{boardNo }
-           and user_no = #{userNo }
-		]]>			
-	</update>
-	
 	
 	<!-- **************************************************************************************************************** -->
 	
@@ -100,7 +91,7 @@
             b.content,
             b.user_no AS userNO,
             b.view_cnt AS viewCount,
-            b.reg_date AS regDate,
+            to_char( b.reg_date, 'yyyy/mm/dd   hh:mi' ) as regDate,
             b.board_type AS boardType,
          u.user_name AS userName
       FROM B_BOARD b, b_user u      
@@ -119,11 +110,35 @@
 	    select r.post_no as postNo,
 	           u.user_name as userName,
 	           r.reply,
-	           r.reg_date as regDate,
+	           to_char( r.reg_date, 'yyyy/mm/dd hh:mi' ) as regDate,
 	    from b_user u. b_reply r
 	    where post_no = #{postNo }
 	    and b.post_no = r.post_no,
 	        r.user_no = u.user_no
+	</select>
+	
+	<delete id="delete" parameterType="map">
+		<![CDATA[
+		delete
+		  from b_board
+		 where post_no = #{postNo }
+		]]>
+	</delete>
+	
+	<update id="update" parameterType="BoardVo">
+		<![CDATA[
+		update b_board
+		   set title = #{title }, content = #{content }
+         where post_no = #{postNo }
+		]]>			
+	</update>
+	
+	<select id="selectClassNobyPostNo" resultType="BoardVo" parameterType="long">
+		<![CDATA[
+		select class_no as classNo
+		  from b_board
+		 where postNo = #{postNo }			
+		]]>
 	</select>
 	
 </mapper>

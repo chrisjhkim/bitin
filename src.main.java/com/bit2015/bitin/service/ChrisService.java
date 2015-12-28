@@ -101,10 +101,13 @@ public class ChrisService {
 		Long retLong = null;
 		retLong =chrisDao.getClassNoViaPostNo(postNo);
 		return retLong; 
+<<<<<<< HEAD
 	}
 	public Long getLastRandomNumberByClassNo ( Long classNo ) {
 		Long retLong = null;
 		retLong = chrisDao.getLastRandomNumberByClassNo(classNo);
 		return retLong;
+=======
+>>>>>>> branch 'master' of https://github.com/chrisjhkim/bitin.git
 	}
 }
