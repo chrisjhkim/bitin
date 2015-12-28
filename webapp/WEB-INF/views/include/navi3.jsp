@@ -234,11 +234,11 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 		<div class="profile-menu">
 			<a href="">
 				<div class="profile-pic">
-					<img src="/bitin/assets/img/profile-pics/1.jpg" alt="">
+					<img src="/bitin/assets/img/profile-pics/${authUser.userNo }.jpg" alt="">
 				</div>
 
 				<div class="profile-info">
-					${authUser.userName  } 님이 접속중</i>
+					${authUser.userName } 님이 접속중</i>
 				</div>
 			</a>
 
@@ -285,6 +285,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 
 
 		</ul>
+		
 	</aside>
 
 
