@@ -84,71 +84,42 @@
 						var iCounter = 1;
 						var lastChat = "${lastTime}";
 						$(function() {
-							$(document)
-									.ready(
+							$(document).ready(
 											function() {
 												timer = setInterval(
 														function() {
-															$
-																	.ajax({
-																		url : "/bitin/chatting/list2/"
-																				+ toUserNo,
+															$.ajax({
+																		url : "/bitin/chatting/list2/"+ toUserNo,
 																		cache : false,
 																		type : "post",
 																		success : function(
 																				response) {
 																			if (response.result == "fail") {
-																				console
-																						.error(response.message);
+																				console.error(response.message);
 																				return;
 																			}
 																			//rendering
 
 																			// 							console.log("timer : "+lastChat+ "ajaxtimer : "+response.data2);
 
-																			console
-																					.log(response.data);
+																			console.log(response.data);
 																			if (iCounter == 1) {
 																				var $listDiv2 = $("#chatlist");
-																				$listDiv2
-																						.empty();
-																				$
-																						.each(
-																								response.data,
-																								function(
-																										index,
-																										data) {
+																				$listDiv2.empty();
+																				$.each(response.data,function(index,data) {
 																									//console.log( data );
-																									insertMessage(
-																											data,
-																											false);
+																									insertMessage(data,false);
 																								});
 																				iCounter++;
 																			}
 																			if (lastChat != response.data2) {
 																				var $listDiv2 = $("#chatlist");
-																				$listDiv2
-																						.empty();
-																				$
-																						.each(
-																								response.data,
-																								function(
-																										index,
-																										data) {
+																				$listDiv2.empty();
+																				$.each(response.data,function(index,data) {
 																									//console.log( data );
-																									insertMessage(
-																											data,
-																											false);
+																									insertMessage(data,false);
 																									function scrollToBottom() {
-																										$(
-																												'html, body')
-																												.animate(
-																														{
-																															scrollTop : $(
-																																	document)
-																																	.height()
-																														},
-																														'slow');
+																										$('html, body').animate({scrollTop : $(document).height()},'slow');
 																									}
 																									scrollToBottom();
 																								});
