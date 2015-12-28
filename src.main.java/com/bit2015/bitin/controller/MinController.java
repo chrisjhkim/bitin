@@ -1,4 +1,4 @@
-package com.bit2015.bitin.webapp.controller;
+package com.bit2015.bitin.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,9 +22,9 @@ import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.MessageVo;
 import com.bit2015.bitin.vo.UserVo;
 
-@Controller("WebAppController")
-@RequestMapping("/webapp")
-public class MainController {
+@Controller("MinController")
+@RequestMapping("/min")
+public class MinController {
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -57,50 +57,9 @@ public class MainController {
 		}
 		
 		
-		
-		
-		
-		return "/junhyun-test/index2";
+		return "/junhyun-test/index3";
 	}
 
-	
-//	@RequestMapping("/chatting")
-//	public String chatting (
-//			@RequestParam(value="myNo", required=false)Long myUserNo,
-//			@RequestParam(value="otherNo", required=false)Long otherUserNo,
-//			@PathVariable ("userNo") Long userNo, 
-//			@AuthUser UserVo authUser, 
-//			Model model ) {
-//		
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		
-//		String userName = userService.getUserNamebyUserNo(userNo);
-//		
-//		map.put("fromUserNo", userNo);
-//		map.put("toUserNo", authUser.getUserNo());
-//		
-//		List<MessageVo> list = chattingService.list(map);
-//		model.addAttribute( "chatlist", list );
-//		model.addAttribute("toUserNo",  userNo);
-//		model.addAttribute("userName", userName);
-//		int a = list.size();
-//		if(a==0){
-//			
-//		}else{
-//		model.addAttribute("lastTime", (   (MessageVo)list.get( a-1 )).getCreatedDate());		
-//		}
-//		
-//		
-//		
-//
-//		if( authUser!= null){
-//			List<UserVo> list1 = userService.classmateList(authUser);
-//			model.addAttribute( "classMate", list1 );
-//			List<UserVo> list2 = userService.classnameList(authUser);
-//			model.addAttribute( "className", list2 );
-//		}
-//		return "/message/list";
-//	}
 	
 
 }
