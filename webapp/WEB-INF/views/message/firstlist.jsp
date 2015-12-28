@@ -57,127 +57,7 @@
 
 
 	<section id="content">
-		<div class="container">
-			<div class="block-header">
-				<h2>Messages</h2>
-			</div>
-
-			<div class="card m-b-0" id="messages-main">
-
-				<div class="ms-menu">
-					<div class="ms-block">
-						<div class="ms-user">
-							<img src="img/profile-pics/1.jpg" alt="">
-							<div>
-								Signed in as <br /> m-hollaway@gmail.com
-							</div>
-						</div>
-					</div>
-
-					<div class="ms-block">
-						<div class="dropdown">
-							<a class="btn btn-primary btn-block" href=""
-								data-toggle="dropdown">Messages <i class="caret m-l-5"></i></a>
-
-							<ul class="dropdown-menu dm-icon w-100">
-								<li><a href=""><i class="zmdi zmdi-email"></i> Messages</a></li>
-								<li><a href=""><i class="zmdi zmdi-account"></i>
-										Contacts</a></li>
-								<li><a href=""><i
-										class="zmdi zmdi-format-list-bulleted"> </i>Todo Lists</a></li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="listview lv-user m-t-20">
-						<div class="lv-item media active">
-							<div class="lv-avatar pull-left">
-								<img src="img/profile-pics/1.jpg" alt="">
-							</div>
-							<div class="media-body">
-								<div class="lv-title">Davil Parnell</div>
-								<div class="lv-small">Fierent fastidii recteque ad pro</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar bgm-red pull-left">a</div>
-							<div class="media-body">
-								<div class="lv-title">Ann Watkinson</div>
-								<div class="lv-small">Cum sociis natoque penatibus</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar bgm-orange pull-left">m</div>
-							<div class="media-body">
-								<div class="lv-title">Marse Walter</div>
-								<div class="lv-small">Suspendisse sapien ligula</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar pull-left">
-								<img src="img/profile-pics/2.jpg" alt="">
-							</div>
-							<div class="media-body">
-								<div class="lv-title">Jeremy Robbins</div>
-								<div class="lv-small">Phasellus porttitor tellus nec</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar pull-left">
-								<img src="img/profile-pics/3.jpg" alt="">
-							</div>
-							<div class="media-body">
-								<div class="lv-title">Reginald Horace</div>
-								<div class="lv-small">Quisque consequat arcu eget</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar bgm-cyan pull-left">s</div>
-							<div class="media-body">
-								<div class="lv-title">Shark Henry</div>
-								<div class="lv-small">Nam lobortis odio et leo maximu</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar bgm-purple pull-left">p</div>
-							<div class="media-body">
-								<div class="lv-title">Paul Van Dack</div>
-								<div class="lv-small">Nam posuere purus sed velit auctor
-									sodales</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar pull-left">
-								<img src="img/profile-pics/4.jpg" alt="">
-							</div>
-							<div class="media-body">
-								<div class="lv-title">James Anderson</div>
-								<div class="lv-small">Vivamus imperdiet sagittis quam</div>
-							</div>
-						</div>
-
-						<div class="lv-item media">
-							<div class="lv-avatar pull-left">
-								<img src="img/profile-pics/6.jpg" alt="">
-							</div>
-							<div class="media-body">
-								<div class="lv-title">Kane Williams</div>
-								<div class="lv-small">Suspendisse justo nulla luctus nec</div>
-							</div>
-						</div>
-					</div>
-
-
-				</div>
-
-				<div class="ms-body">
+					<div class="ms-body">
 					<div class="listview lv-message">
 						<div class="lv-header-alt clearfix">
 							<div id="ms-menu-trigger">
@@ -220,15 +100,18 @@
 									</ul></li>
 							</ul>
 						</div>
+						
 
 
 
 <script>
+var iCounter = 1;
+var lastChat = "${lastTime}";
 $(function() {
 	$(document).ready(function(){
 			 timer = setInterval( function () {
 				 $.ajax ({
-					 url : "/bitin/chatting/list2",
+					 url : "/bitin/chatting/list2/7",
 					 cache : false,
 					 type : "post",
 					 success : function (response) {
@@ -237,13 +120,29 @@ $(function() {
 								return;
 							}
 							//rendering
+						
+							
+// 							console.log("timer : "+lastChat+ "ajaxtimer : "+response.data2);
+							
 							console.log( response.data );
-							var $listDiv2 = $( "#chatlist" );
-						 	$listDiv2.empty();
-							$.each( response.data, function(index, data){
-								//console.log( data );
-								insertMessage( data, false );
-							});
+							if( iCounter == 1 ){
+								var $listDiv2 = $( "#chatlist" );
+								 	$listDiv2.empty();
+									$.each( response.data, function(index, data){
+										//console.log( data );
+										insertMessage( data, false );
+									});
+								iCounter ++;
+							}
+							if( lastChat != response.data2) {
+								var $listDiv2 = $( "#chatlist" );
+								 	$listDiv2.
+									$.each( response.data, function(index, data){
+										//console.log( data );
+										insertMessage( data, false );
+									});
+								lastChat = response.data2;
+							}
 						}
 // 						error: function( jqXHR, status, e ){
 // 							console.error( status + " : " + e );
@@ -320,26 +219,15 @@ var insertMessage = function( data, isHead ) {
 <!-- 							</div> -->
 <%-- 						</c:forEach> --%>
 						</div>
-						<div class="lv-footer ms-reply">
+						<div id="text11" class="lv-footer ms-reply">
 							<textarea name="message" id="chatting-message" placeholder="What's on your mind..."></textarea>
 							<button id="btn-add">  <i class="zmdi zmdi-mail-send"></i>  </button>
 						</div>					
-					
-						 <footer class="chat-footer row">
-                                <div class="clv-footer ms-reply">
-                                    <input name="message" id="chatting-message" type="text" class="" placeholder="Enter your message..">
-                                    <button id="btn-add" class=""><i class="zmdi zmdi-mail-send"></i></button>
-                                </div>
-                           </footer>
-
 		
 				</div>
 			</div>
 		</div>
 	</section>
-
-	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
-
 
 	<!-- Page Loader -->
 	<div class="page-loader">
@@ -355,28 +243,26 @@ var insertMessage = function( data, isHead ) {
 	
 <script>
 var authUser = "${authUser.userNo }";
+var toUserNo = "${toUserNo}";
 $(function() {
 	$("#btn-add").click( function() {
 		//이름, 비밀번호, content 가져오기
 		var message = $( "#chatting-message" ).val();
-		console.log( "1231444" );	
-		
-		
+			
 		//ajax
 		$.ajax( {
 			url : "/bitin/chatting/send",
 			type: "post",
-			
-			data: "message=" + message + "&fromUserNo=" + authUser,
+			data: "message=" + message + "&fromUserNo=" + authUser + "&toUserNo=" + toUserNo,
 // 			toUserNo 추가해야됨
 			dataType: "json",
 			success: function( response ){
-				if( response.result == "fail" ) {				
+				if( response.result == "fail" ) {
 					console.error( response.message );
 					return;
 				}
-				console.log( response );			
-				//insertMessage( response.data, true );
+				console.log( response );		
+				location.reload();
 			},
 			error: function( jqXHR, status, e ){
 				console.error( status + " : " + e );
@@ -385,6 +271,5 @@ $(function() {
 	});
 });
 </script>
-
 </body>
 </html>

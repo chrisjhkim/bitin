@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.ChattingService;
-
+import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.MessageVo;
 import com.bit2015.bitin.vo.UserVo;
 
@@ -30,6 +30,9 @@ public class ChattingController {
 	
 	@Autowired
 	ChattingService chattingService;
+	
+	@Autowired
+	UserService userService;
 
 	/**
 	 *            채팅  컨트롤러 아직 미완성( 기능구현은 다했는데 테스트를 안해봄)
@@ -47,28 +50,57 @@ public class ChattingController {
 		model.addAttribute( "chatlist", list );
 		model.addAttribute("toUserNo",  userNo);
 		System.out.println("채팅 컨트롤러 리스트 :" + model);
+		int a = list.size();
+		if(a==0){
+			
+		}else{
+		model.addAttribute("lastTime", (   (MessageVo)list.get( a-1 )).getCreatedDate());		
+		}
+		
+		
+		
+
+		if( authUser!= null){
+			List<UserVo> list1 = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list1 );
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
+		}
 		return "/message/list";
 	}
 	
-//	@ResponseBody 
-//	@RequestMapping("/list2")
-//	public Map<String, Object> list(@AuthUser UserVo authUser, Model model ) {
-//		System.out.println("리스트2222222      들어오는값" + authUser);
-//		List<MessageVo> list = chattingService.list(authUser);
-//		Map<String, Object> map = new HashMap<String, Object>();
-//		map.put("data", list);
-//		model.addAttribute( "chatlist", list );
-//		System.out.println("리스트2222222         반환값" + map.get("data"));
-//		return map;
-//	}
+	@ResponseBody 
+	@RequestMapping("/list2/{userNo}")
+	public Map<String, Object> list(@PathVariable ("userNo") Long userNo, @AuthUser UserVo authUser, Model model ) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("fromUserNo", userNo);
+		map.put("toUserNo", authUser.getUserNo());
+		List<MessageVo> list = chattingService.list(map);
+		Map<String, Object> retmap = new HashMap<String, Object>();
+		retmap.put("data", list);
+		model.addAttribute( "chatlist", list );
+		retmap.put("data2", ((MessageVo)list.get( list.size()-1 )).getCreatedDate() );
 		
+	
+		
+		
+		return retmap;
+	}
+		
+	
 	@ResponseBody 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
 	public  Map<String, Object> send (@ModelAttribute MessageVo vo, @AuthUser UserVo authUser, Model model) {
 		List<MessageVo> list = new ArrayList<MessageVo>();
+		String a = "";
+		String az = vo.getMessage();
+		if(a == az){
+			
+		}else{
+			list = chattingService.send( vo );	
+		}
 		
 		
-		list = chattingService.send( vo );	
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put( "result", "success" );
