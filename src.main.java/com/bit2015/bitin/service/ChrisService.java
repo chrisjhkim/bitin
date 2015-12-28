@@ -97,4 +97,7 @@ public class ChrisService {
 		retFlag = chrisDao.updateAttd(oldUserNo, oldAttdNo, newAttdStatus);
 		return retFlag;
 	}
+	public Long getClassNoViaPostNo (Long postNo ) {
+		return chrisDao.getClassNoViaPostNo(postNo);
+	}
 }

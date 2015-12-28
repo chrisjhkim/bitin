@@ -23,6 +23,12 @@
 <link href="/bitin/assets/css/app.min.1.css" rel="stylesheet">
 <link href="/bitin/assets/css/app.min.2.css" rel="stylesheet">
 
+
+<!-- Include Required Prerequisites -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />
+ 
+<!-- Include Date Range Picker -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 </head>
 
 <body>
@@ -81,10 +87,31 @@
 				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
 					style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button>
 			</div>
+			<div class="row">
+				<div class="col-sm-5 actionBar">
+					<div class="input-group form-group">
+						<span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+						<div class="dtp-container fg-line">
+							<input type='text' class="form-control " id="start-date" placeholder="Click here...">
+   						</div>
+   					</div>
+   				</div>	
+   				<div class="col-sm-5 actionBar">
+   					<div class="input-group form-group">
+    					<span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+   						<div class="dtp-container fg-line">
+   							<input type='text' class="form-control " id="end-date" placeholder="Click here...">
+						</div>
+   					</div>
+   				</div>
+   				<div class="col-sm-2 actionBar">
+  						<button class="btn btn-success btn-block" type="button" onclick="modifyDateRange();">Apply</button>
+  					</div>
+   			</div>
 			<div class="table-responsive">
 				<table id="data-table-basic" class="table table-striped" data-link="row">
 					<thead>
-						<tr id="table-header">
+						<tr id="table-abc">
 							<th data-column-id="name" data-type="text" data-identifier="true">이름</th>
 							<th data-column-id="userNo" data-visible="true">userNo</th>
 							<th data-column-id="attdYesRate" data-visible="true">출석률</th>
@@ -173,6 +200,7 @@
 <script src="/bitin/assets/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
 <script src="/bitin/assets/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js"></script>
 <script src="/bitin/assets/vendors/bootgrid/jquery.bootgrid.updated.js"></script>
+
 <!-- modal 선 처리  -->
 <script type="text/javascript">
 $(function(){
@@ -423,6 +451,12 @@ $(document).ready(
 	}
 );
 </script>
+<!--  날짜 범위 apply버튼 변경 -->
+<script type="text/javascript">
+
+</script>
+
+
 <!-- modal 확인 버튼 처리 -->
 <script type="text/javascript">
 function modalModify() {
@@ -556,7 +590,24 @@ function valueGetter(userNo,date) {
 	$('div.modal').modal();
 } 
 </script>
-
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('#end-date').daterangepicker({
+	    "singleDatePicker": true,
+	    "startDate": "12/16/2015",
+	}, function(start, end, label) {
+	  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+	});
+	
+	$('#start-date').daterangepicker({
+	    "singleDatePicker": true,
+	    "startDate": "12/01/2015",
+	}, function(start, end, label) {
+	  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+	});
+});
+</script>
 </body>
 
 </html>

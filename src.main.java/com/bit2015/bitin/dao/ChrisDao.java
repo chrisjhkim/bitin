@@ -238,5 +238,9 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		return retLong;
 	}
 	
-	
+	public Long getClassNoViaPostNo (Long postNo ) { 
+		Long retLong = null;
+		retLong  = sqlSession.selectOne("chris.getClassNoViaPostNo",postNo);
+		return retLong;
+	}
 }

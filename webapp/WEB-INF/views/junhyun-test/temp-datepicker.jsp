@@ -22,17 +22,14 @@
 <!-- CSS -->
 <link href="/bitin/assets/css/app.min.1.css" rel="stylesheet">
 <link href="/bitin/assets/css/app.min.2.css" rel="stylesheet">
-
-
-<!-- datePicker 1/2 -->
-<link href="/bitin/assets/css/bootstrap-datepicker.css" rel="stylesheet" >
-
+<!-- Include Required Prerequisites -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap/latest/css/bootstrap.css" />
+ 
+<!-- Include Date Range Picker -->
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
 </head>
 
 <body>
-<!-- datePicker 2/2 -->
-<script src="/bitin/assets/js/bootstrap-datepicker.js"></script> 
-
 <c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
 <section id="content">
@@ -41,9 +38,11 @@
 			<div class="card-padding card-body">
 				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"	style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button>
 			</div>
+			<input type="text" name="daterange" value="01/01/2015 - 01/31/2015" />
 			<div class="card-header">
 				<h2>Pie Chart</h2>
 				<ul class="actions">
+					
 					<li class="dropdown action-show">
 						<a href="" data-toggle="dropdown"><i class="zmdi zmdi-more-vert"></i></a>
 						<div class="dropdown-menu pull-right">
@@ -59,6 +58,8 @@
 		</div>
 	</div>
 </section>
+
+
 <c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 <!-- Javascript Libraries -->
@@ -187,7 +188,14 @@ $(document).ready(function(){
 });
 
 </script>
-
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> -->
+<script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('input[name="daterange"]').daterangepicker();
+});
+</script>
 
 </body>
 

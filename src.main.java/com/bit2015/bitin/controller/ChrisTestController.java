@@ -48,6 +48,10 @@ public class ChrisTestController {
 	UserService userService;
 
 	
+	@RequestMapping("/empty")
+	public String showEmpty( ) {
+		return "junhyun-test/empty";
+	}
 	@RequestMapping("/chart")
 	public String showChart( ) {
 		return "junhyun-test/temp-chart";
