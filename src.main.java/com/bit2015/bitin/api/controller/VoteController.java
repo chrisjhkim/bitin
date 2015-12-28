@@ -226,9 +226,27 @@ public class VoteController {
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("voteNumber", voteNumber);
 				List<String> list = voteService.votingState(map);
-				model.addAttribute( "voteCotent", list );
+				model.addAttribute( "voteNumber", voteNumber );
+				model.addAttribute( "voteContent", list );
 				System.out.println("sdfsdf"+model);
 		return "/hyunjuntest/temp-chart";
+	}
+	
+	@ResponseBody 
+	@RequestMapping("/votechart2/{voteNumber}")
+	public HashMap<String, Object> voteChart2(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
+				
+		
+//				VoteVo voteVo = voteService.voteChart(voteNumber);
+				
+				HashMap<String, Object> map = new HashMap<>();
+				map.put("voteNumber", voteNumber);
+				List<String> list = voteService.votingState(map);
+				HashMap<String, Object> retMap = new HashMap<>();
+				retMap.put( "voteNumber", voteNumber );
+				retMap.put( "data", list );
+				System.out.println("sdfsdf"+model);
+		return retMap;
 	}
 	
 }

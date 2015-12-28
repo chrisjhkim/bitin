@@ -96,33 +96,64 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
+	var voteNumber = "${voteNumber }";
 	
-	function List() {
-		   this.elements = {};
-		   this.idx = 0;
-		   this.length = 0;
-		}
+	$(function() {
 
-		List.prototype.add = function(element) {
-		   this.length++;
-		   this.elements[this.idx++] = element;
-		};
+					 $.ajax ({
+						 url : "/bitin/api/vote/votechart2/"+voteNumber,
+						 cache : false,
+						 type : "post",
+						 success : function (response) {
+							 if( response.result == "fail" ) {				
+									console.error( response.message );
+									return;
+								}
+								console.log( response.data );
+										$.each( response.data, function(index, data){
+											console.log( data );
+											insert( data, index );
+										});
+							}
+					 });
+	});
 
-		List.prototype.get = function(idx) {
-		   return this.elements[idx];
-		};
-
-		var list = new List();
 	
-		list = "${voteContent}";
+	
+// 	function List() {
+// 		   this.elements = {};
+// 		   this.idx = 0;
+// 		   this.length = 0;
+// 		}
+
+// 		List.prototype.add = function(element) {
+// 		   this.length++;
+// 		   this.elements[this.idx++] = element;
+// 		};
+
+// 		List.prototype.get = function(idx) {
+// 		   return this.elements[idx];
+// 		};
+
+// 		var list = new List();
+	
+// 		list = "${voteContent}";
+// 		var voteContent = "${voteContent}";
+// 		console.log(voteContent);
+// 		for(var i = 1; i< voteContent.length ; i++){
+// 			console.log(voteContent);
+// 		}
 		
-		console.log(list);
-		for(var i = 1; i< list.length ; i++){
-			console.log(voteContent);
-		}
-		
-		
-		
+var insert = function( data, isHead ) {
+	var pieData = [
+	               {data: 1, color: '#F44336', label: 'Toyota'},
+	               {data: 2, color: '#03A9F4', label: 'Nissan'},
+	               {data: 3, color: '#8BC34A', label: 'Hyundai'},
+	               {data: 4, color: '#FFEB3B', label: 'Scion'},
+	               {data: 4, color: '#009688', label: '김현준'},
+	           ];
+	
+}
 	
     var pieData = [
         {data: 1, color: '#F44336', label: 'Toyota'},

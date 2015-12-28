@@ -57,7 +57,7 @@
                                     <li>${userVo.userType }</li>
                                 </ul>
                                 
-                                <a href="" class="pv-follow-btn">채팅 바로가기</a>
+                                <a href="/bitin/chatting/list/${userNo }" class="pv-follow-btn">채팅 바로가기</a>
                             </div>
                         </div>
 	</section>
