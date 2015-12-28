@@ -7,10 +7,10 @@ $(window).load(function(){
             type: type,
             allow_dismiss: false,
             label: 'Cancel',
-            className: 'btn-xs btn-inverse',
+            className: 'btn-sm btn-inverse',
             placement: {
                 from: 'top',
-                align: 'right'
+                align: 'center'
             },
             delay: 2500,
             animate: {
@@ -26,7 +26,7 @@ $(window).load(function(){
     
     if (!$('.login-content')[0]) {
     	if( authUser != "" ) {
-    		notify( authUser +' 님 환영합니다' , 'inverse');
+    		notify( authUser +' 님 환영합니다' , 'success');
     	}
     } 
 });

@@ -73,7 +73,9 @@ public class UserService {
 	}
 	
 	public UserVo getUserVoViaIdAndPassword( UserVo userVo ){
-		userDao.updatePhoneId(userVo);
+		if( userVo.getUserPhoneId()  != null ){
+			userDao.updatePhoneId(userVo);
+		}
 		UserVo retVo = userDao.getUserVoViaIdAndPassword(userVo);
 		return retVo;
 	}
@@ -178,4 +180,10 @@ public class UserService {
 		UserVo userVo = userDao.getProfilebyUserNo(userNo);
 		return userVo;
 	}
+	
+	public String getUserNamebyUserNo (Long userNo ) {
+		String userName =userDao.getUserNamebyUserNo(userNo);
+		return userName; 
+	}
+	
 }

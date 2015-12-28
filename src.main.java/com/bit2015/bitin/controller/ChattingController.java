@@ -43,13 +43,13 @@ public class ChattingController {
 	public String aa (
 			@PathVariable ("userNo") Long userNo, @AuthUser UserVo authUser, Model model ) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		String userName = userService.getUserNamebyUserNo(userNo);
 		map.put("fromUserNo", userNo);
 		map.put("toUserNo", authUser.getUserNo());
-		System.out.println("채팅 컨트롤러 리스트 :" + map);
 		List<MessageVo> list = chattingService.list(map);
 		model.addAttribute( "chatlist", list );
 		model.addAttribute("toUserNo",  userNo);
-		System.out.println("채팅 컨트롤러 리스트 :" + model);
+		model.addAttribute("userName", userName);
 		int a = list.size();
 		if(a==0){
 			

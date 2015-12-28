@@ -158,5 +158,11 @@ public class UserDao {
 		return userVo;
 	}
 	
+	public String getUserNamebyUserNo (Long userNo ) { 
+		String userName = sqlSession.selectOne("user.getUserNamebyUserNo",userNo);
+		System.out.println("dao Name "+ userName);
+		return userName;
+	}
+	
 	
 }

@@ -40,7 +40,7 @@
 	<section id="main">
 	 <div class="card profile-view">
                             <div class="pv-header">
-                                <img src="/bitin/assets/img/profile-pics/profile-pic.jpg" class="pv-main" alt="">
+                                <img src="/bitin/assets/img/profile-pics/${userNo }.jpg" class="pv-main" alt="">
                             </div>
                             
                             <div class="pv-body">
@@ -57,7 +57,7 @@
                                     <li>${userVo.userType }</li>
                                 </ul>
                                 
-                                <a href="" class="pv-follow-btn">채팅 바로가기</a>
+                                <a href="/bitin/chatting/list/${userNo}" class="pv-follow-btn">1:1 대화하기</a>
                             </div>
                         </div>
 	</section>
@@ -104,7 +104,6 @@
 
 	<script src="/bitin/assets/js/charts.js"></script>
 	<script src="/bitin/assets/js/functions.js"></script>
-	<script src="/bitin/assets/js/demo.js"></script>
 
 
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.ReplyVo;
 import com.bit2015.bitin.vo.UserVo;
@@ -65,9 +66,15 @@ public class UserController {
 	
 	//miniprofil connection Minyoung
 	@RequestMapping("/miniprofile/{userNo}")
-	public String viewForm(@PathVariable("userNo") Long userNo, Model model) {
+	public String viewForm(@AuthUser UserVo authUser, @PathVariable("userNo") Long userNo, Model model) {
 		UserVo userVo = userService.getProfilebyUserNo(userNo);
 		model.addAttribute("userVo", userVo);
+		if( authUser!= null){
+			List<UserVo> list1 = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list1 );
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
+		}
 		return "/main/miniprofile";
 	}
 	

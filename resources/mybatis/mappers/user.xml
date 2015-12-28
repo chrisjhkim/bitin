@@ -95,7 +95,8 @@
 
 	<select id="classmateList" parameterType="UserVO" resultType="UserVo">
 		SELECT user_name as userName,
-				user_no as userNo
+				user_no as userNo,
+				user_type as userType
 		FROM b_user
 		WHERE user_no in (select	user_no
 						  from b_class_user
@@ -124,6 +125,12 @@
             user_type as userType
       FROM B_user      
       WHERE user_no = #{userNo }
+   </select>
+   
+   <select id="getUserNamebyUserNo" parameterType="long" resultType="String">
+       select user_name as userName
+       from b_user
+       where user_no = #{userNo }
    </select>
 
 

@@ -352,12 +352,12 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<a class="lv-item" href="/bitin/user/miniprofile/${vo.userNo }">
 					<div class="media">
 						<div class="pull-left p-relative">
-							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/2.jpg"
+							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${ vo.userNo}.jpg"
 								alt=""> <i class="chat-status-busy"></i>
 						</div>
 						<div class="media-body">
 							<div class="lv-title">${vo.userName}</div>
-							<small class="lv-small">Available</small>
+							<small class="lv-small">${vo.userType }</small>
 						</div>
 					</div>
 				</a>
