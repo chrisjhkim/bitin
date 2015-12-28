@@ -118,4 +118,9 @@ public class VoteDao {
 		return list;
 	}
 	
+//	public VoteVo voteChart(Long voteNumber) {
+//		VoteVo voteVo = sqlSession.selectList("vote.voteChart", voteNumber);
+//		return voteVo;
+//	}
+	
 }

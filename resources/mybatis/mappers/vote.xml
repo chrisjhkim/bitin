@@ -136,6 +136,15 @@
 		 where vote_content =#{voteContent } and vote_number = #{voteNumber }
 	</select>	
 	
-	
+	<select id="voteChart" parameterType="Long" resultType="VoteVo">
+		select vt.vote_number as voteNumber,
+			   a..vote_content as voteContent,
+			   vt.vote_title as voteTitle,
+			   vt.class_name as className,
+			   vt.user_id as userId
+		from   b_vote_title vt, b_vote_content vc, b_vote_answer a
+		where a.vote_number = #{voteNumber} 
+				
+	</select>
 	
 </mapper>
