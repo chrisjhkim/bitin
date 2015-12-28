@@ -19,6 +19,11 @@ public class ReplyService {
 		List<ReplyVo> replyVo = replyDao.getReplyByPostNo(postNo);
 		return replyVo;
 	}
+
+	/*public List<ReplyVo> getReplyByNoticeNo(Long noticeNo) {
+		List<ReplyVo> replyVo = replyDao.getReplyByNoticeNo(noticeNo);
+		return replyVo;
+	}*/
 	
 	public void writeReply(ReplyVo vo) {
 		replyDao.insertReply(vo);

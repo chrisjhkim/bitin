@@ -35,6 +35,38 @@
 			]]>
 	</select>	
 	
+	<select id="selectList" parameterType="long"  resultType="NoticeVo">
+         SELECT 
+               notice_no as noticeNo,
+              b_user.user_id as userId,
+               class_name as className,
+               message as message,
+               title as title,
+               class_no as classNo,
+               to_char(created_date, 'mm-dd' ) as createdDate
+           FROM b_notice,b_user
+           where b_notice.CLASS_NO=#{classNo }
+            and b_notice.USER_id=b_user.user_id
+
+   </select>	
+
+	<select id="selectBoardName" parameterType="long" resultType="ClassVo">
+	        select class_name as className
+	               from b_class
+	               where b_class.class_Id=#{classId }
+	               
+	</select>
+	
+	<select id="getNoticeByNoticeNo" parameterType="long" resultType="NoticeVo">
+      SELECT class_no AS classNO,
+             notice_no AS noticeNo,
+             title,
+             message,
+             user_id AS userId,
+             to_char( created_date, 'yyyy/mm/dd   hh:mi' ) as createdDate
+      FROM B_notice      
+      WHERE notice_no = #{noticeNo }
+   </select>
 	
 	
 
