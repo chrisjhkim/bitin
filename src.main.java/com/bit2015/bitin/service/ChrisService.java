@@ -126,4 +126,14 @@ public class ChrisService {
 		retList = chrisDao.getRecentChatsByUserNo(userNo);
 		return retList;
 	}
+	public boolean plusOneUnreadCountByUserNo ( Long userNo ) {
+		boolean retFlag = false;
+		retFlag = chrisDao.plusOneUnreadCountByUserNo(userNo);
+		return retFlag;
+	}
+	public boolean toZeroUnreadCountByUserNo (Long userNo) {
+		boolean retFlag = false;
+		retFlag = chrisDao.toZeroUnreadCountByUserNo(userNo);
+		return retFlag;
+	}
 }

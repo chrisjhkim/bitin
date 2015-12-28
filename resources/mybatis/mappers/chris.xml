@@ -131,4 +131,15 @@
 		FROM b_user
 		WHERE user_no = #{userNo }
 	</select>
+	
+	<update id="plusOneUnreadCountByUserNo" parameterType="long">
+		UPDATE b_user 
+		   SET unread_count = unread_count+1 
+		 WHERE user_no=#{userNo }
+	</update>
+	<update id="toZeroUnreadCountByUserNo" parameterType="long">
+		UPDATE b_user 
+		   SET unread_count = 0 
+		 WHERE user_no=#{userNo }
+	</update>
 </mapper>

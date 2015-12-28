@@ -270,4 +270,15 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		return retList;
 	}
 	
+	public boolean plusOneUnreadCountByUserNo ( Long userNo ) {
+		boolean retFlag = false;
+		retFlag = (1== sqlSession.update("chris.plusOneUnreadCountByUserNo",userNo ) );
+		return retFlag;
+	}
+	
+	public boolean toZeroUnreadCountByUserNo (Long userNo) {
+		boolean retFlag = false;
+		retFlag = (1==sqlSession.update("chris.toZeroUnreadCountByUserNo", userNo));
+		return retFlag;
+	}
 }

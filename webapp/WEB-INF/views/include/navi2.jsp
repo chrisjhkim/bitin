@@ -33,10 +33,11 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 						class="tm-icon zmdi zmdi-search"></i></a></li>
 
 				<li class="dropdown">
-					<a data-toggle="dropdown" href="">
+					<a data-toggle="dropdown" href="" onclick="messageClick();">
 						<i class="tm-icon zmdi zmdi-email"></i>
+<!-- 						<i class="tmn-counts" id="message-counter"></i> -->
 						<c:if test="${authUser.unreadCount>0 }">
-							<i class="tmn-counts">${authUser.unreadCount }</i>
+							<i class="tmn-counts" id="message-counter">${authUser.unreadCount }</i>
 						</c:if>
 					</a>
 					
@@ -323,4 +324,37 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 		</div>
 	</aside>
 </section>
+<script>
+function messageClick() {
+	console.log('message click!!')
+	$('#message-counter').remove();
+	
+	$.ajax({
+		url: "/bitin/chriswebapp-api/message-read",
+		type : "get",
+		dataType : "json",
+		data : "userNo="+"${authUser.userNo}",
+		contentType : 'applicationjson',
+		success : function(response) {
+			if (response.result == "fail") {
+				console.error(response.message);
+				console.log("ajax error@ /bitin/webapp-api/chris/message-read");
+				return;
+			}
 
+		}
+
+	})
+/* 	
+	$('label[data-date='+gDate+'][data-userno='+gUserNo+'] i').addClass('zmdi-circle-o')
+	$('label[data-date='+gDate+'][data-userno='+gUserNo+']').parent().addClass('has-success');
+	$('')
+	<li class="dropdown">
+	<a data-toggle="dropdown" href="" onclick="messageClick();">
+		<i class="tm-icon zmdi zmdi-email"></i>
+		<c:if test="${authUser.unreadCount>0 }">
+			<i class="tmn-counts">${authUser.unreadCount }</i>
+		</c:if>
+	</a> */
+};
+</script>
