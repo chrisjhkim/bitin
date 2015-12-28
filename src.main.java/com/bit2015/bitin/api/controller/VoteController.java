@@ -216,31 +216,11 @@ public class VoteController {
 	
 	
 	
-	
+
+
 	@RequestMapping("/votechart/{voteNumber}")
 	public String voteChart(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
-				
-		
-//				VoteVo voteVo = voteService.voteChart(voteNumber);
-				
-				HashMap<String, Object> map = new HashMap<>();
-				map.put("voteNumber", voteNumber);
-				List<String> list = voteService.votingState(map);
-				model.addAttribute( "voteNumber", voteNumber );
-				model.addAttribute( "voteContent", list );
-				System.out.println("sdfsdf"+model);
-		return "/hyunjuntest/temp-chart";
-	}
-	
-//	@ResponseBody 
-//	@RequestMapping("/votechart2/{voteNumber}")
-//	public HashMap<String, Object> voteChart2(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
-	@RequestMapping("/chris/{voteNumber}")
-	public String voteChart2(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
-				
-		
-//				VoteVo voteVo = voteService.voteChart(voteNumber);
-				
+
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("voteNumber", voteNumber);
 				List<String> firstlist = voteService.votingState(map);
@@ -249,10 +229,7 @@ public class VoteController {
 				retMap.put( "data", firstlist );
 				System.out.println("sdfsdf"+model);
 				
-				
-				
-				
-				
+
 				
 				List<HashMap<String, Object>> mapList = new ArrayList<HashMap<String, Object>>();
 				List<String> list = voteService.votingState(map);
@@ -291,14 +268,8 @@ public class VoteController {
 		
 		model.addAttribute("data", lastlist);
 		model.addAttribute("data2",lastlist2);
+		model.addAttribute("data3", list.size());
 		System.out.println("model : " +model);
-//		return retMap;
-		return "/hyunjuntest/chart";
-	}
-	
-	
-	@RequestMapping("/chris1/{voteNumber}")
-	public String voteChart21(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
 		return "/hyunjuntest/chart";
 	}
 	

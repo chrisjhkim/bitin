@@ -95,31 +95,87 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+	var size = "${data3}"
+	console.log(size);	
+	
+	if(size ==1 ){
+		var contentName = "${data2[0]}"
+		var selectedCount = "${data[0]}"
+		 var pieData = [
+		                   {data: selectedCount, color: '#F44336', label: contentName},
+      
+		               ];
+	}
+	
+	if(size ==2){
+		var contentName = "${data2[0]}"
+		var selectedCount = "${data[0]}"
+		var contentName2 = "${data2[1]}"
+		var selectedCount2 = "${data[1]}"
+		 var pieData = [
+		                   {data: selectedCount, color: '#F44336', label: contentName},
+		                   {data: selectedCount2, color: '#03A9F4', label: contentName2},
+		               ];
+	}
+	
+	if(size ==3){
+		var contentName = "${data2[0]}"
+		var selectedCount = "${data[0]}"
+		var contentName2 = "${data2[1]}"
+		var selectedCount2 = "${data[1]}"
+		var contentName3 = "${data2[2]}"
+		var selectedCount3 = "${data[2]}"
+		 var pieData = [
+		                   {data: selectedCount, color: '#F44336', label: contentName},
+		                   {data: selectedCount2, color: '#03A9F4', label: contentName2},
+		                   {data: selectedCount3, color: '#8BC34A', label: contentName3},
+		               ];
+	}
+	
+	if(size ==4){
+		var contentName = "${data2[0]}"
+		var selectedCount = "${data[0]}"
+		var contentName2 = "${data2[1]}"
+		var selectedCount2 = "${data[1]}"
+		var contentName3 = "${data2[2]}"
+		var selectedCount3 = "${data[2]}"
+		var contentName4 = "${data2[3]}"
+		var selectedCount4 = "${data[3]}"
+		 var pieData = [
+		                   {data: selectedCount, color: '#F44336', label: contentName},
+		                   {data: selectedCount2, color: '#03A9F4', label: contentName2},
+		                   {data: selectedCount3, color: '#8BC34A', label: contentName3},
+		                   {data: selectedCount4, color: '#FFEB3B', label: contentName4}, 
+		               ];
+	}
+
 	
 	
+	if(size ==5){
+		var contentName = "${data2[0]}"
+		var selectedCount = "${data[0]}"
+		var contentName2 = "${data2[1]}"
+		var selectedCount2 = "${data[1]}"
+		var contentName3 = "${data2[2]}"
+		var selectedCount3 = "${data[2]}"
+		var contentName4 = "${data2[3]}"
+		var selectedCount4 = "${data[3]}"
+		var contentName5 = "${data2[4]}"
+		var selectedCount5 = "${data[5]}"
+		 var pieData = [
+		                   {data: selectedCount, color: '#F44336', label: contentName},
+		                   {data: selectedCount2, color: '#03A9F4', label: contentName2},
+		                   {data: selectedCount3, color: '#8BC34A', label: contentName3},
+		                   {data: selectedCount4, color: '#FFEB3B', label: contentName4},
+		                   {data: selectedCount5, color: '#009688', label: contentName5},
+		                    
+		               ];
+	}
+
 	
-	var contentName  = "${data2[0]}";
-	var selectedCount = "${data}";
-	console.log('tester : '+contentName)
-	console.log('tester : '+selectedCount)
-	  for(i=0; i<contentName.length ; i++){
-		  var contentName  = "${data2["+i+"]}";
-		  
-	    }
-	
-    var pieData = [
-          
-                   
-                   
-                   
-        {data: 1, color: '#F44336', label: 'Toyota'},
-        {data: 2, color: '#03A9F4', label: 'Nissan'},
-        {data: 3, color: '#8BC34A', label: 'Hyundai'},
-        {data: 4, color: '#FFEB3B', label: 'Scion'},
-        {data: 4, color: '#009688', label: 'Daihatsu'},
-         
-    ];
-    
+   
+
+
     /* Pie Chart */
     
     if($('#pie-chart')[0]){
