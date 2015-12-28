@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.BoardService;
 import com.bit2015.bitin.service.ReplyService;
+import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.BoardVo;
 import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.ReplyVo;
@@ -22,23 +24,41 @@ import com.bit2015.bitin.vo.UserVo;
 @Controller("BoardController")
 @RequestMapping("/board")
 public class BoardController {
-
+	@Autowired
+	UserService userService;
 	@Autowired
 	BoardService boardService;
 	@Autowired
 	ReplyService replyService;
 
 	@RequestMapping("/writeform/{classNo}")
-	public String writeForm(@PathVariable("classNo") Long classNo, Model model) {
+	public String writeForm(@AuthUser UserVo authUser, @PathVariable("classNo") Long classNo, Model model) {
 		model.addAttribute("classNo", classNo);
 		model.addAttribute("boardType", 1L);
+
+		if( authUser!= null){
+			List<UserVo> list1 = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list1 );
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
+		}
 		return "/board/writeform";
 	}
 
 	@RequestMapping("/list/modifyform/{boardNo}")
-	public String modifyform(@PathVariable("boardNo") Long boardNo, Model model) {
+	public String modifyform(@AuthUser UserVo authUser, @PathVariable("boardNo") Long boardNo, Model model) {
 		BoardVo vo = boardService.viewBoard(boardNo);
 		model.addAttribute("vo", vo);
+		
+		
+		
+		
+		if( authUser!= null){
+			List<UserVo> list1 = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list1 );
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
+		}
 		return "/board/modifyform";
 	}
 
@@ -47,12 +67,23 @@ public class BoardController {
 	 * @return map("listData",게시판글목록을 list에 담고 그거다시 map에 담아서 리턴)
 	 */
 	@RequestMapping("/list/{classNo}")
-	public String list(@PathVariable("classNo") Long classNo, Model model) {
+	public String list(@AuthUser UserVo authUser, @PathVariable("classNo") Long classNo, Model model) {
 
 		List<BoardVo> list = boardService.listBoard(classNo);
 		model.addAttribute("list", list);
 		ClassVo vo = boardService.viewBoardName(classNo);
 		model.addAttribute("vo", vo);
+		
+		
+		
+		
+		
+		if( authUser!= null){
+			List<UserVo> list1 = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list1 );
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
+		}
 		return "/board/list";
 	}
 
@@ -76,12 +107,22 @@ public class BoardController {
 	 */
 
 	@RequestMapping("/view/{postNo}")
-	public String viewForm(@PathVariable("postNo") Long postNo, Model model) {
+	public String viewForm(@AuthUser UserVo authUser , @PathVariable("postNo") Long postNo, Model model) {
 		BoardVo boardVo = boardService.getPostByPostNo(postNo);
 		model.addAttribute("boardVo", boardVo);
 		List<ReplyVo> list = replyService.getReplyByPostNo(postNo);
 		model.addAttribute("list", list);
 		boardService.updateViewCount(postNo);
+		
+		
+		
+		
+		if( authUser!= null){
+			List<UserVo> list1 = userService.classmateList(authUser);
+			model.addAttribute( "classMate", list1 );
+			List<UserVo> list2 = userService.classnameList(authUser);
+			model.addAttribute( "className", list2 );
+		}
 		return "/board/view";
 	}
 
@@ -111,6 +152,12 @@ public class BoardController {
 
 		return "redirect:/board/view/" + postNo;
 	}
+	
+	@RequestMapping( "/delete/{postNo}" )
+	public String delete(@PathVariable( "postNo" ) Long postNo) {
+		boardService.deleteBoard( postNo);
+		return "redirect:/index";
+	}	
 
 
 }

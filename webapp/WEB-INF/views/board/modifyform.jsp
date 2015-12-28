@@ -3,13 +3,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<% pageContext.setAttribute( "newLine", "\n"); %>
 <!DOCTYPE html>
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>modifyform test</title>
+<title>writeform test</title>
 
 <!-- Vendor CSS -->
 <link
@@ -57,53 +58,54 @@
 <c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
 
 <body>
-
-	<section id="content">
-		<div class="card">
-			<div class="card-header">
-				<h2>
-				${classNo }게시판<small>글 작성하기</small>
-				</h2>
-			</div>
-			<form class="board-form" method="post" action="/bitin/board/update">
-			<input type="hidden" name="classNo" value="${classNo }">
-			<input type="hidden" name="userNo" value="${vo.userNo }">
-				<div class="input-group">
-					<span class="input-group-addon"><i
-						class="zmdi zmdi-collection-item"></i></span>
-					<div class="fg-line" style="width:92%">
-						<input type="text" name="title" class="form-control"
-							value="${vo.title }">
-					</div>
-
-				</div>
-				<br>
-				<div class="board-form">
-					<textarea id="board-content" class="textarea" name="content" id="board-content"
-						>${vo.content } }</textarea>
-				</div>
-
+	<section id="container">
+		<div class="table-responsive"></div>
+		<div class="col-sm">
+			<div class="card">
 				<div class="card-header">
-					<button input type="button" onclick="location='/bitin/board/list/${classNo}'"
-						class="btn btn-link waves-effect pull-right">취소</button>
-					<button input type="submit"
-						class="btn btn-info waves-effect pull-right" value="등록">등록</button>
+				<h2>
+						<c:if test="${boardVo.boardType==1 }">정보 게시판 <small>${boardVo.postNo } 게시글 수정하기</small>
+						</c:if>
+						<c:if test="${boardVo.boardType==2 }">공지사항 게시판<small>${boardVo.postNo } 게시글 수정하기</small>
+						</c:if>
+						${boardVo }
+					</h2>
 				</div>
-			</form>
-			<br>
+					<form class="board-form" method="post" action="/bitin/board/modify">
+						<input type="hidden" name="postNo" value="${postNo }"> 
+						<div class="input-group">
+							<span class="input-group-addon"><i
+								class="zmdi zmdi-collection-item"></i></span>
+							<div class="fg-line" style="width: 94.5%;">
+								<input type="text" name="title" class="form-control" value="${boardVo.title }">
+							</div>
+						</div>
+						<br>
+
+						<textarea id="board-content" class="textarea" name="content">${boardVo.content }
+						</textarea>
+							<br>
+					<div class="col-sm-6" style="margin-left:4.5px; margin-right:3.5px;">
+						<div class="btn-group btn-group-justified" role="group"
+							aria-label="...">
+							<div class="btn-group" role="group">
+								<button type="summit" class="btn btn-warning">수정하기</button>
+							</div>
+							<div class="btn-group" role="group">
+								<button type="button" class="btn btn-danger" onclick="location='/bitin/board/view/${postNo }'">취소</button>
+							</div>
+						</div>
+					</div>
+					</form>
+
+					<br>
+				</div>
+			</div>
 	</section>
 	<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
 	<!-- Page Loader -->
-	<div class="page-loader">
-		<div class="preloader pls-blue">
-			<svg class="pl-circular" viewBox="25 25 50 50">
-                    <circle class="plc-path" cx="50" cy="50" r="20" />
-                </svg>
 
-			<p>Please wait...</p>
-		</div>
-	</div>
 
 
 	<!-- Javascript Libraries -->
@@ -156,7 +158,5 @@
 			});
 		});
 	</script>
-
-
 </body>
 </html>

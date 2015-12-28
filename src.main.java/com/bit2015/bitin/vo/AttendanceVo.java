@@ -2,15 +2,14 @@ package com.bit2015.bitin.vo;
 
 public class AttendanceVo {
 	private Long userNo;
-	private Long classNo;
+	private Long attdNo;
 	private String classDate;
 	private String attdStatus;
 	private String description;
+	
+	
 	public Long getUserNo() {
 		return userNo;
-	}
-	public Long getClassNo() {
-		return classNo;
 	}
 	public String getClassDate() {
 		return classDate;
@@ -24,9 +23,6 @@ public class AttendanceVo {
 	public void setUserNo(Long userNo) {
 		this.userNo = userNo;
 	}
-	public void setClassNo(Long classNo) {
-		this.classNo = classNo;
-	}
 	public void setClassDate(String classDate) {
 		this.classDate = classDate;
 	}
@@ -38,9 +34,15 @@ public class AttendanceVo {
 	}
 	@Override
 	public String toString() {
-		return "AttendanceVo [userNo=" + userNo + ", classNo=" + classNo
+		return "AttendanceVo [userNo=" + userNo + ", attdNo=" + attdNo
 				+ ", classDate=" + classDate + ", attdStatus=" + attdStatus
 				+ ", description=" + description + "]";
+	}
+	public Long getAttdNo() {
+		return attdNo;
+	}
+	public void setAttdNo(Long attdNo) {
+		this.attdNo = attdNo;
 	}
 	
 	

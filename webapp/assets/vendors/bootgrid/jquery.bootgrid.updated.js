@@ -1363,7 +1363,42 @@
             body: "<tbody></tbody>",
             cell: "<td class=\"{{ctx.css}}\" style=\"{{ctx.style}}\">{{ctx.content}}</td>",
             footer: "<div id=\"{{ctx.id}}\" class=\"{{css.footer}}\"><div class=\"row\"><div class=\"col-sm-6 actionBar\"><p class=\"{{css.pagination}}\"></p></div></div></div>",
+            //TODO aasdf 지우고 . col-sm-11 에서 12로 바꾸고 필요한거 넣기
             header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-12 actionBar\"><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p></div></div></div>",
+//실패ㄴㄴ 이상한거함            header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\"><div class=\"row\"><div class=\"col-sm-11 aasdf  actionBar\"><p class=\"{{css.search}}\"></p><p class=\"{{css.actions}}\"></p><p class=\"c-black f-500 m-b-20\">Date Picker</p></div></div></div>",
+//            header: "<div id=\"{{ctx.id}}\" class=\"{{css.header}}\">" +
+//            			"<div class=\"row\">" +
+//            				"<div class=\"col-sm-12 actionBar\">" +
+//
+//            					"<p class=\"{{css.search}}\"></p>" +
+//            					"<p class=\"{{css.actions}}\"></p>" +
+//            					
+//                			"</div>"+            					
+////            					"<input type=\"text\" class=\"form-control\" id=\"end-date\" value=\"01/01/2015 - 01/31/2015\" />" +
+//    					"</div>" +
+//    					"<div class=\"row\">" +
+//    						"<div class=\"col-sm-5 actionBar\">" +
+//    							"<div class=\"input-group form-group\">"+
+//    								"<span class=\"input-group-addon\"><i class=\"zmdi zmdi-calendar\"></i></span>"+
+//    								"<div class=\"dtp-container fg-line\">"+
+//    									"<input type='text' class=\"form-control \" id=\"start-date\" placeholder=\"Click here...\">"+
+//    								"</div>" +
+//    							"</div>"+
+//    						"</div>"+            					
+//    						"<div class=\"col-sm-5 actionBar\">" +
+//    							"<div class=\"input-group form-group\">"+
+//	    							"<span class=\"input-group-addon\"><i class=\"zmdi zmdi-calendar\"></i></span>"+
+//	    							"<div class=\"dtp-container fg-line\">"+
+//	    								"<input type='text' class=\"form-control \" id=\"end-date\" placeholder=\"Click here...\">"+
+//	    							"</div>" +
+//    							"</div>"+
+//    						"</div>"+
+//    						"<div class=\"col-sm-2 actionBar\">" +
+//   								"<button class=\"btn btn-success btn-block\" type=\"button\" >Apply</button>"+
+//   							"</div>"+
+////            					"<input type=\"text\" class=\"form-control\" id=\"end-date\" value=\"01/01/2015 - 01/31/2015\" />" +
+//    					"</div>" +
+//					"</div>",
             headerCell: "<th data-column-id=\"{{ctx.column.id}}\" class=\"{{ctx.css}}\" style=\"{{ctx.style}}\"><a href=\"javascript:void(0);\" class=\"{{css.columnHeaderAnchor}} {{ctx.sortable}}\"><span class=\"{{css.columnHeaderText}}\">{{ctx.column.text}}</span>{{ctx.icon}}</a></th>",
             icon: "<span class=\"{{css.icon}} {{ctx.iconCss}}\"></span>",
             infos: "<div class=\"{{css.infos}}\">{{lbl.infos}}</div>",

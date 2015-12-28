@@ -19,12 +19,12 @@
 
 
 
-					 select from_user_no 	AS 	fromUserNo,
+							 select from_user_no 	AS 	fromUserNo,
 							 		to_user_no		AS	toUserNo,
 							 		created_date	AS	createdDate,
 							 		message			AS	message
 							 from   b_chatting
-						     where  to_user_no =  #{toUserNo} and from_user_no = #{fromUserNo}
+						     where  (to_user_no =  #{toUserNo} and from_user_no =#{fromUserNo}) or (to_user_no =  #{fromUserNo} and from_user_no =#{toUserNo})
 							 order by created_date asc
 							 			 
 							 

@@ -23,8 +23,8 @@ public class BoardService {
 		return list;
 	}
 
-	public BoardVo viewBoard(Long boardNo) {
-		BoardVo vo = boardDao.get(boardNo);
+	public BoardVo viewBoard(Long postNo) {
+		BoardVo vo = boardDao.get(postNo);
 		return vo;
 	}
 
@@ -50,6 +50,15 @@ public class BoardService {
 		BoardVo retVo = null;
 		retVo = boardDao.getPostByPostNo(postNo);
 		return retVo;
+	}
+	
+	public void deleteBoard( Long postNo ){
+		boardDao.delete(postNo );
+	}	
+	
+	public BoardVo getClassNo( Long postNo ){
+		BoardVo boardVo = boardDao.getClassNo(postNo);
+		return boardVo;
 	}
 
 }

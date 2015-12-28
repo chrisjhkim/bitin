@@ -3,6 +3,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%
+	pageContext.setAttribute("newLine", "\n");
+%>
 
 <!DOCTYPE html>
 <head>
@@ -46,6 +49,21 @@
 						${boardVo.title } <small>작성자 : ${boardVo.userName }(
 							${boardVo.postNo } 번 게시물)</small>
 					</h2>
+					<ul class="actions">
+						<li class="dropdown"><a href="" data-toggle="dropdown"> <i
+								class="zmdi zmdi-more-vert" style="margin-top: 20px;"></i>
+						</a>
+
+							<ul class="dropdown-menu dropdown-menu-right">
+								<li><a href="">작성자 프로필</a></li>
+								<li><a href="/bitin/board/modifyform/${boardVo.postNo }">글
+										수정</a></li>
+								<li><a href="/bitin/board/delete/${boardVo.postNo }"><input type="hidden" name="classNo" value="${boardVo.classNo }">글 삭제</a></li>
+							</ul></li>
+					</ul>
+				</div>
+				<div class="card-header">
+
 
 					<div class="media">
 						<div class="pull-left">
@@ -62,7 +80,7 @@
 
 
 					<br>
-					<div class="card-body card-padding">${boardVo.content }</div>
+					<div class="card-body card-padding">${fn:replace( boardVo.content, newLine, '<br>' ) }</div>
 					<br>
 
 					<ul class="wall-attrs clearfix list-inline list-unstyled">
@@ -111,7 +129,7 @@
 							<br>
 						</c:forEach>
 					</div>
-
+					${fn:replace(fn:replace(string, cr, ""), lf, "")}
 					<div class="card wall-posting">
 						<div class="card-body card-padding">
 							<input type="hidden" name="postNo" value="${postNo }"> <input
