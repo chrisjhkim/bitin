@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.UserVo;
 
@@ -22,6 +23,8 @@ import com.bit2015.bitin.vo.UserVo;
 public class UserController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	ChrisService chrisService;
 	
 	/********************************************
 	 * 안되고 있음. 안드로이드쪽 문제인지 서버쪽 문제인지 아직 모름
@@ -135,7 +138,7 @@ public class UserController {
 	@RequestMapping(value="/loginwithusertype")
 	public Map<String, Object> loginWithUserType(
 			@RequestBody UserVo userVo ){
-		System.out.println("@userAPIController login : userVo : "+userVo);
+		System.out.println("@userAPIControllerWithUserType login : userVo : "+userVo);
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
 		String resString ="fail";
 
@@ -309,6 +312,24 @@ public class UserController {
 		userVo.setUserPhoneId((String) map.get("phoneId"));
 		
 		retMap.put("data", userService.userIdByPhoneId(userVo));
+		return retMap;
+	}
+	
+	@ResponseBody
+	@RequestMapping("/check")
+	public Map<String, Object> doAttd(
+			@RequestBody HashMap<String, Object> inputMap	) {
+		System.out.println("/api/user/check inputMap : "+inputMap);
+		HashMap<String, Object> retMap = new HashMap<String, Object>();
+		
+//		retMap.put("data", retList);
+		
+		
+		/*if( 문제){
+			retMap.put("result", "fail");
+			retMap.put("message", "실패이유");
+		}*/
+		retMap.put("result", "success");
 		return retMap;
 	}
 	

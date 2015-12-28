@@ -87,7 +87,6 @@
 				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
 					style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button>
 			</div>
-			<div class="row">
 				<div class="col-sm-5 actionBar">
 					<div class="input-group form-group">
 						<span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
@@ -100,23 +99,25 @@
    					<div class="input-group form-group">
     					<span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
    						<div class="dtp-container fg-line">
-   							<input type='text' class="form-control " id="end-date" placeholder="Click here...">
+<!--    							<button class="btn btn-default form-control" type="button" id="end-date" ></button> -->
+   							<button class="btn btn-default form-control btn-icon-text" type="button" id="end-date" ><i class="zmdi zmdi-arrow-forward"></i>EndDate</button>
+   							
 						</div>
    					</div>
    				</div>
    				<div class="col-sm-2 actionBar">
   						<button class="btn btn-success btn-block" type="button" onclick="modifyDateRange();">Apply</button>
   					</div>
-   			</div>
 			<div class="table-responsive">
 				<table id="data-table-basic" class="table table-striped" data-link="row">
 					<thead>
 						<tr id="table-abc">
 							<th data-column-id="name" data-type="text" data-identifier="true">이름</th>
 							<th data-column-id="userNo" data-visible="true">userNo</th>
-							<th data-column-id="attdYesRate" data-visible="true">출석률</th>
+							<th data-column-id="goodRate" data-visible="true">출석률</th>
+							<!-- <th data-column-id="attdYesRate" data-visible="true">출석률()</th>
 							<th data-column-id="attdYesOrInfoRate" data-visible="true">출석률(병결인정)</th>
-							<th data-column-id="attdYesOrInfoOrLateRate" data-visible="true">출석률(지각포함)</th>
+							<th data-column-id="attdYesOrInfoOrLateRate" data-visible="true">출석률(지각포함)</th> -->
 							<th data-column-id="fixed1" data-formatter="newtest1" >${dataList[0].attdList[0].classDate }</th>
 							<c:if test="${attdCounter>1}"><th data-column-id="fixed2" data-formatter="newtest2">${dataList[0].attdList[1].classDate }</th></c:if>
 							<c:if test="${attdCounter>2}"><th data-column-id="fixed3" data-formatter="newtest3">${dataList[0].attdList[2].classDate }</th></c:if>
@@ -127,6 +128,15 @@
 							<c:if test="${attdCounter>7}"><th data-column-id="fixed8" data-formatter="newtest8">${dataList[0].attdList[7].classDate }</th></c:if>
 							<c:if test="${attdCounter>8}"><th data-column-id="fixed9" data-formatter="newtest9">${dataList[0].attdList[8].classDate }</th></c:if>
 							<c:if test="${attdCounter>9}"><th data-column-id="fixed10" data-formatter="newtest10">${dataList[0].attdList[9].classDate }</th></c:if>
+							<c:if test="${attdCounter>10}"><th data-column-id="fixed11" data-formatter="newtest11">${dataList[0].attdList[10].classDate }</th></c:if>
+							<c:if test="${attdCounter>11}"><th data-column-id="fixed12" data-formatter="newtest12">${dataList[0].attdList[11].classDate }</th></c:if>
+							<c:if test="${attdCounter>12}"><th data-column-id="fixed13" data-formatter="newtest13">${dataList[0].attdList[12].classDate }</th></c:if>
+							<c:if test="${attdCounter>13}"><th data-column-id="fixed14" data-formatter="newtest14">${dataList[0].attdList[13].classDate }</th></c:if>
+							<c:if test="${attdCounter>14}"><th data-column-id="fixed15" data-formatter="newtest15">${dataList[0].attdList[14].classDate }</th></c:if>
+							<c:if test="${attdCounter>15}"><th data-column-id="fixed16" data-formatter="newtest16">${dataList[0].attdList[15].classDate }</th></c:if>
+							<c:if test="${attdCounter>16}"><th data-column-id="fixed17" data-formatter="newtest17">${dataList[0].attdList[16].classDate }</th></c:if>
+							<c:if test="${attdCounter>17}"><th data-column-id="fixed18" data-formatter="newtest18">${dataList[0].attdList[17].classDate }</th></c:if>
+							<c:if test="${attdCounter>18}"><th data-column-id="fixed19" data-formatter="newtest19">${dataList[0].attdList[18].classDate }</th></c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -134,9 +144,9 @@
 							<tr>
 									<td>${vo.userName}</td>
 									<td>${vo.userNo}</td>
-									<td>${vo.attdYesRate }</td>
-									<td>${vo.attdYesOrInfoRate}</td>
-									<td>${vo.attdYesOrInfoOrLateRate}</td>
+									<td>${vo.attdRate }</td>
+<%-- 									<td>${vo.attdYesOrInfoRate}</td> --%>
+<%-- 									<td>${vo.attdYesOrInfoOrLateRate}</td> --%>
 									<td>${vo.attdList[0].attdStatus }</td>
 									<c:if test="${attdCounter>1 }"><td>${vo.attdList[1].attdStatus }</td></c:if>
 									<c:if test="${attdCounter>2 }"><td>${vo.attdList[2].attdStatus }</td></c:if>
@@ -147,6 +157,15 @@
 									<c:if test="${attdCounter>7 }"><td>${vo.attdList[7].attdStatus }</td></c:if>
 									<c:if test="${attdCounter>8 }"><td>${vo.attdList[8].attdStatus }</td></c:if>
 									<c:if test="${attdCounter>9 }"><td>${vo.attdList[9].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>10 }"><td>${vo.attdList[10].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>11 }"><td>${vo.attdList[11].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>12 }"><td>${vo.attdList[12].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>13 }"><td>${vo.attdList[13].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>14 }"><td>${vo.attdList[14].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>15 }"><td>${vo.attdList[15].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>16 }"><td>${vo.attdList[16].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>17 }"><td>${vo.attdList[17].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>18 }"><td>${vo.attdList[18].attdStatus }</td></c:if>
 									
 <%-- 								<c:forEach items="${vo.attdList }" var="vovo"> --%>
 <%-- 									<td>${vovo.attdStatus }</td> --%>
@@ -444,6 +463,69 @@ $(document).ready(
 					else if(row.fixed10== "info"){		return blueInfo(	   column, row, row.fixed10  );		}
 					else return "?";
 				},
+				"newtest11" : function(column, row) {
+					if( 	row.fixed11== "yes"){		return greenO(		   column, row, row.fixed11  );		}
+					else if(row.fixed11== "no"){		return redX( 		   column, row, row.fixed11  );		}
+					else if(row.fixed11== "late"){		return orangeTriangle( column, row, row.fixed11  );		}
+					else if(row.fixed11== "info"){		return blueInfo(	   column, row, row.fixed11  );		}
+					else return "?";
+				},
+				"newtest12" : function(column, row) {
+					if( 	row.fixed12== "yes"){		return greenO(		   column, row, row.fixed12  );		}
+					else if(row.fixed12== "no"){		return redX( 		   column, row, row.fixed12  );		}
+					else if(row.fixed12== "late"){		return orangeTriangle( column, row, row.fixed12  );		}
+					else if(row.fixed12== "info"){		return blueInfo(	   column, row, row.fixed12  );		}
+					else return "?";
+				},
+				"newtest13" : function(column, row) {
+					if( 	row.fixed13== "yes"){		return greenO(		   column, row, row.fixed13  );		}
+					else if(row.fixed13== "no"){		return redX( 		   column, row, row.fixed13  );		}
+					else if(row.fixed13== "late"){		return orangeTriangle( column, row, row.fixed13  );		}
+					else if(row.fixed13== "info"){		return blueInfo(	   column, row, row.fixed13  );		}
+					else return "?";
+				},
+				"newtest14" : function(column, row) {
+					if( 	row.fixed14== "yes"){		return greenO(		   column, row, row.fixed14  );		}
+					else if(row.fixed14== "no"){		return redX( 		   column, row, row.fixed14  );		}
+					else if(row.fixed14== "late"){		return orangeTriangle( column, row, row.fixed14  );		}
+					else if(row.fixed14== "info"){		return blueInfo(	   column, row, row.fixed14  );		}
+					else return "?";
+				},
+				"newtest15" : function(column, row) {
+					if( 	row.fixed15== "yes"){		return greenO(		   column, row, row.fixed15  );		}
+					else if(row.fixed15== "no"){		return redX( 		   column, row, row.fixed15  );		}
+					else if(row.fixed15== "late"){		return orangeTriangle( column, row, row.fixed15  );		}
+					else if(row.fixed15== "info"){		return blueInfo(	   column, row, row.fixed15  );		}
+					else return "?";
+				},
+				"newtest16" : function(column, row) {
+					if( 	row.fixed16== "yes"){		return greenO(		   column, row, row.fixed16  );		}
+					else if(row.fixed16== "no"){		return redX( 		   column, row, row.fixed16  );		}
+					else if(row.fixed16== "late"){		return orangeTriangle( column, row, row.fixed16  );		}
+					else if(row.fixed16== "info"){		return blueInfo(	   column, row, row.fixed16  );		}
+					else return "?";
+				},
+				"newtest17" : function(column, row) {
+					if( 	row.fixed17== "yes"){		return greenO(		   column, row, row.fixed17  );		}
+					else if(row.fixed17== "no"){		return redX( 		   column, row, row.fixed17  );		}
+					else if(row.fixed17== "late"){		return orangeTriangle( column, row, row.fixed17  );		}
+					else if(row.fixed17== "info"){		return blueInfo(	   column, row, row.fixed17  );		}
+					else return "?";
+				},
+				"newtest18" : function(column, row) {
+					if( 	row.fixed18== "yes"){		return greenO(		   column, row, row.fixed18  );		}
+					else if(row.fixed18== "no"){		return redX( 		   column, row, row.fixed18  );		}
+					else if(row.fixed18== "late"){		return orangeTriangle( column, row, row.fixed18  );		}
+					else if(row.fixed18== "info"){		return blueInfo(	   column, row, row.fixed18  );		}
+					else return "?";
+				},
+				"newtest19" : function(column, row) {
+					if( 	row.fixed19== "yes"){		return greenO(		   column, row, row.fixed19  );		}
+					else if(row.fixed19== "no"){		return redX( 		   column, row, row.fixed19  );		}
+					else if(row.fixed19== "late"){		return orangeTriangle( column, row, row.fixed19  );		}
+					else if(row.fixed19== "info"){		return blueInfo(	   column, row, row.fixed19  );		}
+					else return "?";
+				},
 				
 			}
 			
@@ -453,7 +535,22 @@ $(document).ready(
 </script>
 <!--  날짜 범위 apply버튼 변경 -->
 <script type="text/javascript">
+var dateRangeStart = "";
+var dateRangeEnd = "";
 
+
+function modifyDateRange() {
+	console.log("modify 해라!")
+	console.log("start:"+dateRangeStart);
+	console.log("end:"+dateRangeEnd);
+	if( dateRangeStart > dateRangeEnd) {
+		 alert('잘못된 범위!')
+	}else{
+		targetUrl = "/bitin/chris/main?from="+dateRangeStart+"&to="+dateRangeEnd;
+		location.replace(targetUrl);
+		
+	}
+}
 </script>
 
 
@@ -597,14 +694,14 @@ $(function() {
 	    "singleDatePicker": true,
 	    "startDate": "12/16/2015",
 	}, function(start, end, label) {
-	  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+	  dateRangeEnd = start.format('YYYYMMDD');
 	});
 	
 	$('#start-date').daterangepicker({
 	    "singleDatePicker": true,
 	    "startDate": "12/01/2015",
 	}, function(start, end, label) {
-	  console.log("New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')");
+	  dateRangeStart = start.format('YYYYMMDD');
 	});
 });
 </script>

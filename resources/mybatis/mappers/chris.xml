@@ -73,4 +73,30 @@
 		 WHERE user_no = #{userNo } 
 		   AND attd_no = #{attdNo }
 	</update>
+	<select id="getLastRandomNumberByClassNo" parameterType="long" resultType="long">
+		SELECT random_number
+		FROM (
+				SELECT rownum as temporder, 
+						created_date, 
+						random_number, 
+						class_no, 
+						attd_no, 
+						timer_min, 
+						start_time
+				FROM (
+						SELECT created_date, random_number, class_no, attd_no, timer_min, start_time 
+						FROM B_ATTD_NUMBER b 
+						WHERE class_no = 3
+						AND created_date is not null
+						ORDER BY created_date desc
+					)
+		) where temporder=1
+	</select>
+			<select id="getClassNoViaPostNo" resultType="long" parameterType="long">
+		<![CDATA[
+		select class_no as classNo
+		  from b_board
+		 where post_no = #{postNo }			
+		]]>
+	</select>
 </mapper>

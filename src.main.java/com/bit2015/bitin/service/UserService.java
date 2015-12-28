@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bit2015.bitin.dao.UserDao;
+import com.bit2015.bitin.dao.BoardDao;
+import com.bit2015.bitin.vo.BoardVo;
 import com.bit2015.bitin.vo.UserVo;
 
 
@@ -71,7 +73,9 @@ public class UserService {
 	}
 	
 	public UserVo getUserVoViaIdAndPassword( UserVo userVo ){
+		if(userVo.getUserPhoneId()!= null ){
 		userDao.updatePhoneId(userVo);
+		}
 		UserVo retVo = userDao.getUserVoViaIdAndPassword(userVo);
 		return retVo;
 	}
@@ -169,5 +173,11 @@ public class UserService {
 	public String userIdByPhoneId(UserVo userVo){
 		String retString = userDao.userIdByPhoneId(userVo);
 		return retString;
+	}
+	
+	//profile connection minyoung
+	public UserVo getProfilebyUserNo(Long userNo) {
+		UserVo userVo = userDao.getProfilebyUserNo(userNo);
+		return userVo;
 	}
 }

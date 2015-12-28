@@ -98,6 +98,13 @@ public class ChrisService {
 		return retFlag;
 	}
 	public Long getClassNoViaPostNo (Long postNo ) {
-		return chrisDao.getClassNoViaPostNo(postNo);
+		Long retLong = null;
+		retLong =chrisDao.getClassNoViaPostNo(postNo);
+		return retLong; 
+	}
+	public Long getLastRandomNumberByClassNo ( Long classNo ) {
+		Long retLong = null;
+		retLong = chrisDao.getLastRandomNumberByClassNo(classNo);
+		return retLong;
 	}
 }

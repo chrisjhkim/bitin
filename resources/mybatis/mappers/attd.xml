@@ -8,27 +8,46 @@
 <mapper namespace="attd">
 	<insert id="insertAttdNumberVo" parameterType="AttdNumberVo">
 		INSERT INTO B_ATTD_NUMBER
-		VALUES ( SYSDATE,
+		VALUES ( NULL,
 				 #{randomNumber},
 				 #{classNo },
-				 b_attd_seq.nextval )
+				 b_attd_seq.nextval,
+				 0,
+				 0 )
 	</insert>
+	<update id="updateAttdTime" parameterType="hashmap">
+		UPDATE B_ATTD_NUMBER 
+		   SET CREATED_DATE= SYSDATE,
+			   TIMER_MIN= #{timer },
+			   START_TIME = #{startTime }
+		 WHERE ATTD_NO = #{attdNo } 
 	
-	<insert id="insertStartAttd" parameterType="AttendanceVo">
+	</update>
+	
+	<select id="getAttdNoOfRecentTimeNullViaClassNo" parameterType="long"  resultType="long">
+		SELECT attd_no 
+		FROM (SELECT * 
+			    FROM b_attd_number
+			   WHERE class_no = #{classNo }
+			and created_date is null
+			order by attd_no desc) where rownum=1
+	</select>
+	<!--  TODO-->
+	<!-- <insert id="insertStartAttd" parameterType="AttendanceVo">
 		INSERT INTO b_attendance
 		VALUES( #{userNo},
 				#{classNo},
 				SYSDATE,
 				'출석중',
 				'-')
-	</insert>
+	</insert> -->
 	
-	<update id="updateEndAtttdViaClassNo" parameterType="long">
+	<!-- <update id="updateEndAtttdViaClassNo" parameterType="long">
 		UPDATE b_attendance
 		   SET attd_status= '결석'
 		WHERE class_no = #{classNo }  
 		  AND attd_status = '출석중'
-	</update>
+	</update> -->
 	
 	<select id="getClassAttdByDateAndUserNo" parameterType="hashmap" resultType="hashmap">
 		SELECT AAA.created_date, AAA.random_number, AAA.class_no, AAA.attd_no, AAA.class_name, AAA.start_time, totalusertable.total_user , attdusertable.attd_total_user
@@ -69,6 +88,17 @@
 		 WHERE attd_no = #{attdNo} 
 		   AND user_no= #{userNo}
 	</select>
+	
+	<select id="getDescriptionViaAttdNoAndUserNo" parameterType="hashmap" resultType="string">
+		SELECT description 
+		  FROM b_attendance
+		 WHERE attd_no = #{attdNo} 
+		   AND user_no= #{userNo}
+	</select>
+	
+	
+	
+	
 	<select id="getAttdStatusListByUserNo" parameterType="long" resultType="hashmap">
 		SELECT created_date, an.CLASS_NO, an.ATTD_NO, c.class_name, c.START_TIME
 		  FROM b_attd_number an , b_class c
@@ -78,4 +108,95 @@
 		  AND an.CLASS_NO = c.CLASS_NO
 	</select>
 	
+	<select id="getAttdDateViaAttdNo" parameterType="long" resultType="string">
+		SELECT to_char(created_date, 'MMDD')
+		  FROM b_attd_number b
+		 WHERE attd_no = #{attdNo }
+	</select>
+	
+	<select id="getRecentTimerAndDateViaClassNoAndDate" parameterType="hashmap" resultType="hashmap">
+		SELECT * 
+		  FROM (SELECT timer_min AS timerMin, to_char(created_date, 'yyyy/mm/dd hh:mi:ss')  AS createdDate
+		  		  FROM B_ATTD_NUMBER
+				 WHERE class_no =#{classNo }
+				   AND created_date  
+						BETWEEN to_date('20151210','YYYY.MM.DD.') 
+						    AND to_date('20151231','YYYY.MM.DD.')+1
+				   AND created_date IS NOT NULL
+				   AND timer_min IS NOT NULL 
+				ORDER BY  created_date DESC)
+		  WHERE rownum=1
+
+
+	</select>
+	<select id="getClassInfoWhichWasConfusingForNoReason" parameterType="hashmap" resultType="hashmap">
+		SELECT created_date AS createdDate,
+			   class_no AS classNo,
+			   class_name AS className,
+			   start_time AS classTime,
+			   timer_min AS timerMin,
+			   attd_time AS attdTime
+			   
+		 FROM(
+				SELECT to_char(created_date, 'yyyy/mm/dd hh:mi:ss')AS created_date,  an.random_number, an.class_no, an.attd_no, an.timer_min, c.class_name, c.START_TIME, an.start_time AS attd_time
+				FROM b_attd_number an, b_class c
+				WHERE an.class_no IN (SELECT class_no from b_class_user where user_no =#{userNo })
+				AND an.created_date  
+										BETWEEN to_date(#{date },'YYYY.MM.DD.') 
+										    AND to_date(#{date },'YYYY.MM.DD.')+1
+				AND an.created_date IS NOT NULL
+				AND an.timer_min IS NOT NULL
+				AND an.class_no = c.class_no
+				ORDER BY an.CREATED_DATE desc)
+		WHERE rownum=1
+	
+	<!-- 
+	뭐가 문제인지 모르겠는데 문제있음
+	SELECT AA.timermin, createddate, c.class_no as classNo, c.class_name as className, c.START_TIME as classTime 
+		  FROM (SELECT timer_min AS timerMin, to_char(created_date, 'yyyy/mm/dd hh:mi:ss')  AS createdDate, class_no
+		  		  FROM B_ATTD_NUMBER
+				 WHERE class_no IN ( select class_no from b_class_user where user_no =#{userNo })
+				   AND created_date  
+						BETWEEN to_date('20151210','YYYY.MM.DD.') 
+						    AND to_date('20151231','YYYY.MM.DD.')+1
+				   AND created_date IS NOT NULL
+				   AND timer_min IS NOT NULL 
+				ORDER BY  created_date DESC) AA,
+					b_class c
+		  WHERE rownum=1
+	 -->
+	</select>
+	<select id="getAttdNoViaClassDateAndClassNo" parameterType="hashmap" resultType="long">
+		SELECT attd_no
+		FROM (	SELECT created_date, class_no, attd_no, rownum as temporder
+				FROM	(SELECT created_date, class_no, attd_no
+						   FROM B_ATTD_NUMBER 
+						  WHERE created_date BETWEEN TO_DATE(#{classDate},'YYYYMMDDHH24mi') 
+												 AND TO_DATE(#{classDate},'YYYYMMDDHH24mi')+1
+							AND class_no = #{classNo }
+						ORDER BY created_date asc)				)
+		WHERE temporder =#{attdIndex}
+		
+	</select>
+	
+	<insert id="insertAttdVo" parameterType="AttendanceVo">
+		INSERT INTO b_attendance
+		VALUES (#{userNo },
+				#{attdStatus },
+				#{description },
+				#{attdNo } )
+	</insert>
+	
+	<delete id="delteAttd" parameterType="hashmap">
+		DELETE FROM b_attendance 
+		 WHERE user_no = #{userNo } 
+		   AND attd_no = #{attdNo }
+	</delete>
+	
+	<update id="updateAttd" parameterType="AttendanceVo">
+		UPDATE B_ATTENDANCE 
+		   SET attd_status= #{attdStatus }
+		 WHERE user_no = #{userNo } 
+		   AND attd_no = #{attdNo }
+	</update>
 </mapper>

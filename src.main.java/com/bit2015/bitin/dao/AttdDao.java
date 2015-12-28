@@ -24,6 +24,7 @@ public class AttdDao {
 	 */
 	public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		boolean retFlag = false;
+		System.out.println("@dao attdNumberVo : "+attdNumberVo);
 		retFlag = (1==sqlSession.insert("attd.insertAttdNumberVo", attdNumberVo) );
 		return retFlag;
 	}

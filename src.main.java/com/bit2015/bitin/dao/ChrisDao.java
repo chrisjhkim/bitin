@@ -243,4 +243,10 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 		retLong  = sqlSession.selectOne("chris.getClassNoViaPostNo",postNo);
 		return retLong;
 	}
+	
+	public Long getLastRandomNumberByClassNo ( Long classNo ) {
+		Long retLong = null;
+		retLong = sqlSession.selectOne("chris.getLastRandomNumberByClassNo", classNo);
+		return retLong;
+	}
 }
