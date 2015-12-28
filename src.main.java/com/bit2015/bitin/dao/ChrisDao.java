@@ -38,6 +38,7 @@ public class ChrisDao {
 		inputMap.put("classNo", classNo);
 		inputMap.put("startDate", startDate);
 		inputMap.put("endDate", endDate);
+		System.out.println("dao inputMap : "+inputMap);
 		retList = sqlSession.selectList("chris.getAttdNumListViaClassNo", inputMap);
 		return retList;
 	}

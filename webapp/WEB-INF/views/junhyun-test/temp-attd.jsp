@@ -87,16 +87,19 @@
 						<tr id="table-header">
 							<th data-column-id="name" data-type="text" data-identifier="true">이름</th>
 							<th data-column-id="userNo" data-visible="true">userNo</th>
+							<th data-column-id="attdYesRate" data-visible="true">출석률</th>
+							<th data-column-id="attdYesOrInfoRate" data-visible="true">출석률(병결인정)</th>
+							<th data-column-id="attdYesOrInfoOrLateRate" data-visible="true">출석률(지각포함)</th>
 							<th data-column-id="fixed1" data-formatter="newtest1" >${dataList[0].attdList[0].classDate }</th>
-							<th data-column-id="fixed2" data-formatter="newtest2">${dataList[0].attdList[1].classDate }</th>
-							<th data-column-id="fixed3" data-formatter="newtest3">${dataList[0].attdList[2].classDate }</th>
-							<th data-column-id="fixed4" data-formatter="newtest4">${dataList[0].attdList[3].classDate }</th>
-							<th data-column-id="fixed5" data-formatter="newtest5">${dataList[0].attdList[4].classDate }</th>
-							<th data-column-id="fixed6" data-formatter="newtest6">${dataList[0].attdList[5].classDate }</th>
-							<th data-column-id="fixed7" data-formatter="newtest7">${dataList[0].attdList[6].classDate }</th>
-							<th data-column-id="fixed8" data-formatter="newtest8">${dataList[0].attdList[7].classDate }</th>
-							<th data-column-id="fixed9" data-formatter="newtest9">${dataList[0].attdList[8].classDate }</th>
-							<th data-column-id="fixed10" data-formatter="newtest10">${dataList[0].attdList[9].classDate }</th>
+							<c:if test="${attdCounter>1}"><th data-column-id="fixed2" data-formatter="newtest2">${dataList[0].attdList[1].classDate }</th></c:if>
+							<c:if test="${attdCounter>2}"><th data-column-id="fixed3" data-formatter="newtest3">${dataList[0].attdList[2].classDate }</th></c:if>
+							<c:if test="${attdCounter>3}"><th data-column-id="fixed4" data-formatter="newtest4">${dataList[0].attdList[3].classDate }</th></c:if>
+							<c:if test="${attdCounter>4}"><th data-column-id="fixed5" data-formatter="newtest5">${dataList[0].attdList[4].classDate }</th></c:if>
+							<c:if test="${attdCounter>5}"><th data-column-id="fixed6" data-formatter="newtest6">${dataList[0].attdList[5].classDate }</th></c:if>
+							<c:if test="${attdCounter>6}"><th data-column-id="fixed7" data-formatter="newtest7">${dataList[0].attdList[6].classDate }</th></c:if>
+							<c:if test="${attdCounter>7}"><th data-column-id="fixed8" data-formatter="newtest8">${dataList[0].attdList[7].classDate }</th></c:if>
+							<c:if test="${attdCounter>8}"><th data-column-id="fixed9" data-formatter="newtest9">${dataList[0].attdList[8].classDate }</th></c:if>
+							<c:if test="${attdCounter>9}"><th data-column-id="fixed10" data-formatter="newtest10">${dataList[0].attdList[9].classDate }</th></c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -104,16 +107,20 @@
 							<tr>
 									<td>${vo.userName}</td>
 									<td>${vo.userNo}</td>
+									<td>${vo.attdYesRate }</td>
+									<td>${vo.attdYesOrInfoRate}</td>
+									<td>${vo.attdYesOrInfoOrLateRate}</td>
 									<td>${vo.attdList[0].attdStatus }</td>
-									<td>${vo.attdList[1].attdStatus }</td>
-									<td>${vo.attdList[2].attdStatus }</td>
-									<td>${vo.attdList[3].attdStatus }</td>
-									<td>${vo.attdList[4].attdStatus }</td>
-									<td>${vo.attdList[5].attdStatus }</td>
-									<td>${vo.attdList[6].attdStatus }</td>
-									<td>${vo.attdList[7].attdStatus }</td>
-									<td>${vo.attdList[8].attdStatus }</td>
-									<td>${vo.attdList[9].attdStatus }</td>
+									<c:if test="${attdCounter>1 }"><td>${vo.attdList[1].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>2 }"><td>${vo.attdList[2].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>3 }"><td>${vo.attdList[3].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>4 }"><td>${vo.attdList[4].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>5 }"><td>${vo.attdList[5].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>6 }"><td>${vo.attdList[6].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>7 }"><td>${vo.attdList[7].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>8 }"><td>${vo.attdList[8].attdStatus }</td></c:if>
+									<c:if test="${attdCounter>9 }"><td>${vo.attdList[9].attdStatus }</td></c:if>
+									
 <%-- 								<c:forEach items="${vo.attdList }" var="vovo"> --%>
 <%-- 									<td>${vovo.attdStatus }</td> --%>
 <%-- 								</c:forEach> --%>

@@ -46,8 +46,17 @@ public class ChrisTestController {
 	
 	@Autowired
 	UserService userService;
+
 	
-//	@RequestMapping("/by-classno-and-dates")
+	@RequestMapping("/chart")
+	public String showChart( ) {
+		return "junhyun-test/temp-chart";
+	}
+	@RequestMapping("/datepicker")
+	public String showDatePicker( ) {
+		return "junhyun-test/temp-datepicker";
+	}
+	
 	@ResponseBody
 	@RequestMapping("/ck")
 	public Map<String, Object> getAttdStatusViaClassNoAndDates ( 
@@ -73,40 +82,54 @@ public class ChrisTestController {
 	 */
 	@RequestMapping("/main")
 	public String TesterMain( Model model ) {  
-		System.out.println("@1");
 		Long classNo = 3L;
 		
 		
 		List<HashMap<String, Object>> dataList = null;
-		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 01 08","2015 12 31" );
-		System.out.println("@2");
+		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 01 08","2015 12 16" );
 //		dataList = attdService.getAttdStatusViaClassNoAndDates(classNo, "2015 12 08","2015 12 16" );
 		
 //test결과 되는건데 필요가 없어짐		Long attdNumCount = (long)((ArrayList<HashMap<String, Object>>)dataList.get(0).get("attdList")).size();
 		model.addAttribute("dataList", dataList);
 		System.out.println("출석 일수 size : "+           ((List<AttendanceVo>)dataList.get(0).get("attdList")).size()          );
-		System.out.println("@3");
 		
 		model.addAttribute("attdCounter", ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size()) );
-		System.out.println("@4");
+		System.out.println("attdTotalCounter  : "+ ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size()));
+		Long attdTotalCounter = ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size());
 		String dateDupCheck = "-";
 		Long dupCounter = 1L;
-		for( HashMap<String, Object>person : dataList){
+		for( HashMap<String, Object>person : dataList){ //개인마다
 			dupCounter=2L;
-			
+			Long yesCounter = 0L;
+			Long yesOrInfoCounter = 0L;
+			Long yesOrInfoOrLateCounter = 0L;
 			List<AttendanceVo>personalAttdList = (List<AttendanceVo>)person.get("attdList");
-			for(AttendanceVo attdVo : personalAttdList) {
+			for(AttendanceVo attdVo : personalAttdList) {		//출첵한 날마다
 				String classDate = attdVo.getClassDate();
 				String temp;
 				temp = classDate.substring(0, 2) + "월"+classDate.substring(2) + "일";
 				if( dateDupCheck.equals(classDate) ){
-					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
+//					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
 					temp += "_"+dupCounter;
 					dupCounter +=1;
 				}
+				if(attdVo.getAttdStatus().equals("yes")){
+					yesCounter++;
+					yesOrInfoCounter++;
+					yesOrInfoOrLateCounter++;
+				}else if( attdVo.getAttdStatus().equals("info")){
+					yesOrInfoCounter++;
+					yesOrInfoOrLateCounter++;
+				}else if (attdVo.getAttdStatus().equals("late")) {
+					yesOrInfoOrLateCounter++;
+				}
+				
 				dateDupCheck = classDate;
 				attdVo.setClassDate(temp);
 			}
+			person.put("attdYesRate", 100*yesCounter/attdTotalCounter);
+			person.put("attdYesOrInfoRate", 100*yesOrInfoCounter/attdTotalCounter);
+			person.put("attdYesOrInfoOrLateRate", 100*yesOrInfoOrLateCounter/attdTotalCounter);
 		}
 		
 		
@@ -121,7 +144,7 @@ public class ChrisTestController {
 		
 		
 		List<HashMap<String, Object>> dataList = null;
-		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 01 08","2015 12 31" );
+		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, "2015 12 08","2015 12 10" );
 		System.out.println("@2");
 //		dataList = attdService.getAttdStatusViaClassNoAndDates(classNo, "2015 12 08","2015 12 16" );
 		
@@ -134,16 +157,16 @@ public class ChrisTestController {
 		System.out.println("@4");
 		String dateDupCheck = "-";
 		Long dupCounter = 1L;
-		for( HashMap<String, Object>person : dataList){
+		for( HashMap<String, Object>person : dataList){	//개인마다
 			dupCounter=2L;
-			
+//			Long longTotalCounter =((List<AttendanceVo>)person.get("attdList")).size();
 			List<AttendanceVo>personalAttdList = (List<AttendanceVo>)person.get("attdList");
-			for(AttendanceVo attdVo : personalAttdList) {
+			for(AttendanceVo attdVo : personalAttdList) {	//출첵한 요일 돌면서
 				String classDate = attdVo.getClassDate();
 				String temp;
 				temp = classDate.substring(0, 2) + "월"+classDate.substring(2) + "일";
 				if( dateDupCheck.equals(classDate) ){
-					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
+//					System.out.println("겹침! at attdNo : "+attdVo.getAttdNo());
 					temp += "_"+dupCounter;
 					dupCounter +=1;
 				}
