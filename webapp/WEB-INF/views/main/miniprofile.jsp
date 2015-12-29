@@ -57,7 +57,7 @@
                                     <li>${userVo.userType }</li>
                                 </ul>
                                 
-                             <a href="/bitin/chatting/list/${userNo}" class="pv-follow-btn">1:1 대화하기</a>
+                             <a href="/bitin/webapp/chatting?myNo=${myNo }&otherNo=${otherNo}" class="pv-follow-btn">1:1 대화하기</a>
                             </div>
                         </div>
 	</section>
@@ -66,7 +66,7 @@
 
 	<!-- Javascript Libraries -->
 	<script>
-		var authUser = "${authUser.userName}";
+// 		var authUser = "${authUser.userName}";
 	</script>
 	<script
 		src="/bitin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>

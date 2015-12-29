@@ -107,6 +107,7 @@ public class MainController {
 		
 		String otherUserName = userService.getUserNamebyUserNo(otherUserNo);
 		model.addAttribute("myNo", myUserNo);
+		model.addAttribute("otherNo", otherUserNo);
 		System.out.println("ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ" + myUserNo);
 		String myUserId = chrisService.getUserIdViaUserNo(myUserNo);
 		UserVo myUserVo = chrisService.getUserVoViaUserId(myUserId);
@@ -143,7 +144,7 @@ public class MainController {
 		}
 		
 		
-		return "/message/api-chatting-list";
+		return "/hyunjuntest/temp-chatlist";
 	}
 	
 

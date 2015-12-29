@@ -1,5 +1,6 @@
 package com.bit2015.bitin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bit2015.bitin.annotation.AuthUser;
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.ReplyVo;
 import com.bit2015.bitin.vo.UserVo;
@@ -18,6 +21,9 @@ import com.bit2015.bitin.vo.UserVo;
 @RequestMapping("/user")
 public class UserController {
 
+	
+	@Autowired
+	ChrisService chrisService;
 	@Autowired
 	UserService userService;
 //**************************************************auth만들어서 주석처리해놨습니다(김현준)************************************************************************
@@ -65,16 +71,29 @@ public class UserController {
 	}
 	
 	//miniprofil connection Minyoung
-	@RequestMapping("/miniprofile/{userNo}")
-	public String viewForm(@AuthUser UserVo authUser, @PathVariable("userNo") Long userNo, Model model) {
-		UserVo userVo = userService.getProfilebyUserNo(userNo);
+	@RequestMapping("/miniprofile")
+	public String viewForm(@RequestParam(value="myNo", required=false)Long myUserNo,
+			@RequestParam(value="otherNo", required=false)Long otherUserNo, Model model) {
+		UserVo userVo = userService.getProfilebyUserNo(otherUserNo);
+		String myUserId = chrisService.getUserIdViaUserNo(myUserNo);
+		UserVo myUserVo = chrisService.getUserVoViaUserId(myUserId);
 		model.addAttribute("userVo", userVo);
-		if( authUser!= null){
-			List<UserVo> list1 = userService.classmateList(authUser);
-			model.addAttribute( "classMate", list1 );
-			List<UserVo> list2 = userService.classnameList(authUser);
+		model.addAttribute("userNo", otherUserNo);
+		model.addAttribute("myNo", myUserNo);
+		model.addAttribute("otherNo", otherUserNo);
+		System.out.println("fgggggggggg"+ userVo);
+		if( myUserVo!= null){
+			List<UserVo> classMateList = userService.classmateList(myUserVo);
+			model.addAttribute( "classMate", classMateList );
+			List<UserVo> list2 = userService.classnameList(myUserVo);
 			model.addAttribute( "className", list2 );
+			model.addAttribute("authUser", myUserVo);
+			
+			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(myUserVo.getUserNo());
+			model.addAttribute("recentChatList", recentChatList);
+			
 		}
+		
 		return "/main/miniprofile";
 	}
 	

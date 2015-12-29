@@ -294,7 +294,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 
 		<div class="listview">
 			<c:forEach items='${classMate }' var='vo' varStatus='status'>
-				<a class="lv-item" href="/bitin/user/miniprofile/${vo.userNo }">
+<a class="lv-item" href="/bitin/user/miniprofile?myNo=${myNo}&otherNo=${vo.userNo }">
 					<div class="media">
 						<div class="pull-left p-relative">
 							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${ vo.userNo}.jpg"
