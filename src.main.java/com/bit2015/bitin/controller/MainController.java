@@ -95,7 +95,9 @@ public class MainController {
 	}
 
 	@RequestMapping("/miniprofile")
-	public String miniprofile() {
+	public String miniprofile(
+			) {
+//		model.addAttribute("myNo", userVo.getUserNo());
 		return "/main/miniprofile";
 	}
 

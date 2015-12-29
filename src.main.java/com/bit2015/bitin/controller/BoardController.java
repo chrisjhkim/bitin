@@ -93,6 +93,7 @@ public class BoardController {
 		model.addAttribute("list", list);
 		ClassVo vo = boardService.viewBoardName(classNo);
 		model.addAttribute("vo", vo);
+		model.addAttribute("myNo", userNo);
 		if( fakeAuthUser!= null){
 			List<UserVo> list1 = userService.classmateList(fakeAuthUser);
 			model.addAttribute( "classMate", list1 );

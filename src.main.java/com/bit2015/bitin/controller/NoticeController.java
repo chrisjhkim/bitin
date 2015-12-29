@@ -52,6 +52,7 @@ public class NoticeController {
 		//ClassVo vo = noticeService.viewNoticeName(classNo);
 		//model.addAttribute("vo", vo);
 		if( authUser!= null){
+			model.addAttribute("myNo", authUser.getUserNo());
 			List<UserVo> list1 = userService.classmateList(authUser);
 			model.addAttribute( "classMate", list1 );
 			model.addAttribute("classMateSize", list1.size());
