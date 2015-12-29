@@ -1,5 +1,6 @@
 package com.bit2015.bitin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -40,9 +41,12 @@ public class NoticeController {
 	NoticeService noticeService;
 	
 
-	@RequestMapping("/list/{classNo}")
-	public String list(@AuthUser UserVo authUser, @PathVariable("classNo") Long classNo, Model model) {
-
+	@RequestMapping("/list")
+	public String list(
+			@RequestParam(value = "classNo")Long classNo,
+			@RequestParam(value = "userNo")Long userNo,
+			Model model) {
+		UserVo authUser = chrisService.getUserVoViaUserId(chrisService.getUserIdViaUserNo(userNo));
 		List<NoticeVo> list = noticeService.listBoard(classNo);
 		model.addAttribute("list", list);
 		//ClassVo vo = noticeService.viewNoticeName(classNo);
@@ -53,12 +57,18 @@ public class NoticeController {
 			model.addAttribute("classMateSize", list1.size());
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );
+			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(authUser.getUserNo());
+			model.addAttribute("recentChatList", recentChatList);
+			
+			model.addAttribute("authUser",authUser);
 		}
 		return "/notice/list";
 	}
 
 	@RequestMapping("/view/{noticeNo}")
-	public String viewForm(@AuthUser UserVo authUser, @PathVariable("noticeNo") Long noticeNo, Model model) {
+	public String viewForm(
+		@AuthUser UserVo authUser, 
+		@PathVariable("noticeNo") Long noticeNo, Model model) {
 		NoticeVo noticeVo = noticeService.getNoticeByNoticeNo(noticeNo);
 		model.addAttribute("noticeVo", noticeVo);
 		//List<ReplyVo> list = replyService.getReplyByNoticeNo(noticeNo);

@@ -40,7 +40,7 @@ public class MainController {
 	public String index(
 			Model model,
 		
-			@RequestParam(value="userId", required=false)String userId	) {
+			@RequestParam(value="id", required=false)String userId	) {
 		System.out.println("userId : "+userId);
 		UserVo userVo = chrisService.getUserVoViaUserId(userId);
 		System.out.println("userVo : " +userVo);

@@ -142,4 +142,13 @@
 		   SET unread_count = 0 
 		 WHERE user_no=#{userNo }
 	</update>
+	<select id="getStudentPhoneListViaClassNo" parameterType="long" resultType="string">
+		SELECT user_phone_id 
+		FROM B_USER
+		WHERE user_no IN (SELECT user_no 
+							FROM B_CLASS_USER
+						   WHERE class_no = #{classNo } 
+							 AND class_role = 'student'		)
+	</select>
+	
 </mapper>

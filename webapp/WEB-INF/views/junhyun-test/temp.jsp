@@ -30,7 +30,7 @@
 
 <!-------------------- header 시작--------------------------------  -->
 <!---------------------- header 끝 ---------------------------------------         -->
-<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
+<c:import url="/WEB-INF/views/include/navi2.jsp"></c:import>
 <section id="main">
 	<section id="content">
 		<div class="container">

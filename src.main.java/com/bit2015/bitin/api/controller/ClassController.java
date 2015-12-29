@@ -1,5 +1,7 @@
 package com.bit2015.bitin.api.controller;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.service.AttdService;
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.ClassService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.service.UtilService;
@@ -34,6 +37,8 @@ public class ClassController {
 	UtilService util;
 	@Autowired
 	AttdService attdService;
+	@Autowired
+	ChrisService chrisService;
 	
 	/****************************************************************
 	 * ERROR는 없는거 같은데 안됨. 안드로이드 쪽인지 서버 쪽인지 모름 
@@ -45,6 +50,7 @@ public class ClassController {
 	@RequestMapping("/start-class")
 	public Map<String, Object> login( 
 			@RequestBody String strInput) {
+		System.out.println("/start-class strInput : "+strInput);
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
 		Map<String, Object> inputMap = util.transformStringToHashMap(strInput);
 		String className = (String)inputMap.get("className");
@@ -69,14 +75,8 @@ public class ClassController {
 			else {
 				attdNumberVo.setClassNo(classNo);
 				attdNumberVo.setRandomNumber(randomLong); 
+				System.out.println("@controller : attdNumberVo : "+attdNumberVo);
 				if( !attdService.insertAttdNumberVo(attdNumberVo) ) {  //랜덤 숫자 저장
-//					List<UserVo> userList = classService.getUserInfoListViaClassNo(classNo); //학생 리스트구해서
-//					AttendanceVo attdVo = new AttendanceVo();
-//					attdVo.setClassNo(classNo);
-//					for(UserVo vo : userList) {				//학생들 각각
-//						attdVo.setUserNo(vo.getUserNo());
-//						attdService.startAttd(attdVo);		// 출석중 으로 변경
-//					}
 					System.out.println("AttdNumVo DB insert실패");
 					resString="fail";
 					retMap.put("message", "insert실패 서버잘못");
@@ -85,6 +85,7 @@ public class ClassController {
 				}
 			}
 			retMap.put("data", randomLong);
+			retMap.put("data2", classNo);
 		}
 		retMap.put("result", resString);
 		System.out.println("@start-class" + retMap);
@@ -99,25 +100,64 @@ public class ClassController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/classlist")
-	public Map<String, Object> getClassListByUserId(@RequestBody UserVo userVo	){
+	public Map<String, Object> getClassListByUserId(
+			@RequestBody HashMap<String, Object> inputMap ){
+		System.out.println("/classlist inputMap : "+inputMap);
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
 		String resString ="fail";
 		
-		System.out.println("userVo : "+userVo);
-		
-		String userId = userVo.getUserId();
-		Long userNo = userService.getUserNoViaUserId(userId);
-		List<ClassVo> classNameList = classService.getClassNameTimeListByUserNo(userNo);
-		
-		if(classNameList== null ){
-			retMap.put("message", "groupList==null이다.");
+		if(inputMap.get("userId")== null || inputMap.get("nowDate")==null ) {
+			System.out.println("userId , nowDate 한개 이상 empty");
+			retMap.put("message", "userId , nowDate 한개 이상 empty");
 		}else{
-			resString="success";
-			retMap.put("data", classNameList);
-		
+			String userId = (String)inputMap.get("userId");
+			String nowDate = (String)inputMap.get("nowDate");
+			
+			Long userNo = userService.getUserNoViaUserId(userId);
+			System.out.println("userNo : "+userNo);
+			if( userNo == null ){
+				System.out.println("userNo == null");
+				retMap.put("message", "잘못된 userId");
+			}else{
+//				List<HashMap<String, Object>> classNameList = classService.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
+				List<HashMap<String, Object>> classNameList = chrisService.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
+				
+				if(classNameList== null ){
+					retMap.put("message", "groupList==null이다.");
+					System.out.println("groupList==null이다.");
+				}else{
+					resString="success";
+					for( HashMap<String, Object> vo : classNameList) {
+						System.out.println(" TODO : "+vo.get("TIMERMIN"));
+						Long newTimer = ((BigDecimal)vo.get("TIMERMIN")).longValue();
+						vo.replace("TIMERMIN", newTimer);
+						Long newClassNo = ((BigDecimal)vo.get("CLASSNO")).longValue();
+						System.out.println("3:00 @1 classNo : " +newClassNo);
+//						String startTime = 
+						
+						
+						System.out.println("MIN TYPE :::::" + newTimer.getClass());
+						System.out.println("CLASSNO TYPE :::::" + (((BigDecimal)vo.get("CLASSNO")).getClass() ));
+						
+						/*System.out.println(" TODO : "+vo.get("CLASSNO"));
+						vo.replace("CLASSNO", newClassNo);*/
+					}
+					retMap.put("data", classNameList);
+				}
+			}
 			
 		}
+		
+		
 		retMap.put("result", resString);
+		System.out.println("/classlist result - retMap : "+retMap);
+//		System.out.println("class : " +(  (HashMap<String, Object>)retMap.get("data")).get("TIMERMIN")  );
+//		System.out.println("class : " +(  ((HashMap<String, Object>)retMap.get("data")).get("TIMERMIN")).getClass()  );
+		System.out.println(    retMap.get("data")   );
+		System.out.println(    retMap.get("data").getClass()   ); 
+		System.out.println(   ((ArrayList<HashMap<String, Object>>) retMap.get("data")).get(0).get("TIMERMIN") );
+		System.out.println(   (((ArrayList<HashMap<String, Object>>) retMap.get("data")).get(0).get("TIMERMIN")).getClass() );
+		
 		return retMap;
 	}
 
@@ -310,5 +350,68 @@ public class ClassController {
 		return retMap;
 	}
 		
+	@ResponseBody
+	@RequestMapping("/start-attd")
+	public Map<String, Object> startAttd(
+			@RequestBody HashMap<String, Object> inputMap) {
+		System.out.println("/start-attd - inputMap : "+inputMap);
+		HashMap<String,Object> retMap = new HashMap<String, Object>();
+		String retString = "fail";
 		
+		if( inputMap.get("timer")==null) {
+			
+			System.out.println("timer == null ");
+			retMap.put("message", "timer == null ");
+		}else if ( inputMap.get("classNo") ==null){
+			System.out.println("classNo == null ");
+			retMap.put("message", "classNo == null ");
+		
+		}else {
+			Long timerMin = Long.parseLong(((Integer)inputMap.get("timer")).toString()); 
+			Long classNo = Long.parseLong((String)inputMap.get("classNo"));
+//			Long attdNo = attdService.getAttdNoOfRecentTimeNullViaClassNo(classNo);
+			Long attdNo = chrisService.getAttdNoOfRecentTimeNullViaClassNo(classNo);
+			
+			String startTime = (String)inputMap.get("startTime");
+			System.out.println(startTime);
+//			Long longChecker = attdService.updateTimerAndCreatedDate(timerMin, attdNo, startTime);
+			Long longChecker = chrisService.updateTimerAndCreatedDate(timerMin, attdNo, startTime);
+			
+			
+			System.out.println("startTime : "+startTime);
+			
+			
+			if( longChecker == -1 ) {
+				System.out.println("2:30 @1");
+				System.out.println("하나도 update안됨");
+				retMap.put("message", "하나도 update안됨");
+			}else if( longChecker != 1) {
+				System.out.println("2:30 @2");
+				System.out.println("여러개 update됨 (db에 잘못된 data 있었거나  sql 잘못됨)");
+				retMap.put("message", "여러개 update됨 (db에 잘못된 data 있었거나  sql 잘못됨)");
+			}
+			else {
+				System.out.println("2:30 @3");
+//				List<String> studentPhoneList = classService.getStudentPhoneListViaClassNo( classNo );
+				List<String> studentPhoneList = chrisService.getStudentPhoneListViaClassNo( classNo );
+//				.getStudentPhoneListViaClassNo( classNo );
+				
+				if( studentPhoneList == null) {
+					System.out.println("2:30 @4");
+					System.out.println("classPhoneList == null");
+					retMap.put("message", "classPhoneList == null");
+				}
+				else {
+					System.out.println("2:30 @5");
+					retString = "success";
+					retMap.put("data", studentPhoneList);
+					
+				}
+//				getStudentPhoneListViaClassNo
+			}
+		}
+		retMap.put("result", retString);
+		System.out.println("/start-attd - retMap : "+retMap);
+		return retMap;
+	}	
 }

@@ -250,7 +250,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 			<ul class="main-menu">
 				<li><a href="profile-about.html"><i
 						class="zmdi zmdi-account"></i> 내 정보</a></li>
-				<c:if test="${authUser != null }"><li><a href="/bitin/loginform"><i class="zmdi zmdi-time-restore"></i> Log-in</a></li></c:if>
+				<c:if test="${authUser == null }"><li><a href="/bitin/loginform"><i class="zmdi zmdi-time-restore"></i> Log-in</a></li></c:if>
 				<li><a href="/bitin/user/logout"><i
 						class="zmdi zmdi-time-restore"></i> Log-out</a></li>
 			</ul>
@@ -258,7 +258,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 
 		<ul class="main-menu">
 			<!--  게시판 메뉴 -->
-			<li class="active"><a href="/bitin/webapp/index?userId=${authUser.userId}"><i class="zmdi zmdi-home"></i> 메인 페이지</a></li>
+			<li class="active"><a href="/bitin/webapp/index?id=${authUser.userId}"><i class="zmdi zmdi-home"></i> 메인 페이지</a></li>
 
 			<li><a href="calendar.html"><i class="zmdi zmdi-calendar"></i>수강 등록</a></li>
 			
@@ -266,11 +266,12 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<a href="form-examples.html"><i class="zmdi zmdi-menu"></i>수업 선택</a>
 				<ul>
 					<c:forEach items='${className}' var='vo' varStatus='status'>
-						<li class="sub-menu"><a href="/bitin/board/list/${vo.classNo }">${vo.className }</a>
+						<li class="sub-menu"><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className }</a>
 							<ul>
-								<li><a href="/bitin/notice/list/${vo.classNo }">${vo.className } 공지사항</a></li>
-								<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 자유 게시판</a></li>
-								<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 정보 게시판</a></li>
+								<li><a href="/bitin/notice/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className } 공지사항</a></li>
+								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className } 자유 게시판</a></li>
+								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className } 정보 게시판</a></li>
+								<li><a href="/bitin/chris/main?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className }출결 상황</a></li>
 							</ul>
 						</li>
 					</c:forEach>

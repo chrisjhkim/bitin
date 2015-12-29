@@ -1,5 +1,6 @@
 package com.bit2015.bitin.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -80,19 +81,28 @@ public class BoardController {
 	 * @param model
 	 * @return map("listData",게시판글목록을 list에 담고 그거다시 map에 담아서 리턴)
 	 */
-	@RequestMapping("/list/{classNo}")
-	public String list(@AuthUser UserVo authUser, @PathVariable("classNo") Long classNo, Model model) {
-
+	@RequestMapping("/list")
+	public String list(
+//			@PathVariable("classNo") Long classNo,
+			@RequestParam(value = "classNo")Long classNo,
+			@RequestParam(value = "userNo")Long userNo,
+			Model model) {
+		UserVo fakeAuthUser = chrisService.getUserVoViaUserId(chrisService.getUserIdViaUserNo(userNo));
+		
 		List<BoardVo> list = boardService.listBoard(classNo);
 		model.addAttribute("list", list);
 		ClassVo vo = boardService.viewBoardName(classNo);
 		model.addAttribute("vo", vo);
-		if( authUser!= null){
-			List<UserVo> list1 = userService.classmateList(authUser);
+		if( fakeAuthUser!= null){
+			List<UserVo> list1 = userService.classmateList(fakeAuthUser);
 			model.addAttribute( "classMate", list1 );
 			model.addAttribute("classMateSize", list1.size());
-			List<UserVo> list2 = userService.classnameList(authUser);
+			List<UserVo> list2 = userService.classnameList(fakeAuthUser);
 			model.addAttribute( "className", list2 );
+			
+			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(fakeAuthUser.getUserNo());
+			model.addAttribute("recentChatList", recentChatList);
+			model.addAttribute("authUser",fakeAuthUser);
 		}
 		return "/board/list";
 	}

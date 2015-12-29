@@ -87,10 +87,12 @@ public class ChrisTestController {
 	@RequestMapping("/main")
 	public String TesterMain( 
 			Model model,
+			@RequestParam(value="classNo", required=false, defaultValue="3")Long classNo,
+			@RequestParam(value="userNo", required=false, defaultValue="1")Long userNo,
 			@RequestParam(value="from", required=false, defaultValue="2015 01 08")String startDate,
 			@RequestParam(value="to", required=false, defaultValue="2015 12 31")String endDate
 			) {  
-		Long classNo = 3L;
+	
 		
 		
 		List<HashMap<String, Object>> dataList = null;

@@ -35,7 +35,7 @@
 </head>
 
 <body>
-	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
+	<c:import url="/WEB-INF/views/include/navi2.jsp"></c:import>
 
 	<section id="content">
 		<div class="content">

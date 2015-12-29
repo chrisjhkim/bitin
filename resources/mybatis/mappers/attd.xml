@@ -57,7 +57,7 @@
 			  ) totalusertable, 			
 			 (SELECT an.created_date, an.random_number, an.class_no, an.attd_no, c.CLASS_NAME, C.START_TIME 
 			    FROM B_ATTD_NUMBER an  , b_class c
-			   WHERE an.CREATED_DATE between to_date(#{strDate} ,'YYYYMMDDHHmi') and to_date('2015 12 08','YYYYMMDDHHmi')+1
+			   WHERE an.CREATED_DATE between to_date(#{strDate} ,'YYYYMMDDHHmi') and to_date(#{strDate} ,'YYYYMMDDHHmi')+1
 			   <!-- WHERE an.CREATED_DATE between to_date('2015 12 08','YYYYMMDDHHmi') and to_date('2015 12 08','YYYYMMDDHHmi')+1 -->
 				 AND an.class_no IN (select class_no 
 									from b_class_user

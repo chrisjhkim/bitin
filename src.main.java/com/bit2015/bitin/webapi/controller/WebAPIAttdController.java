@@ -100,7 +100,7 @@ public class WebAPIAttdController {
 			System.out.println("old == else");			//뭔가 잘못됐을 가능성이 엄청남
 		}
 
-		String strResult = "fail";
+		String strResult = "success";
 		retMap.put("result",  strResult);
 		return retMap;
 	}

@@ -136,4 +136,27 @@ public class ChrisService {
 		retFlag = chrisDao.toZeroUnreadCountByUserNo(userNo);
 		return retFlag;
 	}
+	
+	public Long getAttdNoOfRecentTimeNullViaClassNo( Long classNo ) {
+		Long retLong = null;
+		retLong = chrisDao.getAttdNoOfRecentTimeNullViaClassNo(classNo);
+		return retLong;
+	}
+	
+	public Long updateTimerAndCreatedDate (Long timer, Long attdNo , String startTime) {
+		Long retLong = -1L;
+		retLong = chrisDao.updateTimerAndCreatedDate(timer, attdNo, startTime);
+		return retLong;
+	}
+	public List<String> getStudentPhoneListViaClassNo (Long classNo ) {
+		List<String> retList = null;
+		retList = chrisDao.getStudentPhoneListViaClassNo(classNo);
+		
+		return retList;
+	}
+	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo , String nowDate){
+		List<HashMap<String, Object>> retList = null;
+		retList = chrisDao.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
+		return retList;
+	}
 }

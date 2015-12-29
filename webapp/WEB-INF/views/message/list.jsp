@@ -52,7 +52,7 @@
 
 </head>
 <body>
-	<c:import url="/WEB-INF/views/include/navi.jsp"></c:import>
+	<c:import url="/WEB-INF/views/include/navi2.jsp"></c:import>
 	<br />
 	<section id="main">
 		<section id="container" style="margin-top: -25px; margin-bottom:-5px;">

@@ -33,13 +33,14 @@ public class AttdController {
 	@RequestMapping("/classattd-by-date-and-user")
 	public Map<String, Object> getClassAttdInfoListByAttdNoAndUserNo( 
 			@RequestBody HashMap<String, Object> inputMap ) { //이거안되면 HashMap<> 대신 String 으로 해서 util 에 있는거 쓰기 
-//		System.out.println("/classattd-by-date @ inputMap : "+inputMap);
+		System.out.println("/classattd-by-date-and-user @ inputMap : "+inputMap);
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		
 		String checkDay = (String)inputMap.get("checkDay"); // TODO : or attdNo
 		String userId = (String)inputMap.get("userId");  //TODO : id 로 할지 userNo로 할지 안정함
 		String classRole = (String)inputMap.get("type");
+		classRole = "teacher";
 		System.out.println("1111"+classRole);
 		if( checkDay==null || userId==null){
 			System.out.println("안들어온 값 있음");
