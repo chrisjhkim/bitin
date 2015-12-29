@@ -35,7 +35,6 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<li class="dropdown">
 					<a data-toggle="dropdown" href="" onclick="messageClick();">
 						<i class="tm-icon zmdi zmdi-email"></i>
-<!-- 						<i class="tmn-counts" id="message-counter"></i> -->
 						<c:if test="${authUser.unreadCount>0 }">
 							<i class="tmn-counts" id="message-counter">${authUser.unreadCount }</i>
 						</c:if>
@@ -240,7 +239,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 		<div class="profile-menu">
 			<a href="">
 				<div class="profile-pic">
-					<img src="/bitin/assets/img/profile-pics/1.jpg" alt="">
+					<img src="/bitin/assets/img/profile-pics/${authUser.userNo }.jpg" alt="">
 				</div>
 
 				<div class="profile-info">
@@ -251,45 +250,32 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 			<ul class="main-menu">
 				<li><a href="profile-about.html"><i
 						class="zmdi zmdi-account"></i> 내 정보</a></li>
-				<li><a href="/bitin/loginform"><i
-						class="zmdi zmdi-time-restore"></i> Log-in</a></li>
+				<c:if test="${authUser != null }"><li><a href="/bitin/loginform"><i class="zmdi zmdi-time-restore"></i> Log-in</a></li></c:if>
 				<li><a href="/bitin/user/logout"><i
 						class="zmdi zmdi-time-restore"></i> Log-out</a></li>
 			</ul>
 		</div>
 
 		<ul class="main-menu">
-			<li class="active"><a href="/bitin/index"><i
-					class="zmdi zmdi-home"></i> 메인 페이지</a></li>
-
-			<!--  켈린더 -->
-			<li><a href="calendar.html"><i class="zmdi zmdi-calendar"></i>
-				수강 등록</a></li>
 			<!--  게시판 메뉴 -->
+			<li class="active"><a href="/bitin/webapp/index?userId=${authUser.userId}"><i class="zmdi zmdi-home"></i> 메인 페이지</a></li>
 
-
-			<li class="sub-menu"><a href="form-examples.html"><i
-					class="zmdi zmdi-menu"></i>수업 선택</a>
-
+			<li><a href="calendar.html"><i class="zmdi zmdi-calendar"></i>수강 등록</a></li>
+			
+			<li class="sub-menu">
+				<a href="form-examples.html"><i class="zmdi zmdi-menu"></i>수업 선택</a>
 				<ul>
-					<!-- 
-					<li>
-					<a href="form-elements.html">메인 링크</a>
-					</li>
-                    -->
-                    <c:forEach items='${className}' var='vo' varStatus='status'>
-					<li class="sub-menu"><a href="/bitin/board/list/${vo.classNo }">${vo.className }</a>
-
-						<ul>
-							<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 공지사항</a></li>
-							<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 자유 게시판</a></li>
-							<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 정보 게시판</a></li>
-						</ul></li>
-							</c:forEach>
-				</ul></li>
-
-
-
+					<c:forEach items='${className}' var='vo' varStatus='status'>
+						<li class="sub-menu"><a href="/bitin/board/list/${vo.classNo }">${vo.className }</a>
+							<ul>
+								<li><a href="/bitin/notice/list/${vo.classNo }">${vo.className } 공지사항</a></li>
+								<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 자유 게시판</a></li>
+								<li><a href="/bitin/board/list/${vo.classNo }">${vo.className } 정보 게시판</a></li>
+							</ul>
+						</li>
+					</c:forEach>
+				</ul>
+			</li>
 		</ul>
 	</aside>
 
@@ -326,9 +312,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 </section>
 <script>
 function messageClick() {
-	console.log('message click!!')
 	$('#message-counter').remove();
-	
 	$.ajax({
 		url: "/bitin/chriswebapp-api/message-read",
 		type : "get",
@@ -341,20 +325,7 @@ function messageClick() {
 				console.log("ajax error@ /bitin/webapp-api/chris/message-read");
 				return;
 			}
-
 		}
-
 	})
-/* 	
-	$('label[data-date='+gDate+'][data-userno='+gUserNo+'] i').addClass('zmdi-circle-o')
-	$('label[data-date='+gDate+'][data-userno='+gUserNo+']').parent().addClass('has-success');
-	$('')
-	<li class="dropdown">
-	<a data-toggle="dropdown" href="" onclick="messageClick();">
-		<i class="tm-icon zmdi zmdi-email"></i>
-		<c:if test="${authUser.unreadCount>0 }">
-			<i class="tmn-counts">${authUser.unreadCount }</i>
-		</c:if>
-	</a> */
 };
 </script>

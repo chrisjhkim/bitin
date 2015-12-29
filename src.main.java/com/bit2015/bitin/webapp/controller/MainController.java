@@ -65,6 +65,35 @@ public class MainController {
 		
 		return "/junhyun-test/index2";
 	}
+	@RequestMapping("/index3")
+	public String index3(
+			Model model,
+			
+			@RequestParam(value="userId", required=false)String userId	) {
+		System.out.println("userId : "+userId);
+		UserVo userVo = chrisService.getUserVoViaUserId(userId);
+		System.out.println("userVo : " +userVo);
+		
+		
+		
+		if( userVo!= null){
+			List<UserVo> list = userService.classmateList(userVo);
+			model.addAttribute( "classMate", list );
+			List<UserVo> list2 = userService.classnameList(userVo);
+			model.addAttribute( "className", list2 );
+			model.addAttribute("authUser", userVo);
+			
+			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(userVo.getUserNo());
+			model.addAttribute("recentChatList", recentChatList);
+			
+		}
+		
+		
+		
+		
+		
+		return "/min/index3";
+	}
 
 	
 	@RequestMapping("/chatting")

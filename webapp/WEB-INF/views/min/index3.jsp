@@ -41,8 +41,7 @@
 			<br>
 			<div class="card-body card-padding">
 				<div class="card-body card-padding">
-					<div id="carousel-example-generic" class="carousel slide"
-						data-ride="carousel" style="margin-top: 16px;">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-top: 16px;">
 
 						<!-- Wrapper for slides -->
 						<div class="carousel-inner" role="listbox">

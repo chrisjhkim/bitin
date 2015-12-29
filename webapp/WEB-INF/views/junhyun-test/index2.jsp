@@ -5,6 +5,7 @@
 	pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,165 +37,104 @@
 <body>
 	<c:import url="/WEB-INF/views/include/navi2.jsp"></c:import>
 
-	<section id="main">
-		<div class="container">
+	<section id="content">
+		<div class="content">
 			<br>
 			<div class="card-body card-padding">
-				<div id="carousel-example-generic" class="carousel slide"
-					data-ride="carousel">
+				<div class="card-body card-padding">
+					<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="margin-top: 16px;">
 
-					<!-- Wrapper for slides -->
-					<div class="carousel-inner" role="listbox">
-						<div class="item active">
-							<img src="/bitin/assets/media/carousel/c-4.jpg" alt="">
-							<div class="carousel-caption">
-								<h3>StuBit Application for Android</h3>
-								<p>안드로이드 어플을 다운받아주세요</p>
-								<p>주요 기능을 읽어보세욧!!!</p>
+						<!-- Wrapper for slides -->
+						<div class="carousel-inner" role="listbox">
+							<div class="item active">
+								<img src="/bitin/assets/media/carousel/c1.png" alt="">
+								<div class="carousel-caption"></div>
+							</div>
+							<div class="item">
+								<img src="/bitin/assets/media/carousel/c2.png" alt="">
+							</div>
+							<div class="item">
+								<img src="/bitin/assets/media/carousel/c3.png" alt="">
+							</div>
+						</div>
+
+
+						<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev"> 
+							<span class="zmdi zmdi-chevron-left" aria-hidden="true"></span>
+							<span class="sr-only">Previous</span>
+						</a>
+						<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+							<span class="zmdi zmdi-chevron-right" aria-hidden="true"></span>
+							<span class="sr-only">Next</span>
+						</a>
+						
+					</div>
+					
+					<div class="card">
+						<div class="listview">
+							<div class="lv-header">Attendance Chart</div>
+							
+							<div class="lv-body">
+								<div class="lv-item">
+									<div class="lv-title m-b-5">반도체 공학</div>
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
+											<span class="sr-only">95% Complete (success)</span>
+										</div>
+									</div>
+								</div>
+								<div class="lv-item">
+									<div class="lv-title m-b-5">전기 회로</div>
+									<div class="progress">
+										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+											<span class="sr-only">80% Complete (success)</span>
+										</div>
+									</div>
+								</div>
+								<div class="lv-item">
+									<div class="lv-title m-b-5">일반 화학</div>
+									<div class="progress">
+										<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%">
+											<span class="sr-only">20% Complete</span>
+										</div>
+									</div>
+								</div>
+								<div class="lv-item">
+									<div class="lv-title m-b-5">화 학 1</div>
+									<div class="progress">
+										<div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%">
+											<span class="sr-only">60% Complete (warning)</span>
+										</div>
+									</div>
+								</div>
+								<div class="lv-item">
+									<div class="lv-title m-b-5">화 학 2</div>
+									<div class="progress">
+										<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+											<span class="sr-only">80% Complete (danger)</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="card go-social">
+								<div class="card-header">
+									<h2>
+										Social with us <small>StuBit 페이지 바로가기</small>
+									</h2>
+								</div>
+								<div class="card-body clearfix">
+									<a class="col-xs-4" href=""> <img src="/bitin/assets/img/social/facebook-128.png" class="img-responsive" alt=""></a>
+									<a class="col-xs-4" href=""> <img src="/bitin/assets/img/social/twitter-128.png" class="img-responsive" alt=""></a> 
+									<a class="col-xs-4" href=""> <img src="/bitin/assets/img/social/googleplus-128.png" class="img-responsive" alt=""></a>
+									<a class="col-xs-4" href=""> <img src="/bitin/assets/img/social/linkedin-128.png" class="img-responsive" alt=""></a>
+									<a class="col-xs-4" href=""> <img src="/bitin/assets/img/social/youtube-128.png" class="img-responsive" alt=""></a>
+									<a class="col-xs-4" href=""> <img src="/bitin/assets/img/social/blogger-128.png" class="img-responsive" alt=""></a>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-		<br>
-		<br>
-
-		<div class="container c-alt">
-			<div class="clearfix"></div>
-			<div class="row m-t-25">
-				<div class="col-sm-4">
-					<div class="card">
-						<div class="card-header bgm-orange m-b-20">
-							<h2>
-								게시판  <small>게시판 생성 및 사용</small>
-							</h2>
-							<ul class="actions actions-alt">
-								<li class="dropdown"><a href="" data-toggle="dropdown">
-								</a></li>
-							</ul>
-
-							<button class="btn bgm-amber btn-float waves-effect">
-								<a href="/bitin/board/list"><i class="zmdi zmdi-mail-send"></i></a>
-							</button>
-						</div>
-						<div class="card-body card-padding"></div>
-					</div>
-				</div>
-
-				<div class="col-sm-4">
-					<div class="card">
-						<div class="card-header bgm-brown m-b-20">
-							<h2>
-								SNS <small> 친구 등록 및 친구 추천 </small>
-							</h2>
-							<ul class="actions actions-alt">
-								<li class="dropdown"><a href="" data-toggle="dropdown">
-								</a></li>
-							</ul>
-
-							<button class="btn bgm-gray btn-float waves-effect">
-								<i class="zmdi zmdi-mail-send"></i>
-							</button>
-						</div>
-
-						<div class="card-body card-padding"></div>
-					</div>
-				</div>
-
-				<div class="col-sm-4">
-					<div class="card">
-						<div class="card-header bgm-green m-b-20">
-							<h2>
-								위치기반 출석 시스템<small>어플리케이션으로 출석</small>
-							</h2>
-							<ul class="actions actions-alt">
-								<li class="dropdown"><a href="" data-toggle="dropdown">
-								</a></li>
-							</ul>
-
-							<button class="btn bgm-lightgreen btn-float waves-effect">
-								<i class="zmdi zmdi-mail-send"></i>
-							</button>
-						</div>
-
-						<div class="card-body card-padding"></div>
-					</div>
-				</div>
-
-
-			</div>
-		</div>
-
-		<div class="container c-alt">
-
-			<div class="clearfix"></div>
-
-			<div class="row m-t-25">
-
-				<div class="col-sm-4">
-					<div class="card">
-						<div class="card-header bgm-lightblue m-b-20">
-							<h2>
-								질문과 투표<small> 수업 중 질문과 답변 </small>
-							</h2>
-							<ul class="actions actions-alt">
-								<li class="dropdown"><a href="" data-toggle="dropdown">
-								</a></li>
-							</ul>
-
-							<button class="btn bgm-cyan btn-float waves-effect">
-								<i class="zmdi zmdi-mail-send"></i>
-							</button>
-						</div>
-
-						<div class="card-body card-padding"></div>
-					</div>
-				</div>
-
-
-				<div class="col-sm-4">
-					<div class="card">
-						<div class="card-header bgm-purple m-b-20">
-							<h2>
-								공란 <small>새로운 기능을 찾아보자</small>
-							</h2>
-							<ul class="actions actions-alt">
-								<li class="dropdown"><a href="" data-toggle="dropdown">
-								</a></li>
-							</ul>
-
-							<button class="btn bgm-deeppurple btn-float waves-effect">
-								<i class="zmdi zmdi-mail-send"></i>
-							</button>
-						</div>
-
-						<div class="card-body card-padding"></div>
-					</div>
-				</div>
-
-				<div class="col-sm-4">
-					<div class="card">
-						<div class="card-header bgm-red m-b-20">
-							<h2>
-								메세징 서비스 <small>그룹원끼리 대화를 하세요!</small>
-							</h2>
-							<ul class="actions actions-alt">
-								<li class="dropdown"><a href="" data-toggle="dropdown">
-								</a></li>
-							</ul>
-
-							<button class="btn bgm-pink btn-float waves-effect">
-								<i class="zmdi zmdi-mail-send"></i>
-							</button>
-						</div>
-
-						<div class="card-body card-padding"></div>
-					</div>
-				</div>
-				
-
-
 			</div>
 		</div>
 	</section>
