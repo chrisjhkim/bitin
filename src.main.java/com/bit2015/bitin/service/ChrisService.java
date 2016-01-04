@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.bit2015.bitin.dao.ChrisDao;
 import com.bit2015.bitin.dao.ClassDao;
@@ -21,6 +22,18 @@ public class ChrisService {
 	UserDao userDao;
 	@Autowired
 	ClassDao classDao;
+	
+	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo , String nowDate){
+		List<HashMap<String, Object>> retList = null;
+		retList = chrisDao.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
+		return retList;
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	public List<HashMap<String, Object>> getAttdStatusViaClassNoAndDates(	//반 전체의 출석부
 			Long classNo,
@@ -154,9 +167,8 @@ public class ChrisService {
 		
 		return retList;
 	}
-	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo , String nowDate){
-		List<HashMap<String, Object>> retList = null;
-		retList = chrisDao.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
-		return retList;
+	
+	public Model naviModelSetter (Model model) {
+		return model;
 	}
 }

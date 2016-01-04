@@ -37,7 +37,7 @@ public class AttdController {
 	@RequestMapping("/classattd-by-date-and-user")	// 데이터 빈거 1:53
 	public Map<String, Object> getClassAttdInfoListByAttdNoAndUserNo( 
 			@RequestBody HashMap<String, Object> inputMap ) { //이거안되면 HashMap<> 대신 String 으로 해서 util 에 있는거 쓰기 
-		System.out.println("/classattd-by-date-and-user @ inputMap : "+inputMap);
+		System.out.println("/classattd-by-date-and-user inputMap : "+inputMap);
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		
@@ -58,14 +58,15 @@ public class AttdController {
 		retMap.put("data", retList);
 		retMap.put("result", retString);
 		
-		System.out.println("@Attd @1- retMap : "+retMap);
+		System.out.println("/classattd-by-date-and-user retMap : "+retMap);
 		return retMap;
 	}
+	
 	@ResponseBody
 	@RequestMapping("/by-userno")	//에러
 	public Map<String, Object> getAttdStatusListByUserNo(
 			@RequestBody HashMap<String, Object> inputMap ) {
-		System.out.println("byUserNo : input "+inputMap);
+		System.out.println("/by-userno inputMap : "+inputMap);
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		String userId= (String)inputMap.get("userId");
@@ -77,7 +78,7 @@ public class AttdController {
 		
 		retMap.put("result", retString);
 		
-		System.out.println("@Attd @2 - retMap : "+retMap);
+		System.out.println("/by-userno retMap : "+retMap);
 		return retMap;
 	}
 	
@@ -85,19 +86,25 @@ public class AttdController {
 	@RequestMapping("/by-attdno")
 	public Map<String, Object> getClassAttdInfoListByAttdNo( 
 			@RequestBody HashMap<String, Object> inputMap ) {
+		System.out.println("/by-attdno inputMap : "+inputMap);
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		Long attdNo = (long)inputMap.get("attdNo");
 		List<HashMap<String	, Object>>attdList = attdService.getClassAttdInfoListByAttdNo(attdNo);
-				
-//		System.out.println("byAttdNo : input "+inputMap);
+		
 		retMap.put("data",attdList);
 		retString = "success";
 		retMap.put("result", retString);
 		
-		System.out.println("@Attd @3 - retMap : "+retMap);
+		System.out.println("/by-attdno retMap : "+retMap);
 		return retMap;
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////// 사용중      /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	
 	@ResponseBody
@@ -128,7 +135,4 @@ public class AttdController {
 //		attdService.getClassAttdInfoListByAttdNoAndUserNo(strDate, userNo);
 		return retMap;
 	}
-
-//	@ResponseBody
-//	@RequestMapping("/")
 }

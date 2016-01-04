@@ -39,9 +39,10 @@ public class ClassController {
 	AttdService attdService;
 	@Autowired
 	ChrisService chrisService;
+
 	
 	/****************************************************************
-	 * ERROR는 없는거 같은데 안됨. 안드로이드 쪽인지 서버 쪽인지 모름 
+	 * 
 	 * @param className
 	 * @param userName
 	 * @return
@@ -55,12 +56,13 @@ public class ClassController {
 		Map<String, Object> inputMap = util.transformStringToHashMap(strInput);
 		String className = (String)inputMap.get("className");
 		String userId = (String)inputMap.get("userId");
-
+		
 		String resString ="fail";
 		
 		if(className== null || userId==null ){
 			resString = "fail";
 			retMap.put("message", "name 한개 이상 empty");
+			System.out.println("/start-class error #1");
 		}
 		else{
 			resString="success";
@@ -69,15 +71,14 @@ public class ClassController {
 			AttdNumberVo attdNumberVo = new AttdNumberVo();
 			Long classNo  = classService.getClassNoViaClassName(className); 
 			if(classNo == -1L) {
-				System.out.println("getClassNo 실패");
+				System.out.println("/start-class error #2");
 				retMap.put("message", "className 에 해당하는 수업이 없음");
 			}
 			else {
 				attdNumberVo.setClassNo(classNo);
-				attdNumberVo.setRandomNumber(randomLong); 
-				System.out.println("@controller : attdNumberVo : "+attdNumberVo);
+				attdNumberVo.setRandomNumber(randomLong);
 				if( !attdService.insertAttdNumberVo(attdNumberVo) ) {  //랜덤 숫자 저장
-					System.out.println("AttdNumVo DB insert실패");
+					System.out.println("/start-class error #3");
 					resString="fail";
 					retMap.put("message", "insert실패 서버잘못");
 				}else{
@@ -88,11 +89,9 @@ public class ClassController {
 			retMap.put("data2", classNo);
 		}
 		retMap.put("result", resString);
-		System.out.println("@start-class" + retMap);
-		
+		System.out.println("/start-class retMap : "+retMap );
 		return retMap;
 	}
-	
 	/********송이가 쓰는거 
 	 * @param userVo (userId 받아와야됨)
 	 * (Id가 고유한 아이디 아니면 error 남)
@@ -107,61 +106,38 @@ public class ClassController {
 		String resString ="fail";
 		
 		if(inputMap.get("userId")== null || inputMap.get("nowDate")==null ) {
-			System.out.println("userId , nowDate 한개 이상 empty");
+			System.out.println("/classlist error #1");
 			retMap.put("message", "userId , nowDate 한개 이상 empty");
 		}else{
 			String userId = (String)inputMap.get("userId");
 			String nowDate = (String)inputMap.get("nowDate");
 			
 			Long userNo = userService.getUserNoViaUserId(userId);
-			System.out.println("userNo : "+userNo);
 			if( userNo == null ){
-				System.out.println("userNo == null");
+				System.out.println("/classlist error #2");
 				retMap.put("message", "잘못된 userId");
 			}else{
-//				List<HashMap<String, Object>> classNameList = classService.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
 				List<HashMap<String, Object>> classNameList = chrisService.getClassNameNoTimeListByUserNoAndDate(userNo, nowDate);
 				
 				if(classNameList== null ){
 					retMap.put("message", "groupList==null이다.");
-					System.out.println("groupList==null이다.");
+					System.out.println("/classlist error #3");
 				}else{
 					resString="success";
 					for( HashMap<String, Object> vo : classNameList) {
-						System.out.println(" TODO : "+vo.get("TIMERMIN"));
 						Long newTimer = ((BigDecimal)vo.get("TIMERMIN")).longValue();
 						vo.replace("TIMERMIN", newTimer);
-						Long newClassNo = ((BigDecimal)vo.get("CLASSNO")).longValue();
-						System.out.println("3:00 @1 classNo : " +newClassNo);
-//						String startTime = 
-						
-						
-						System.out.println("MIN TYPE :::::" + newTimer.getClass());
-						System.out.println("CLASSNO TYPE :::::" + (((BigDecimal)vo.get("CLASSNO")).getClass() ));
-						
-						/*System.out.println(" TODO : "+vo.get("CLASSNO"));
-						vo.replace("CLASSNO", newClassNo);*/
 					}
 					retMap.put("data", classNameList);
 				}
 			}
 			
 		}
-		
-		
 		retMap.put("result", resString);
 		System.out.println("/classlist result - retMap : "+retMap);
-//		System.out.println("class : " +(  (HashMap<String, Object>)retMap.get("data")).get("TIMERMIN")  );
-//		System.out.println("class : " +(  ((HashMap<String, Object>)retMap.get("data")).get("TIMERMIN")).getClass()  );
-		System.out.println(    retMap.get("data")   );
-		System.out.println(    retMap.get("data").getClass()   ); 
-		System.out.println(   ((ArrayList<HashMap<String, Object>>) retMap.get("data")).get(0).get("TIMERMIN") );
-		System.out.println(   (((ArrayList<HashMap<String, Object>>) retMap.get("data")).get(0).get("TIMERMIN")).getClass() );
-		
 		return retMap;
 	}
-
-
+	
 	/**
 	 * @param userId 
 	 * @return List(hashmap> 으로 
@@ -174,50 +150,52 @@ public class ClassController {
 			@RequestBody UserVo userVo ){
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
 		
-		System.out.println("@testserver2-ClassController : getClassInfoViaUserId userVo : "+userVo);
+		System.out.println("/classinfo-by-userid input userVo : "+userVo);
 		String resString ="fail";
-
+		
 		if(userVo== null){
+			System.out.println("/classinfo-by-userid error #1");
 			retMap.put("message", "userVo is null");
 		}
 		else {
 			List<HashMap<String, Object>> classInfoList = classService.getClassInfoByUserId(userVo.getUserId());
 			if(classInfoList== null ){
-				resString = "fail";
+				System.out.println("/classinfo-by-userid error #2");
 				retMap.put("message", "group is empty");
 			}
 			else{
 				resString="success";
-				System.out.println(classInfoList);
 				retMap.put("data", classInfoList);
 			}
 		}
 		retMap.put("result", resString);
-		System.out.println("retMap :"+ retMap);
+		System.out.println("/classinfo-by-userid retMap : "+retMap);
 		return retMap;
 	}
-
+	
 	@ResponseBody
 	@RequestMapping("/student-phone-list")
 	public Map<String, Object> getStudetPhoneIdListViaTeacherId ( 
 			@RequestBody HashMap<String, Object> inputMap ) {
+		System.out.println("/student-phone-list inputMap : "+inputMap);
+		
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
 		String userId = (String)inputMap.get("userId");
-		System.out.println("@student-phone-list : userId : "+userId);
 		String resString ="fail";
-
+		
 		if(userId== null){
 			retMap.put("message", "userId is null");
+			System.out.println("/student-phone-list error #1");
 		}
-		else if( !userService.checkExistUserViaId(userId)){
-			//없는 아이디면
+		else if( !userService.checkExistUserViaId(userId)){	//없는 아이디면
+			System.out.println("/student-phone-list error #2");	
 			retMap.put("message", "없는 아이디임");
 		}
 		else {
 			List<HashMap<String, Object >>dataList = classService.getStudentPhoneIdListByUserId(userId);
 			if(dataList == null){
 				retMap.put("message", "가르치는 수업 없거나 듣는 학생이 없음");
-				
+				System.out.println("/student-phone-list error #3");	
 			}
 			else{
 				resString="success";
@@ -227,38 +205,14 @@ public class ClassController {
 		retMap.put("result", resString);
 		System.out.println("retMap :"+ retMap);
 		return retMap;
-				
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	/** 사용 안하고 있음, 미완성
 	 * @param classVo

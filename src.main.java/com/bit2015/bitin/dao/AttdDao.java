@@ -15,8 +15,50 @@ public class AttdDao {
 	@Autowired
 	SqlSession sqlSession;
 	
+	/************** 송이 사용중
+	 * @param strDate (YYYYMMDD) 형식
+	 * @param userNo
+	 * @return 	해당 유저(선생)가  출석체크 실행한 특정 date의 수업목록들 List<강의명, startTime,  출석한 인원수, 전체인원수>
+	 */
+	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNoAndUserNo ( String strDate, Long userNo,String classRole ) {
+		System.out.println("the dao");
+		List<HashMap<String, Object>> retList = null;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("userNo", userNo);//10L
+		inputMap.put("strDate", strDate);
+		inputMap.put("classRole", classRole);
+		retList = sqlSession.selectList("attd.getClassAttdByDateAndUserNo", inputMap );
+		System.out.println("The Dao result : "+retList);
+		return retList;
+	}
+
+	public List<HashMap<String, Object>> getAttdStatusListByUserNo ( Long userNo ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("attd.getAttdStatusListByUserNo", userNo);
+		return retList;
+	}
 	
+	public String getAttdStatusViaAttdNoAndUserNo( Long attdNo, Long userNo) {
+		String retString = null;
+		HashMap<String, Object> inputMap = new HashMap<String, Object>();
+		inputMap.put("attdNo", attdNo);
+		inputMap.put("userNo", userNo);
+		retString = sqlSession.selectOne("attd.getAttdStatusViaAttdNoAndUserNo", inputMap);
+		return retString;
+	}
 	
+	public Long getClassNoByAttdNo ( Long attdNo ) {
+		Long retLong = null;
+		System.out.println("attdNo @: "+ attdNo);
+		retLong =  sqlSession.selectOne("attd.getClassNoByAttdNo", attdNo);
+		return retLong;
+	}
+	
+	public List<HashMap<String, Object>> getClassAttdInfoListByClassNoAndAttdNo ( Long classNo) {
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("class.getStudentHashMapListViaClassNo", classNo);
+		return retList;
+	}
 	
 	/**
 	 * @param attdNumberVo (randomNumber, classNo ) 필수
@@ -27,6 +69,13 @@ public class AttdDao {
 		retFlag = (1==sqlSession.insert("attd.insertAttdNumberVo", attdNumberVo) );
 		return retFlag;
 	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////// 사용중      /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	/**
 	 * @param attdVo (userNo, classNo, 필수)
@@ -55,46 +104,5 @@ public class AttdDao {
 	
 	
 	
-	/************** 송이 사용중
-	 * @param strDate (YYYYMMDD) 형식
-	 * @param userNo
-	 * @return 	해당 유저(선생)가  출석체크 실행한 특정 date의 수업목록들 List<강의명, startTime,  출석한 인원수, 전체인원수>
-	 */
-	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNoAndUserNo ( String strDate, Long userNo,String classRole ) {
-		System.out.println("the dao");
-		List<HashMap<String, Object>> retList = null;
-		HashMap<String, Object> inputMap = new HashMap<String, Object>();
-		inputMap.put("userNo", userNo);//10L
-		inputMap.put("strDate", strDate);
-		inputMap.put("classRole", classRole);
-		retList = sqlSession.selectList("attd.getClassAttdByDateAndUserNo", inputMap );
-		System.out.println("The Dao result : "+retList);
-		return retList;
-	}
 
-	public List<HashMap<String, Object>> getClassAttdInfoListByClassNoAndAttdNo ( Long classNo) {
-		List<HashMap<String, Object>> retList = null;
-		retList = sqlSession.selectList("class.getStudentHashMapListViaClassNo", classNo);
-		return retList;
-	}
-	public String getAttdStatusViaAttdNoAndUserNo( Long attdNo, Long userNo) {
-		String retString = null;
-		HashMap<String, Object> inputMap = new HashMap<String, Object>();
-		inputMap.put("attdNo", attdNo);
-		inputMap.put("userNo", userNo);
-		retString = sqlSession.selectOne("attd.getAttdStatusViaAttdNoAndUserNo", inputMap);
-		return retString;
-	}
-	
-	public Long getClassNoByAttdNo ( Long attdNo ) {
-		Long retLong = null;
-		System.out.println("attdNo @: "+ attdNo);
-		retLong =  sqlSession.selectOne("attd.getClassNoByAttdNo", attdNo);
-		return retLong;
-	}
-	public List<HashMap<String, Object>> getAttdStatusListByUserNo ( Long userNo ) {
-		List<HashMap<String, Object>> retList = null;
-		retList = sqlSession.selectList("attd.getAttdStatusListByUserNo", userNo);
-		return retList;
-	}
 }

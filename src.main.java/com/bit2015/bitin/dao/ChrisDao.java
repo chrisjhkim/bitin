@@ -16,6 +16,23 @@ public class ChrisDao {
 	@Autowired
 	SqlSession sqlSession;
 
+	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo, String nowDate ){
+		List<HashMap<String, Object>> retList = null;
+		
+		HashMap<String, Object>inputMap = new HashMap<String, Object>();
+		inputMap.put("userNo", userNo);
+		inputMap.put("date",nowDate);
+		
+		retList = sqlSession.selectList("attd.getClassInfoWhichWasConfusingForNoReason",inputMap);
+		
+		return retList;
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	/** 사용중
 	 * @param classNo
 	 * @return
@@ -284,41 +301,6 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 	public List<String> getStudentPhoneListViaClassNo (Long classNo ) {
 		List<String> retList = null;
 		retList = sqlSession.selectList("chris.getStudentPhoneListViaClassNo", classNo);
-		return retList;
-	}
-	public List<HashMap<String, Object>> getClassNameNoTimeListByUserNoAndDate(Long userNo, String nowDate ){
-		List<HashMap<String, Object>> retList = null;
-		
-		HashMap<String, Object>inputMap = new HashMap<String, Object>();
-		inputMap.put("userNo", userNo);
-		inputMap.put("date",nowDate);
-		
-		retList = sqlSession.selectList("attd.getClassInfoWhichWasConfusingForNoReason",inputMap);
-		
-		/*retList = sqlSession.selectList("class.getClassNameNoTimeListByUserNo", userNo);
-		for ( HashMap<String, Object> vo : retList) {
-			System.out.println("--------------------------------");
-			
-			Long classNo = ((BigDecimal)vo.get("CLASSNO")).longValue();
-			String strNo = ((BigDecimal)vo.get("CLASSNO")).longValue()+"";
-			HashMap<String, Object>inputMap = new HashMap<String, Object>();
-			inputMap.put("classNo", classNo);
-			inputMap.put("date",nowDate);
-			
-			
-			
-			HashMap<String, Object>tempMap = sqlSession.selectOne("attd.getRecentTimerAndDateViaClassNoAndDate",inputMap);
-			if( tempMap!= null){
-				if(tempMap.get("TIMERMIN") != null ) {
-					Long timer = ((BigDecimal)tempMap.get("TIMERMIN")).longValue();
-					vo.put("timer", timer);
-				}
-				if(tempMap.get("CREATEDDATE") != null ) {
-					String startTime = (String)tempMap.get("CREATEDDATE")+"";
-					vo.put("startTime", startTime);
-				}
-			}
-		}*/
 		return retList;
 	}
 }

@@ -21,6 +21,29 @@ public class UtilService {
 	@Autowired
 	ClassDao classDao;
 	
+	/**
+	 * @param inputStrDate
+	 * @return
+	 * 2015/1/11 형태의 date 를 20150111 로 변경해줌
+	 * 
+	 */
+	public String changeDateFormat(String inputStrDate ) {
+		String retString=null;
+		
+		String[] token = inputStrDate.split("/");
+		String year = token[0];
+		String month = token[1];
+		String day = token[2];
+		
+		if(month.length() <2){	
+			month = "0"+month;	
+		}
+		if(day.length()<2){		
+			day= "0"+day;		
+		}
+		retString = year+month+day;
+		return retString;
+	}
 	/*******************TEST DONE
 	 * 4자리 Long random 숫자 생성
 	 * @return 
@@ -30,6 +53,13 @@ public class UtilService {
 		Long randomLong = Long.parseLong(randomInt+"");
 		return randomLong;
 	}
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	
 	/**
@@ -86,28 +116,5 @@ public class UtilService {
 			retList.add(token);
 		}
 		return retList;
-	}
-	/**
-	 * @param inputStrDate
-	 * @return
-	 * 2015/1/11 형태의 date 를 20150111 로 변경해줌
-	 * 
-	 */
-	public String changeDateFormat(String inputStrDate ) {
-		String retString=null;
-		
-		String[] token = inputStrDate.split("/");
-		String year = token[0];
-		String month = token[1];
-		String day = token[2];
-		
-		if(month.length() <2){	
-			month = "0"+month;	
-		}
-		if(day.length()<2){		
-			day= "0"+day;		
-		}
-		retString = year+month+day;
-		return retString;
 	}
 }

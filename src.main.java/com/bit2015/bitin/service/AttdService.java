@@ -22,6 +22,55 @@ public class AttdService {
 
 	@Autowired
 	ClassDao classDao;
+	/** use.
+	 * @param strDate
+	 * @param userNo
+	 * @return
+	 */
+	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNoAndUserNo ( String strDate, Long userNo,String classRole ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = attdDao.getClassAttdInfoListByAttdNoAndUserNo(strDate, userNo,classRole);
+		return retList;
+	}
+	
+	public List<HashMap<String, Object>> getAttdStatusListByUserNo ( Long userNo ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = attdDao.getAttdStatusListByUserNo(userNo);
+		
+		for( HashMap<String, Object> item : retList) {
+			Long attdNo = ((BigDecimal)item.get("ATTD_NO")).longValue();
+			String status = attdDao.getAttdStatusViaAttdNoAndUserNo(attdNo, userNo);
+			if(status == null){
+				status="결석";
+			}
+			item.put("STATUS", status);
+		}
+		System.out.println("list : "+retList);
+		return retList;
+	}
+	
+	/**
+	 * @param attdNo 어떤 출첵때 였냐
+	 * @return 
+	 */
+	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNo ( Long attdNo ) {
+		List<HashMap<String, Object>> retList = null;
+		Long classNo = attdDao.getClassNoByAttdNo(attdNo);
+		
+		retList = attdDao.getClassAttdInfoListByClassNoAndAttdNo( classNo);
+		
+		//출석여부 확인 하나씩
+		for( HashMap<String, Object> item : retList) {
+			Long userNo = ((BigDecimal)item.get("USERNO")).longValue();
+			String status = attdDao.getAttdStatusViaAttdNoAndUserNo(attdNo, userNo);
+			if(status == null){
+				status="결석";
+			}
+			item.put("STATUS", status);
+		}
+		return retList;
+	}
+	
 	/**
 	 * @param attdNumberVo (randomNumber, classNo ) 필수
 	 * @return 성공하면 true return
@@ -31,6 +80,11 @@ public class AttdService {
 		retFlag = attdDao.insertAttdNumberVo(attdNumberVo);
 		return retFlag;
 	}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////// 사용중      /////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
 	/***********TEST DONE
@@ -58,59 +112,8 @@ public class AttdService {
 	}
 	
 	
-	/** The ONe
-	 * @param strDate
-	 * @param userNo
-	 * @return
-	 */
-	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNoAndUserNo ( String strDate, Long userNo,String classRole ) {
-		List<HashMap<String, Object>> retList = null;
-		retList = attdDao.getClassAttdInfoListByAttdNoAndUserNo(strDate, userNo,classRole);
-		return retList;
-	}
-	
-	/**
-	 * @param attdNo 어떤 출첵때 였냐
-	 * @return 
-	 */
-	public List<HashMap<String, Object>> getClassAttdInfoListByAttdNo ( Long attdNo ) {
-		List<HashMap<String, Object>> retList = null;
-		System.out.println("attdNo : "+attdNo);
-		Long classNo = attdDao.getClassNoByAttdNo(attdNo);
-		
-		System.out.println("classNo : "+ classNo);
-		retList = attdDao.getClassAttdInfoListByClassNoAndAttdNo( classNo);
-		
-		System.out.println("pre_retList : "+retList);
-		
-		//출석여부 확인 하나씩
-		for( HashMap<String, Object> item : retList) {
-			Long userNo = ((BigDecimal)item.get("USERNO")).longValue();
-			String status = attdDao.getAttdStatusViaAttdNoAndUserNo(attdNo, userNo);
-			if(status == null){
-				status="결석";
-			}
-			item.put("STATUS", status);
-		}
-		return retList;
-	}
 	
 	
-	public List<HashMap<String, Object>> getAttdStatusListByUserNo ( Long userNo ) {
-		List<HashMap<String, Object>> retList = null;
-		retList = attdDao.getAttdStatusListByUserNo(userNo);
-		
-		for( HashMap<String, Object> item : retList) {
-			Long attdNo = ((BigDecimal)item.get("ATTD_NO")).longValue();
-			String status = attdDao.getAttdStatusViaAttdNoAndUserNo(attdNo, userNo);
-			if(status == null){
-				status="결석";
-			}
-			item.put("STATUS", status);
-		}
-		System.out.println("list : "+retList);
-		return retList;
-	}
 //	public List<HashMap<String, Object>> getClassAttdInfoListByDateAndUserNo ( String strDate, Long userNo ) {
 //		List<HashMap<String, Object>> retList = null;
 //		retList = attdDao.getClassAttdInfoListByDateAndUserNo(strDate, userNo);

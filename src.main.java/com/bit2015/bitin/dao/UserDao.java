@@ -15,6 +15,25 @@ public class UserDao {
 	SqlSession sqlSession;
 	
 	/**
+	 * @param userId (Id가 고유한 아이디 아니면 error 남)
+	 *  TODO : ( selectOne 으로 해서 안나려나???????????????????????)
+	 * @return userNo
+	 * userId에 해당하는 userNo return함
+	 */
+	public Long getUserNoViaUserId ( String userId ) {
+		Long retLong = 0L;
+		retLong = sqlSession.selectOne("user.getUserNoViaUserId", userId);
+		return retLong;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	
+	/**
 	 * @param userVo (userId, userName, userPassword, userPhoneId )필수
 	 * @return 잘 insert되면 true return
 	 * 실패하면 false return
@@ -85,17 +104,6 @@ public class UserDao {
 		return retLong;
 	}
 	
-	/**
-	 * @param userId (Id가 고유한 아이디 아니면 error 남)
-	 *  TODO : ( selectOne 으로 해서 안나려나???????????????????????)
-	 * @return userNo
-	 * userId에 해당하는 userNo return함
-	 */
-	public Long getUserNoViaUserId ( String userId ) {
-		Long retLong = 0L;
-		retLong = sqlSession.selectOne("user.getUserNoViaUserId", userId);
-		return retLong;
-	}
 	
 	
 	/**

@@ -15,6 +15,44 @@ public class ClassDao {
 	@Autowired
 	SqlSession sqlSession;
 	
+	/**********TEST DONE
+	 * @param className
+	 * @return classNo
+	 * className 갖고 있는  classNo return
+	 * className 겹치면 안됨
+	 */	
+	public Long getClassNoViaClassName (String className ) {
+		Long retLong = -1L;
+		retLong = sqlSession.selectOne("class.getClassNoViaClassName",className);
+		return retLong;
+	}
+	/**
+	 * @param userId 
+	 * @return List(hashmap> 으로 
+	 * userId가 들어있는 수업 '들'의  수업명, 선생PhoneId
+	 * List(class_Name , user_phone_id )
+	 */
+	public List<HashMap<String, Object>> getClassInfoByUserId ( String userId ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("class.getClassNameAndPhoneIdOfThatClassViaUserId",userId);
+		return retList;
+	}
+	public List<HashMap<String, Object>> getCLassListByUserId (String userId ){
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("class.getClassNoAndClassNameViaUserId",userId);
+		return retList;
+	}
+	public List<String> getStudentPhoneIdListViaClassNo( Long classNo) {
+		List<String> retList = null;
+		retList = sqlSession.selectList("class.getStudentPhoneIdListViaClassNo", classNo );
+		return retList;
+	}
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	/*******************Test done
 	 * @param classVo (groupNo, className, classType,
@@ -85,29 +123,8 @@ public class ClassDao {
 		retList = sqlSession.selectList("class.getClassNameTimeListByUserNo", userNo);
 		return retList;
 	}
-	/**
-	 * @param userId 
-	 * @return List(hashmap> 으로 
-	 * userId가 들어있는 수업 '들'의  수업명, 선생PhoneId
-	 * List(class_Name , user_phone_id )
-	 */
-	public List<HashMap<String, Object>> getClassInfoByUserId ( String userId ) {
-		List<HashMap<String, Object>> retList = null;
-		retList = sqlSession.selectList("class.getClassNameAndPhoneIdOfThatClassViaUserId",userId);
-		return retList;
-	}
 	
-	/**********TEST DONE
-	 * @param className
-	 * @return classNo
-	 * className 갖고 있는  classNo return
-	 * className 겹치면 안됨
-	 */	
-	public Long getClassNoViaClassName (String className ) {
-		Long retLong = -1L;
-		retLong = sqlSession.selectOne("class.getClassNoViaClassName",className);
-		return retLong;
-	}
+	
 	
 	/************* 송이 사용할거 - testserver2 사용중
 	 * @param userId
@@ -133,19 +150,4 @@ public class ClassDao {
 		return retList;
 	}
 	
-	public List<HashMap<String, Object>> getCLassListByUserId (String userId ){
-		List<HashMap<String, Object>> retList = null;
-		
-		retList = sqlSession.selectList("class.getClassNoAndClassNameViaUserId",userId);
-		
-		
-		System.out.println("result - HO : " + retList);
-		
-		return retList;
-	}
-	public List<String> getStudentPhoneIdListViaClassNo( Long classNo) {
-		List<String> retList = null;
-		retList = sqlSession.selectList("class.getStudentPhoneIdListViaClassNo", classNo );
-		return retList;
-	}
 }

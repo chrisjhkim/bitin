@@ -17,6 +17,48 @@ public class ClassService {
 	@Autowired
 	ClassDao classDao;
 	
+	/**********TEST DONE
+	 * @param className
+	 * @return classNo
+	 * className 갖고 있는  classNo return
+	 * className 겹치면 안됨
+	 */
+	public Long getClassNoViaClassName (String className ) {
+		Long retLong = -1L;
+		retLong = classDao.getClassNoViaClassName(className);
+		return retLong;
+	}
+	/**
+	 * @param userId 
+	 * @return List(hashmap> 으로 
+	 * userId가 들어있는 수업 '들'의  수업명, 선생PhoneId
+	 * List(class_Name , user_phone_id )
+	 */
+	public List<HashMap<String, Object>> getClassInfoByUserId ( String userId ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = classDao.getClassInfoByUserId(userId);
+		return retList;
+	}
+	
+	public List<HashMap<String, Object>> getStudentPhoneIdListByUserId (String userId ){
+		List<HashMap<String, Object>> retList = null;
+		retList = classDao.getCLassListByUserId(userId);
+		
+		for( HashMap<String, Object> map : retList){
+			Long classNo = ((BigDecimal)map.get("CLASS_NO")).longValue();
+			List<String> phoneIdList = null;
+			phoneIdList = classDao.getStudentPhoneIdListViaClassNo(classNo);
+			map.put("PHONE_ID_LIST", phoneIdList);
+		}
+		return retList;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	/*******************Test done
 	 * @param classVo (groupNo, className, classType,
@@ -71,29 +113,8 @@ public class ClassService {
 		retList = classDao.getClassNameListByUserNo(userNo);
 		return retList;
 	}
-	/**
-	 * @param userId 
-	 * @return List(hashmap> 으로 
-	 * userId가 들어있는 수업 '들'의  수업명, 선생PhoneId
-	 * List(class_Name , user_phone_id )
-	 */
-	public List<HashMap<String, Object>> getClassInfoByUserId ( String userId ) {
-		List<HashMap<String, Object>> retList = null;
-		retList = classDao.getClassInfoByUserId(userId);
-		return retList;
-	}
 	
-	/**********TEST DONE
-	 * @param className
-	 * @return classNo
-	 * className 갖고 있는  classNo return
-	 * className 겹치면 안됨
-	 */
-	public Long getClassNoViaClassName (String className ) {
-		Long retLong = -1L;
-		retLong = classDao.getClassNoViaClassName(className);
-		return retLong;
-	}
+	
 	
 	/************* 송이 사용할거 - testserver2 사용중   [test done]
 	 * @param userId
@@ -118,19 +139,4 @@ public class ClassService {
 	}
 	
 	
-	public List<HashMap<String, Object>> getStudentPhoneIdListByUserId (String userId ){
-		List<HashMap<String, Object>> retList = null;
-		retList = classDao.getCLassListByUserId(userId);
-		
-		for( HashMap<String, Object> map : retList){
-			Long classNo = ((BigDecimal)map.get("CLASS_NO")).longValue();
-			System.out.println(classNo);
-			List<String> phoneIdList = null;
-			phoneIdList = classDao.getStudentPhoneIdListViaClassNo(classNo);
-			
-			map.put("PHONE_ID_LIST", phoneIdList);
-		}
-		System.out.println("최종 : "+retList);
-		return retList;
-	}
 }
