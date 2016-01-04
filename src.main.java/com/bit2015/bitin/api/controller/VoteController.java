@@ -11,9 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.annotation.AuthUser;
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.UtilService;
 import com.bit2015.bitin.service.VoteService;
 import com.bit2015.bitin.vo.UserVo;
@@ -23,7 +25,9 @@ import com.bit2015.bitin.vo.VoteVo;
 @Controller("voteAPIController")
 @RequestMapping("/api/vote")
 public class VoteController {
-
+	@Autowired
+	ChrisService chrisService;
+	
 	@Autowired
 	VoteService voteService;
 	@Autowired
@@ -219,8 +223,13 @@ public class VoteController {
 
 
 	@RequestMapping("/votechart/{voteNumber}")
-	public String voteChart(@PathVariable ("voteNumber") Long voteNumber, @AuthUser UserVo authUser, Model model){
-
+	public String voteChart(
+			@RequestParam(value="id", required=false)String userId,
+			@PathVariable ("voteNumber") Long voteNumber, 
+			Model model){
+				UserVo authUser = chrisService.getUserVoViaUserId(userId);
+				
+				
 				HashMap<String, Object> map = new HashMap<>();
 				map.put("voteNumber", voteNumber);
 				List<String> firstlist = voteService.votingState(map);

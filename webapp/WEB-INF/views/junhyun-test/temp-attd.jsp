@@ -64,14 +64,14 @@
 					</div>
 					<div class="form-group">
 						<label for="input-pwd">메모</label>
-						<input class="form-control" type="password" id="input-pwd" name="userPassword" placeholder="한줄 메모 입력" />
+						<input class="form-control" type="text" id="input-pwd" name="userPassword" placeholder="한줄 메모 입력" />
 					</div>
-					<button class="btn btn-primary" data-dismiss="modal" onclick="modalModify();">수정</button>
-					<button type="reset" class="btn btn-warning">취소!!!</button>
+					
 				</form>
 			</div>
 
 			<div class="modal-footer">
+				<button class="btn btn-primary" data-dismiss="modal" onclick="modalModify();">수정</button>
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 			</div>
 		</div>
@@ -83,10 +83,19 @@
 <section id="content">
 	<div class="content">
 		<div class="card">
-			<div class="card-padding card-body">
-				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'"
-					style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button>
-			</div>
+<!-- 			<div class="card-padding card-body"> -->
+<%-- 				<button class="btn btn-warning btn-block" onclick="location.href='/bitin/board/writeform/${list[0].classNo }'" --%>
+<%-- 					style="margin-right: 8px; margin-top: 30px; cursor: pointer;">${vo.className } 게시판  글 작성 바로가기</button> --%>
+<!-- 			</div> -->
+			<div class="col-sm-5 actionBar">
+					<div class="input-group form-group">
+						<span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+						<div class="dtp-container fg-line">
+<!-- 							<input type='text' class="form-control " id="start-date"> -->
+							<button class="btn btn-default form-control btn-icon-text" type="button"  >StartDate</button>
+   						</div>
+   					</div>
+   				</div>	
 				<div class="col-sm-5 actionBar">
 					<div class="input-group form-group">
 						<span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
@@ -114,12 +123,12 @@
 					<thead>
 						<tr id="table-abc">
 							<th data-column-id="name" data-type="text" data-identifier="true">이름</th>
-							<th data-column-id="userNo" data-visible="true">userNo</th>
+							<th data-column-id="userNo" data-visible="false">userNo</th>
 							<th data-column-id="goodRate" data-visible="true">출석률</th>
 							<!-- <th data-column-id="attdYesRate" data-visible="true">출석률()</th>
 							<th data-column-id="attdYesOrInfoRate" data-visible="true">출석률(병결인정)</th>
 							<th data-column-id="attdYesOrInfoOrLateRate" data-visible="true">출석률(지각포함)</th> -->
-							<th data-column-id="fixed1" data-formatter="newtest1" >${dataList[0].attdList[0].classDate }</th>
+							<c:if test="${attdCounter>0}"><th data-column-id="fixed1" data-formatter="newtest1">${dataList[0].attdList[0].classDate }</th></c:if>
 							<c:if test="${attdCounter>1}"><th data-column-id="fixed2" data-formatter="newtest2">${dataList[0].attdList[1].classDate }</th></c:if>
 							<c:if test="${attdCounter>2}"><th data-column-id="fixed3" data-formatter="newtest3">${dataList[0].attdList[2].classDate }</th></c:if>
 							<c:if test="${attdCounter>3}"><th data-column-id="fixed4" data-formatter="newtest4">${dataList[0].attdList[3].classDate }</th></c:if>
@@ -144,11 +153,12 @@
 						<c:forEach items='${dataList }' var='vo' varStatus='status'>
 							<tr>
 									<td>${vo.userName}</td>
-									<td>${vo.userNo}</td>
+ 									<td>${vo.userNo}</td>
 									<td>${vo.attdRate }</td>
 <%-- 									<td>${vo.attdYesOrInfoRate}</td> --%>
 <%-- 									<td>${vo.attdYesOrInfoOrLateRate}</td> --%>
-									<td>${vo.attdList[0].attdStatus }</td>
+<%-- 									<td>${vo.attdList[0].attdStatus }</td> --%>
+									<c:if test="${attdCounter>0 }"><td>${vo.attdList[0].attdStatus }</td></c:if>
 									<c:if test="${attdCounter>1 }"><td>${vo.attdList[1].attdStatus }</td></c:if>
 									<c:if test="${attdCounter>2 }"><td>${vo.attdList[2].attdStatus }</td></c:if>
 									<c:if test="${attdCounter>3 }"><td>${vo.attdList[3].attdStatus }</td></c:if>
@@ -369,9 +379,11 @@ var gStatus = "";
 <script type="text/javascript">
 /////////////////////////////////// /////////////////////////////////// /////////////////////////////////// 
 $(document).ready(
-	
-		
 	function() {
+		var startDateHTML = document.getElementById("start-date");
+		startDateHTML.innerHTML = "${startDate}";		
+		var endDateHTML= document.getElementById("end-date");
+		endDateHTML.innerHTML = "${endDate}";		
 		//Basic Example
 		$("#data-table-basic").bootgrid({
 			/*
@@ -543,8 +555,7 @@ var dateRangeStart = "";
 var dateRangeEnd = "";
 function modifyDateRange() {
 	console.log("modify 해라!")
-	console.log("start:"+dateRangeStart);
-	console.log("end:"+dateRangeEnd);
+	console.log("start:"+dateRangeStart+" -> end:"+dateRangeEnd);
 	if( dateRangeStart > dateRangeEnd) {
 		 alert('잘못된 범위!')
 	}else{
@@ -696,6 +707,8 @@ $(function() {
 	    "startDate": "12/16/2015",
 	}, function(start, end, label) {
 	  dateRangeEnd = start.format('YYYYMMDD');
+		var endDateHTML= document.getElementById("end-date");
+		endDateHTML.innerHTML = dateRangeEnd;		
 	});
 	
 	$('#start-date').daterangepicker({
@@ -703,6 +716,8 @@ $(function() {
 	    "startDate": "12/01/2015",
 	}, function(start, end, label) {
 	  dateRangeStart = start.format('YYYYMMDD');
+		var startDateHTML = document.getElementById("start-date");
+		startDateHTML.innerHTML = dateRangeStart;		
 	});
 });
 </script>

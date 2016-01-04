@@ -65,7 +65,7 @@ public class AttdDao {
 		List<HashMap<String, Object>> retList = null;
 		HashMap<String, Object> inputMap = new HashMap<String, Object>();
 		inputMap.put("userNo", userNo);//10L
-		inputMap.put("strDate", "20151208");
+		inputMap.put("strDate", strDate);
 		inputMap.put("classRole", classRole);
 		retList = sqlSession.selectList("attd.getClassAttdByDateAndUserNo", inputMap );
 		System.out.println("The Dao result : "+retList);

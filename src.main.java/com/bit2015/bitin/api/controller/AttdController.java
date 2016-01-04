@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.service.AttdService;
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.service.UtilService;
+import com.bit2015.bitin.vo.UserVo;
 
 @Controller("attdAPIController")
 @RequestMapping("/api/attd")
@@ -23,6 +25,8 @@ public class AttdController {
 	UserService userService;
 	@Autowired
 	UtilService utilService;
+	@Autowired
+	ChrisService chrisService;
 	
 	/************* TEST DONE 송이가 사용
 	 * @param inputMap  (checkDay , userId )필수
@@ -30,7 +34,7 @@ public class AttdController {
 	 * checkDay "YYYY/M/D" 형식으로 들어와서 utilService에서 YYYYMMDD 로 변환해서 DB에 넣음
 	 */
 	@ResponseBody
-	@RequestMapping("/classattd-by-date-and-user")
+	@RequestMapping("/classattd-by-date-and-user")	// 데이터 빈거 1:53
 	public Map<String, Object> getClassAttdInfoListByAttdNoAndUserNo( 
 			@RequestBody HashMap<String, Object> inputMap ) { //이거안되면 HashMap<> 대신 String 으로 해서 util 에 있는거 쓰기 
 		System.out.println("/classattd-by-date-and-user @ inputMap : "+inputMap);
@@ -48,7 +52,7 @@ public class AttdController {
 		}
 		String strDate=utilService.changeDateFormat(checkDay); 
 		Long userNo = userService.getUserNoViaUserId(userId);
-		
+		System.out.println("@1:51" + userNo + strDate);
 		List<HashMap<String, Object>>retList = attdService.getClassAttdInfoListByAttdNoAndUserNo(strDate, userNo,classRole);
 		retString = "success";
 		retMap.put("data", retList);
@@ -58,15 +62,16 @@ public class AttdController {
 		return retMap;
 	}
 	@ResponseBody
-	@RequestMapping("/by-userno")
+	@RequestMapping("/by-userno")	//에러
 	public Map<String, Object> getAttdStatusListByUserNo(
 			@RequestBody HashMap<String, Object> inputMap ) {
-//		System.out.println("byUserNo : input "+inputMap);
+		System.out.println("byUserNo : input "+inputMap);
 		String retString = "fail";
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
-
-		Long userNo = (long)inputMap.get("userNo");
-		List<HashMap<String,Object>> attList = attdService.getAttdStatusListByUserNo(userNo);
+		String userId= (String)inputMap.get("userId");
+		UserVo userVo = userService.getUserVo(userId);
+		
+		List<HashMap<String,Object>> attList = attdService.getAttdStatusListByUserNo(userVo.getUserNo());
 		retMap.put("data", attList);
 		retString= "success";
 		

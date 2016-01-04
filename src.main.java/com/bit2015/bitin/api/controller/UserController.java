@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.UserVo;
 
@@ -22,6 +23,9 @@ import com.bit2015.bitin.vo.UserVo;
 public class UserController {
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	ChrisService chrisService;
 	
 	/********************************************
 	 * 안되고 있음. 안드로이드쪽 문제인지 서버쪽 문제인지 아직 모름
@@ -312,6 +316,33 @@ public class UserController {
 		retMap.put("data", userService.userIdByPhoneId(userVo));
 		return retMap;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/check")
+	public Map<String, Object> check(
+			@RequestBody HashMap<String, Object> map) {
+		System.out.println("/check input : "+map);
+		HashMap<String, Object>retMap = new HashMap<String, Object>();
+		String resString = "fail";
+		
+		Long inputRandomNumber;
+//		Long dbRandomNumber = chrisService.getLastRandomNumberByClassNo(classNo);
+//		
+//		if( inputRandomNumber.equals(dbRandomNumber)){
+			resString = "success";
+//			
+//			//출책
+//		}else {
+//			
+//		}
+//		retMap.put("message", "숫자가 일치하지 않습니다");
+		
+		retMap.put("result",resString);
+		System.out.println(retMap);
+		return retMap;
+	}
+	
 	
 	
 }

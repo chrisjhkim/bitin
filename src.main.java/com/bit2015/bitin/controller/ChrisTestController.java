@@ -92,8 +92,8 @@ public class ChrisTestController {
 			@RequestParam(value="from", required=false, defaultValue="2015 01 08")String startDate,
 			@RequestParam(value="to", required=false, defaultValue="2015 12 31")String endDate
 			) {  
-	
 		
+		UserVo authUser = chrisService.getUserVoViaUserId(chrisService.getUserIdViaUserNo(userNo));
 		
 		List<HashMap<String, Object>> dataList = null;
 		dataList = chrisService.getAttdStatusViaClassNoAndDates(classNo, startDate, endDate );		//출석한 날짜들 구하기
@@ -140,12 +140,27 @@ public class ChrisTestController {
 			}
 			person.put("attdRate", 100*yesOrLateCounter/yesNoLateTotalCounter);
 		}
+		List<UserVo> list = userService.classmateList(authUser);
+		model.addAttribute( "classMate", list );
+		List<UserVo> list2 = userService.classnameList(authUser);
+		model.addAttribute( "className", list2 );
+		model.addAttribute("authUser", authUser);
 		
+		List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(authUser.getUserNo());
+		model.addAttribute("recentChatList", recentChatList);
+		model.addAttribute("myNo", authUser.getUserNo());
+		
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
 		
 		System.out.println("/main result : "+dataList);
 		
 		return "junhyun-test/temp-attd";
 	}
+	
+	
+	
+	
 	@RequestMapping("/main2")
 	public String TesterMain2( Model model ) {  
 		System.out.println("@1");
