@@ -14,8 +14,8 @@
 				   user_name as userName,
 				   view_cnt as viewCount,
 				   to_char(reg_date, 'yyyy-mm-dd' ) as regDate
-			  FROM b_board,b_user
-			  where b_board.USER_NO=b_user.USER_NO
+			  FROM b_post,b_user
+			  where b_post.USER_NO=b_user.USER_NO
 			]]>
 	</select>
 
@@ -28,9 +28,9 @@
 				   user_name as userName,
 				   view_cnt as viewCount,
 				   to_char(reg_date, 'mm-dd' ) as regDate
-			  FROM b_board,b_user
-			  where b_board.CLASS_NO=#{classNo }
-			   and b_board.USER_NO=b_user.USER_NO
+			  FROM b_post,b_user
+			  where b_post.CLASS_NO=#{classNo }
+			   and b_post.USER_NO=b_user.USER_NO
 	</select> -->
 	
 <select id="selectList" parameterType="long"  resultType="BoardVo">
@@ -41,10 +41,10 @@
                user_name as userName,
                view_cnt as viewCount,
                to_char(reg_date, 'mm-dd' ) as regDate
-           FROM b_board,b_user
-           where b_board.CLASS_NO=#{classNo }
-            and b_board.board_type = 1
-            and b_board.USER_NO=b_user.USER_NO
+           FROM b_post,b_user
+           where b_post.CLASS_NO=#{classNo }
+            and b_post.board_type = 1
+            and b_post.USER_NO=b_user.USER_NO
 
    </select>	<!-- **************************************************************************************************************** -->
 	<select id="selectBoardName" parameterType="long" resultType="ClassVo">
@@ -56,7 +56,7 @@
 	<!--  ******************************   2015.12.11 김현준이 임시로만든 게시판content와 조회수를 불러오는 sql입니다.  **************************         -->
 	<update id="updateViewCount" parameterType="long">
 		<![CDATA[
-		update b_board
+		update b_post
 		   set view_cnt = view_cnt + 1		
          where post_no = #{postNo }
 		]]>			
@@ -69,7 +69,7 @@
 			   title,
 			   content,
 			   reg_date as regDate
-		  from b_board
+		  from b_post
 		 where board_no=#{boardNo }			
 		]]>
 	</select>
@@ -78,10 +78,8 @@
 	<!-- **************************************************************************************************************** -->
 	
 	<insert id="insert" parameterType="BoardVo">
-		<![CDATA[
-		insert into b_board 
-		values ( #{classNo }, b_board_no_seq.nextval, #{title }, #{content }, #{userNo }, 0, SYSDATE, #{boardType})
-				]]>			 
+		insert into b_post 
+		values ( #{classNo }, b_post_no_seq.nextval, #{title }, #{content }, #{userNo }, 0, SYSDATE, #{boardType})
 	</insert>
 	
 	<select id="getPostByPostNo" parameterType="long" resultType="BoardVo">
@@ -94,7 +92,7 @@
             to_char( b.reg_date, 'yyyy/mm/dd   hh:mi' ) as regDate,
             b.board_type AS boardType,
          u.user_name AS userName
-      FROM B_BOARD b, b_user u      
+      FROM b_post b, b_user u      
       WHERE post_no = #{postNo }
       AND b.user_no = u.user_no
    </select>
@@ -120,14 +118,14 @@
 	<delete id="delete" parameterType="map">
 		<![CDATA[
 		delete
-		  from b_board
+		  from b_post
 		 where post_no = #{postNo }
 		]]>
 	</delete>
 	
 	<update id="update" parameterType="BoardVo">
 		<![CDATA[
-		update b_board
+		update b_post
 		   set title = #{title }, content = #{content }
          where post_no = #{postNo }
 		]]>			
@@ -136,9 +134,32 @@
 	<select id="selectClassNobyPostNo" resultType="BoardVo" parameterType="long">
 		<![CDATA[
 		select class_no as classNo
-		  from b_board
+		  from b_post
 		 where postNo = #{postNo }			
 		]]>
 	</select>
 	
+	
+	<insert id="insertNewUnreadBoard" parameterType="long">
+		INSERT INTO b_unread_board
+		VALUES (#{userNo},
+				#{boardNo} )
+	</insert>
+	
+	<select id="getUnreadBoardCountByUserNo" parameterType="long">
+		SELECT COUNT(*) 
+		  FROM b_unread_board
+		 WHERE user_no = #{userNo}
+	</select>
+	
+	<delete id="deleteUnreadBoardCountByUserNoAndBoardNo" parameterType="BoardVo">
+		DELETE FROM b_unread_board
+		 WHERE user_no = #{userNo}
+		   AND board_no = #{boardNo}
+	</delete>
+	
+	<delete id="deleteUnreadBoardCountByUserNo" parameterType="long">
+		DELETE FROM b_unread_board
+		 WHERE user_no = #{userNo}
+	</delete>
 </mapper>

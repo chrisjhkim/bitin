@@ -207,6 +207,37 @@ public class ClassController {
 		return retMap;
 	}
 	
+	/**	//TODO : 송이가 사용할것.
+	 * @param userVo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/class-name-and-no")
+	public Map<String , Object> getClassNameAndNoViaUserId (
+			@RequestBody UserVo userVo ){
+		System.out.println("/class-name-and-no input userVo : "+userVo);
+		HashMap<String, Object>retMap = new HashMap<String, Object>();
+		String resString ="fail";
+		
+		if(userVo== null){
+			System.out.println("/class-name-and-no #1");
+			retMap.put("message", "에러 : userVo == null");
+		}else {
+			List<HashMap<String, Object>> classInfoList = classService.getClassNameAndNoByUserId(userVo.getUserId());
+			if(classInfoList== null ){
+				System.out.println("/class-name-and-no #2");
+				resString = "fail";
+				retMap.put("message", "group is empty");
+			}else{
+				System.out.println("/class-name-and-no #3");
+				resString="success";
+				retMap.put("data", classInfoList);
+			}
+		}
+		retMap.put("result", resString);
+		System.out.println("/class-name-and-no retMap :"+ retMap);
+		return retMap;
+	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
@@ -274,35 +305,6 @@ public class ClassController {
 	
 	
  
-	/**	//TODO : 송이가 사용할것.
-	 * @param userVo
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/class-name-and-no")
-	public Map<String , Object> getClassNameAndNoViaUserId (
-			@RequestBody UserVo userVo ){
-		System.out.println("@b ClassCont getClassInfo: getClassNameAndNoViaUserId userVo : "+userVo);
-		HashMap<String, Object>retMap = new HashMap<String, Object>();
-		String resString ="fail";
-	
-		if(userVo== null){
-			retMap.put("message", "에러 : userVo == null");
-		}else {
-			List<HashMap<String, Object>> classInfoList = classService.getClassNameAndNoByUserId(userVo.getUserId());
-			if(classInfoList== null ){
-				resString = "fail";
-				retMap.put("message", "group is empty");
-			}else{
-				resString="success";
-				retMap.put("data", classInfoList);
-			}
-		}
-		retMap.put("result", resString);
-		System.out.println("retMap :"+ retMap);
-	
-		return retMap;
-	}
 		
 	@ResponseBody
 	@RequestMapping("/start-attd")

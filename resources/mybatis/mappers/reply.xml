@@ -13,7 +13,7 @@
             b.reg_date AS regDate,
             b.board_type AS boardType,
          u.user_name AS userName
-      FROM B_BOARD b, b_user u      
+      FROM b_post b, b_user u      
       WHERE post_no = #{postNo }
       AND b.user_no = u.user_no
    </select>

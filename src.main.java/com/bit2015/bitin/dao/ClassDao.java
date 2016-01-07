@@ -47,6 +47,16 @@ public class ClassDao {
 		retList = sqlSession.selectList("class.getStudentPhoneIdListViaClassNo", classNo );
 		return retList;
 	}
+	/************* 송이 사용할거 - testserver2 사용중
+	 * @param userId
+	 * @return List<수업Name, 수업No>
+	 * userId 의 id를 가진 유저가 듣는 수업'들'의 CLASS_NAME, CLASS_NO return 
+	 */
+	public List<HashMap<String, Object>> getClassNameAndNoViaUserId ( String userId ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("class.getClassNameAndNoOfThatClassViaUserId",userId);
+		return retList;
+	}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
@@ -126,18 +136,6 @@ public class ClassDao {
 	
 	
 	
-	/************* 송이 사용할거 - testserver2 사용중
-	 * @param userId
-	 * @return List<수업Name, 수업No>
-	 * userId 의 id를 가진 유저가 듣는 수업'들'의 CLASS_NAME, CLASS_NO return 
-	 */
-	public List<HashMap<String, Object>> getClassNameAndNoViaUserId ( String userId ) {
-		List<HashMap<String, Object>> retList = null;
-		System.out.println("@ClassDao userId :"+userId);
-		retList = sqlSession.selectList("class.getClassNameAndNoOfThatClassViaUserId",userId);
-		System.out.println(retList);
-		return retList;
-	}
 	
 	/*********TEST DONE
 	 * @param classNo

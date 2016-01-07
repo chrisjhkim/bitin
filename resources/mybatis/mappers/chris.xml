@@ -94,7 +94,7 @@
 	</select>
 	<select id="getClassNoViaPostNo" resultType="long" parameterType="long">
 		SELECT class_no as classNo
-		  FROM b_board
+		  FROM b_post
 		 WHERE post_no = #{postNo }			
 	</select>
 	<select id="getUserVoViaUserId" parameterType="string" resultType="UserVo">

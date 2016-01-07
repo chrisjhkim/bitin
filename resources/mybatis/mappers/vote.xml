@@ -4,7 +4,6 @@
 <mapper namespace="vote">	
 
 	<insert id="setVoteTitle" parameterType="hashmap">
-		<![CDATA[
 			INSERT INTO b_vote_title
 			VALUES (b_vote_seq.nextval,
 					#{userId },
@@ -14,28 +13,22 @@
 					(select class_no
 					 from   b_class
 					 where class_name = #{className }))
-			]]>
 	</insert>	
+	
 	<insert id="setVoteContent" parameterType="hashmap">
-		<![CDATA[
 			INSERT INTO  b_vote_content
 			VALUES (b_vote_seq.currval,
 					#{voteContent},
 					b_vote_content_seq.nextval
 					)
-			]]>
 	</insert>	
+	
 	<select id="phoneIdListbyUserIdAndClassName" parameterType="hashmap" resultType="string" >
 		SELECT a.user_phone_id from b_user a,b_class b
 		 WHERE a.user_id = #{userId} and b.class_name = #{className }
 	</select>
 	
-	
-	
-	
-	
 	<select id="getVoteList" parameterType="string" resultType="VoteVo" >
-		<![CDATA[
 		SELECT  vote_title AS voteTitle,
 				class_name AS className,
 				to_char(created_date, 'YYYY/MM/DD') AS createdDate,
@@ -43,86 +36,44 @@
 				class_no as classNo
 		  FROM  b_vote_title
 		 WHERE  class_no in (select class_no from b_class_user where user_no in (select user_no from b_user where user_id = #{userId }))
-			]]>
 	</select>	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<insert id="voting" parameterType="hashmap">
-		<![CDATA[
 			INSERT INTO b_vote_answer
 			VALUES ((select user_no from b_user where user_id = #{userId }),
 					#{voteNumber },
 					#{voteContent } )
-			]]>
 	</insert>	
 	
 	<select id="votingCheck" parameterType="hashmap" resultType="boolean">
-			<![CDATA[
 			select vote_content
 			from b_vote_answer
 			where vote_number = #{voteNumber } and user_No in (select user_No from b_user where user_id = #{userId})
-			]]>
 	</select>	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	<delete id="deleteVoteTitle" parameterType="int">
-		<![CDATA[
 			delete
 			from b_vote_title
 			where vote_number = #{voteNumber }
-		]]>
-	</delete>	
+	</delete>
+		
 	<delete id="deleteVoteContent" parameterType="int">
-		<![CDATA[
 			delete
 			from b_vote_Content
 			where vote_number = #{voteNumber }
-		]]>
-	</delete>		
+	</delete>	
+		
 	<delete id="deleteVoteAnswer" parameterType="int">
-		<![CDATA[
 			delete
 			from b_vote_Answer
 			where vote_number = #{voteNumber }
-		]]>
 	</delete>	
-	
-	
-	
-	
-	
-	
 	
 	<select id="voteListByVoteNo" parameterType="int" resultType="String" >
 		SELECT  vote_content AS voteContent
 		  FROM  b_vote_content
 		 where vote_number = #{voteNumber }
 	</select>	
-	
-	
-	
 	
 	<select id="votingState" parameterType="hashmap" resultType="String" >
 		SELECT vote_content AS voteContent
@@ -143,15 +94,12 @@
 			   vt.class_name as className,
 			   vt.user_id as userId
 		from   b_vote_title vt, b_vote_content vc, b_vote_answer a
-		where a.vote_number = #{voteNumber} 
-				
+		where a.vote_number = #{voteNumber} 	
 	</select>
-	
 	
 	<select id="voteTitle" parameterType="Long" resultType="String">
 		select vote_title
 		from  b_vote_title
-		where vote_number = #{voteNumber} 
-				
+		where vote_number = #{voteNumber} 	
 	</select>
 </mapper>

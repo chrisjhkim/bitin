@@ -63,7 +63,7 @@ public class MainController {
 		
 		
 		
-		return "/junhyun-test/index2";
+		return "/webapp/webapp-index";
 	}
 //	@RequestMapping("/index3")
 //	public String index3(
