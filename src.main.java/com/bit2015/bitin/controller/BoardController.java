@@ -41,7 +41,7 @@ public class BoardController {
 		model.addAttribute("classNo", classNo);
 		model.addAttribute("boardType", 1L);
 		if( authUser!= null){
-			List<UserVo> list1 = userService.classmateList(authUser);
+			List<UserVo> list1 = userService.getClassmateList(authUser);
 			model.addAttribute( "classMate", list1 );
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );
@@ -54,7 +54,7 @@ public class BoardController {
 		BoardVo boardVo = boardService.getPostByPostNo(postNo);
 		model.addAttribute("boardVo", boardVo);
 		if( authUser!= null){
-			List<UserVo> list1 = userService.classmateList(authUser);
+			List<UserVo> list1 = userService.getClassmateList(authUser);
 			model.addAttribute( "classMate", list1 );
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );
@@ -95,7 +95,7 @@ public class BoardController {
 		model.addAttribute("vo", vo);
 		model.addAttribute("myNo", userNo);
 		if( fakeAuthUser!= null){
-			List<UserVo> list1 = userService.classmateList(fakeAuthUser);
+			List<UserVo> list1 = userService.getClassmateList(fakeAuthUser);
 			model.addAttribute( "classMate", list1 );
 			model.addAttribute("classMateSize", list1.size());
 			List<UserVo> list2 = userService.classnameList(fakeAuthUser);
@@ -136,7 +136,7 @@ public class BoardController {
 		model.addAttribute("list", list);
 		boardService.updateViewCount(postNo);
 		if( authUser!= null){
-			List<UserVo> list1 = userService.classmateList(authUser);
+			List<UserVo> list1 = userService.getClassmateList(authUser);
 			model.addAttribute( "classMate", list1 );
 			model.addAttribute("classMateSize", list1.size());
 			List<UserVo> list2 = userService.classnameList(authUser);

@@ -83,7 +83,7 @@ public class UserController {
 		model.addAttribute("otherNo", otherUserNo);
 		System.out.println("fgggggggggg"+ userVo);
 		if( myUserVo!= null){
-			List<UserVo> classMateList = userService.classmateList(myUserVo);
+			List<UserVo> classMateList = userService.getClassmateList(myUserVo);
 			model.addAttribute( "classMate", classMateList );
 			List<UserVo> list2 = userService.classnameList(myUserVo);
 			model.addAttribute( "className", list2 );

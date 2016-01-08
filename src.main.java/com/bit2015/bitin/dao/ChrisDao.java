@@ -283,7 +283,6 @@ public boolean insertAttdNumberVo ( AttdNumberVo attdNumberVo ) {
 	public List<HashMap<String, Object>> getRecentChatsByUserNo (Long userNo) {
 		List<HashMap<String, Object>> retList = null;
 		retList = sqlSession.selectList("chris.getRecentChatsViaUserNo", userNo);
-		System.out.println("chat result : "+retList);
 		return retList;
 	}
 	

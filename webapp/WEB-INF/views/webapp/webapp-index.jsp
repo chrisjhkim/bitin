@@ -132,7 +132,7 @@
 
 <!-- Javascript Libraries -->
 <script>
-	var authUser = "${authUser.userName}";
+	var authUser = "${fakeAuthUser.userName}";
 </script>
 
 <script src="/bitin/assets/vendors/bower_components/jquery/dist/jquery.min.js"></script>

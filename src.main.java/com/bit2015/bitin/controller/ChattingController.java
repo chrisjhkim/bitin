@@ -61,7 +61,7 @@ public class ChattingController {
 		
 
 		if( authUser!= null){
-			List<UserVo> list1 = userService.classmateList(authUser);
+			List<UserVo> list1 = userService.getClassmateList(authUser);
 			model.addAttribute( "classMate", list1 );
 			List<UserVo> list2 = userService.classnameList(authUser);
 			model.addAttribute( "className", list2 );

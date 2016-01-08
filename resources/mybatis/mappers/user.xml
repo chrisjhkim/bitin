@@ -19,6 +19,15 @@
 					'0'		)
 		]]>
 	</insert>
+	<select id="getUserVoByUserNo" parameterType="long" resultType="UserVo">
+		SELECT user_no AS userNo,
+			   user_id AS userId,
+			   user_name AS userName,
+			   user_phone_id AS userPhoneId,
+			   user_type AS userType
+		  FROM b_user
+		 WHERE user_no= #{userNo }
+	</select>
 
 	<select id="getUserById" parameterType="string" resultType="UserVo">
 		SELECT user_no AS userNo,
@@ -93,7 +102,7 @@
 		WHERE user_id = #{userId} ))
 	</select>
 
-	<select id="classmateList" parameterType="UserVO" resultType="UserVo">
+	<select id="getClassmateList" parameterType="long" resultType="UserVo">
 		SELECT user_name as userName,
 				user_no as userNo,
 				user_type as userType
@@ -112,7 +121,7 @@
 		where user_phone_id = #{userPhoneId}
 	</select>
 	
-	<select id="classnameList" parameterType="long" resultType="ClassVo">		
+	<select id="getClassList" parameterType="long" resultType="ClassVo">		
 		SELECT class_name as className,
 				class_no as classNo		
 		FROM b_class		

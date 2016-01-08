@@ -40,7 +40,7 @@ public class MinController {
 		UserVo userVo = chrisService.getUserVoViaUserId(userId);
 
 		if (userVo != null) {
-			List<UserVo> list = userService.classmateList(userVo);
+			List<UserVo> list = userService.getClassmateList(userVo);
 			model.addAttribute("classMate", list);
 			List<UserVo> list2 = userService.classnameList(userVo);
 			model.addAttribute("className", list2);

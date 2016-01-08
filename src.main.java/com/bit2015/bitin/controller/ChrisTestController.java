@@ -140,7 +140,7 @@ public class ChrisTestController {
 			}
 			person.put("attdRate", 100*yesOrLateCounter/yesNoLateTotalCounter);
 		}
-		List<UserVo> list = userService.classmateList(authUser);
+		List<UserVo> list = userService.getClassmateList(authUser);
 		model.addAttribute( "classMate", list );
 		List<UserVo> list2 = userService.classnameList(authUser);
 		model.addAttribute( "className", list2 );

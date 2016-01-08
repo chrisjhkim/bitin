@@ -66,6 +66,11 @@ public class UserService {
 		retVo = userDao.getUserById(id);
 		return retVo;
 	}
+	public UserVo getUserVo (Long userNo ) {
+		UserVo retVo = null;
+		retVo = userDao.getUserVoByUserNo(userNo);
+		return retVo;
+	}
 
 	/**
 	 * @param userVo
@@ -160,14 +165,13 @@ public class UserService {
 		return userVo;
 	}
 
-	public List<UserVo> classmateList(UserVo vo) {
-		List<UserVo> list = userDao.classmateList(vo);
+	public List<UserVo> getClassmateList(UserVo vo) {
+		List<UserVo> list = userDao.getClassmateList(vo.getUserNo());
 		return list;
 	}
 
 	public List<UserVo> classnameList(UserVo vo) {
-		List<UserVo> list2 = userDao.classnameList(vo);
-		System.out.println("list2" + list2);
+		List<UserVo> list2 = userDao.getClassList(vo);
 		return list2;
 	}
 

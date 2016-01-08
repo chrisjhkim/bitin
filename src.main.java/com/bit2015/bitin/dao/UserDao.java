@@ -26,6 +26,11 @@ public class UserDao {
 		return retLong;
 	}
 	
+	public UserVo getUserVoByUserNo ( Long userNo ) {
+		UserVo retVo = null;
+		retVo = (UserVo)sqlSession.selectOne("user.getUserVoByUserNo",userNo);
+		return retVo;
+	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////사용중      /////////////////////////////////////////////////////////////////
@@ -139,17 +144,20 @@ public class UserDao {
 		return userVo;
 	}
 	
-	public List<UserVo> classmateList( UserVo vo ) {
-		List<UserVo> list = sqlSession.selectList( "user.classmateList",  vo );
+	public List<UserVo> getClassmateList( Long userNo ) {
+		List<UserVo> list = sqlSession.selectList( "user.getClassmateList",  userNo );
 		return list;
 	}
 
 	
-	public List<UserVo> classnameList( UserVo vo ) {
-		System.out.println("test" + vo);
-		List<UserVo> list2 = sqlSession.selectList( "user.classnameList",  vo.getUserNo() );
-		System.out.println("list2 : " + list2);
+	public List<UserVo> getClassList( UserVo vo ) {
+		List<UserVo> list2 = sqlSession.selectList( "user.getClassList",  vo.getUserNo() );
 		return list2;
+	}
+	public List<UserVo> getClassList( Long userNo ) {
+		List<UserVo> retList = null;
+		retList = sqlSession.selectList( "user.getClassList",  userNo );
+		return retList;
 	}
 	
 	
@@ -168,7 +176,6 @@ public class UserDao {
 	
 	public String getUserNamebyUserNo (Long userNo ) { 
 		String userName = sqlSession.selectOne("user.getUserNamebyUserNo",userNo);
-		System.out.println("dao Name "+ userName);
 		return userName;
 	}
 	

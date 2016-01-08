@@ -9,52 +9,116 @@
 
 
 	<select id="list" parameterType="hashmap" resultType="MessageVo" >
-<!-- 							 select from_user_no 	AS 	fromUserNo, -->
-<!-- 							 		to_user_no		AS	toUserNo, -->
-<!-- 							 		created_date	AS	createdDate, -->
-<!-- 							 		message			AS	message -->
-<!-- 							 from   b_chatting -->
-<!-- 						     where  to_user_no =  (select user_no from b_user where user_id=#{userId }) or from_user_no =  (select user_no from b_user where user_id=#{userId }) -->
-<!-- 							 order by created_date asc -->
-
-
-
-							 select from_user_no 	AS 	fromUserNo,
-							 		to_user_no		AS	toUserNo,
-							 		created_date	AS	createdDate,
-							 		message			AS	message
-							 from   b_chatting
-						     where  (to_user_no =  #{toUserNo} and from_user_no =#{fromUserNo}) or (to_user_no =  #{fromUserNo} and from_user_no =#{toUserNo})
-							 order by created_date asc
-							 			 
-							 
+		SELECT  from_user_no 	AS 	fromUserNo,
+				to_user_no		AS	toUserNo,
+				created_date	AS	createdDate,
+				message			AS	message
+		   FROM b_chatting
+		  WHERE (to_user_no =  #{toUserNo}   AND   from_user_no =#{fromUserNo}  ) 
+		  	 OR (to_user_no =  #{fromUserNo} AND   from_user_no =#{toUserNo}  )
+		 ORDER BY created_date ASC
 	</select>
 
+	<insert id="insertMessage" parameterType="hashmap">
+		INSERT INTO b_chatting
+		VALUES (#{fromUserNo},
+				#{toUserNo},
+				SYSDATE,
+				#{message})
+	</insert>
 
-
-
-	<insert id="send" parameterType="hashmap">
-		<![CDATA[
-			INSERT INTO b_chatting
-			VALUES (#{fromUserNo},
-					#{toUserNo},
-					SYSDATE,
-					#{message})
-		]]>
+	<select id="selectbyno" resultType="MessageVo" parameterType="long">
+		SELECT message
+		  FROM b_chatting
+	</select>
+	
+	
+	
+	
+	<insert id="insertNewUnreadChat" parameterType="MessageVo">
+		INSERT INTO b_unread_chat
+		VALUES (#{toUserNo},
+				#{fromUserNo})
 	</insert>
 	
-	
-	
-	
-		<select id="selectbyno" resultType="MessageVo" parameterType="long">
-		<![CDATA[
-		  select message
-		    from b_chatting
-		]]>
+	<select id="getTotalUnreadChatCountByUserNo" parameterType="long" resultType="long">
+		SELECT COUNT(*) 
+		  FROM b_unread_chat
+		 WHERE my_user_no = #{userNo}
+	</select>
+	<select id="getUnreadChatCountByMyUserNoAndOtherUserNo" parameterType="hashmap">
+		SELECT COUNT(*) 
+		  FROM b_unread_chat
+		 WHERE my_user_no = #{userNo}
+		   AND from_user_no = #{fromUserNo}
 	</select>
 	
+	<delete id="deleteUnreadChatCountByMyUserNoAndOtherUserNo" parameterType="long">
+		DELETE FROM b_unread_chat
+		 WHERE my_user_no = #{userNo}
+	</delete>
+	<delete id="deleteTotalUnreadChatCountByUserNo" parameterType="hashmap">
+		DELETE FROM b_unread_chat
+		 WHERE my_user_no = #{myUserNo}
+		   AND from_user_no = #{fromUserNo}
+	</delete>
 	
-	
+	<select id="getRecentUnreadChatListByUserNoGroupByOtherUserNo" parameterType="long" resultType="hashmap">
+		SELECT from_user_no,
+			   from_user_name,
+			   to_user_no,
+			   message,
+			   created_date,
+			   counter
+		FROM (	SELECT c.from_user_no
+						, u.USER_NAME AS from_user_name
+					  ,c.to_user_no
+					  ,c.message 
+					  ,c.created_date 
+					  ,RANK() OVER (PARTITION BY c.from_user_no 
+									ORDER BY c.created_date DESC) AS recent_rank
+					  ,ct.unread_count as counter 
+				 FROM b_chatting c, b_user u , (SELECT COUNT(*) as unread_count
+													  ,from_user_no 
+												FROM b_unread_chat
+												WHERE my_user_no=10
+												GROUP BY from_user_no) ct
+				 
+		 		 WHERE to_user_no = #{userNo }
+				   AND c.FROM_USER_NO = u.USER_NO
+				   AND c.FROM_USER_NO = ct.from_user_no
+				   AND c.FROM_USER_NO IN (SELECT from_user_no 
+				   							FROM B_UNREAD_CHAT 
+										   WHERE my_user_no  = #{userNo }
+										GROUP BY from_user_no )
+				)
+		WHERE recent_rank=1
+		ORDER BY created_date
+	</select>
+	<select id="getRecentReadChatListByUserNoGroupByOtherUserNo" parameterType="long" resultType="hashmap">
+		SELECT from_user_no,
+			   from_user_name,
+			   to_user_no,
+			   message,
+			   created_date
+		FROM (	SELECT c.from_user_no
+						, u.USER_NAME AS from_user_name
+					  ,c.to_user_no
+					  ,c.message 
+					  ,c.created_date 
+					  ,RANK() OVER (PARTITION BY c.from_user_no 
+									ORDER BY c.created_date DESC) AS recent_rank
+				 FROM b_chatting c, b_user u
+		 		 WHERE to_user_no = #{userNo }
+				   AND c.FROM_USER_NO = u.USER_NO
+				   AND c.FROM_USER_NO NOT IN (SELECT from_user_no 
+					   							FROM B_UNREAD_CHAT 
+											   WHERE my_user_no  = #{userNo }
+											GROUP BY from_user_no )
+				)
+		WHERE recent_rank=1
+		ORDER BY created_date
+	</select>
 	
 	
 </mapper>

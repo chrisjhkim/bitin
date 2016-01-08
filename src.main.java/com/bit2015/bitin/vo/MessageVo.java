@@ -3,22 +3,22 @@ package com.bit2015.bitin.vo;
 public class MessageVo {
 
 	
-	private int toUserNo;
+	private Long toUserNo;
+	private Long fromUserNo;
 	private String createdDate;
 	private String message;
-	private int fromUserNo;
 	
 
-	public int getFromUserNo() {
+	public Long getFromUserNo() {
 		return fromUserNo;
 	}
-	public void setFromUserNo(int fromUserNo) {
+	public void setFromUserNo(Long fromUserNo) {
 		this.fromUserNo = fromUserNo;
 	}
-	public int getToUserNo() {
+	public Long getToUserNo() {
 		return toUserNo;
 	}
-	public void setToUserNo(int toUserNo) {
+	public void setToUserNo(Long toUserNo) {
 		this.toUserNo = toUserNo;
 	}
 	public String getCreatedDate() {

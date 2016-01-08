@@ -19,6 +19,7 @@ import com.bit2015.bitin.annotation.AuthUser;
 import com.bit2015.bitin.service.ChattingService;
 import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.ClassService;
+import com.bit2015.bitin.service.NaviService;
 import com.bit2015.bitin.service.UserService;
 import com.bit2015.bitin.vo.MessageVo;
 import com.bit2015.bitin.vo.UserVo;
@@ -26,6 +27,8 @@ import com.bit2015.bitin.vo.UserVo;
 @Controller("WebAppController")
 @RequestMapping("/webapp")
 public class MainController {
+	@Autowired
+	NaviService naviService;
 	@Autowired
 	UserService userService;
 	@Autowired
@@ -38,62 +41,19 @@ public class MainController {
 //	@Auth
 	@RequestMapping("/index")
 	public String index(
-			Model model,
+			@RequestParam(value="id", required=false)String userId,	
+			Model model) {
+		System.out.println("/webapp/index input userId : "+userId);
 		
-			@RequestParam(value="id", required=false)String userId	) {
-		System.out.println("userId : "+userId);
 		UserVo userVo = chrisService.getUserVoViaUserId(userId);
-		System.out.println("userVo : " +userVo);
-		model.addAttribute("myNo", userVo.getUserNo());
-		
-		
 		if( userVo!= null){
-			List<UserVo> list = userService.classmateList(userVo);
-			model.addAttribute( "classMate", list );
-			List<UserVo> list2 = userService.classnameList(userVo);
-			model.addAttribute( "className", list2 );
-			model.addAttribute("authUser", userVo);
-			
-			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(userVo.getUserNo());
-			model.addAttribute("recentChatList", recentChatList);
-			
+			Map<String, Object> naviDataMap = naviService.getNaviDataMap(userVo.getUserNo()) ;
+			model.addAttribute("naviDataMap", naviDataMap );
+			model.addAttribute("fakeAuthUser", userVo);
 		}
-		
-		
-		
-		
 		
 		return "/webapp/webapp-index";
 	}
-//	@RequestMapping("/index3")
-//	public String index3(
-//			Model model,
-//			
-//			@RequestParam(value="userId", required=false)String userId	) {
-//		System.out.println("userId : "+userId);
-//		UserVo userVo = chrisService.getUserVoViaUserId(userId);
-//		System.out.println("userVo : " +userVo);
-//		
-//		
-//		
-//		if( userVo!= null){
-//			List<UserVo> list = userService.classmateList(userVo);
-//			model.addAttribute( "classMate", list );
-//			List<UserVo> list2 = userService.classnameList(userVo);
-//			model.addAttribute( "className", list2 );
-//			model.addAttribute("authUser", userVo);
-//			
-//			List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(userVo.getUserNo());
-//			model.addAttribute("recentChatList", recentChatList);
-//			
-//		}
-//		
-//		
-//		
-//		
-//		
-//		return "/min/index3";
-//	}
 
 	
 	@RequestMapping("/chatting")
@@ -128,11 +88,9 @@ public class MainController {
 		model.addAttribute("lastTime", (   (MessageVo)list.get( a-1 )).getCreatedDate());		
 		}
 		
-		
-		
 
 		if( myUserVo!= null){
-			List<UserVo> classMateList = userService.classmateList(myUserVo);
+			List<UserVo> classMateList = userService.getClassmateList(myUserVo);
 			model.addAttribute( "classMate", classMateList );
 			List<UserVo> list2 = userService.classnameList(myUserVo);
 			model.addAttribute( "className", list2 );
@@ -145,6 +103,47 @@ public class MainController {
 		
 		
 		return "/hyunjuntest/temp-chatlist";
+	}
+
+	@RequestMapping("/chat-view")
+	public String chatView (
+			@RequestParam(value="myNo", required=true, defaultValue="10")Long myUserNo,
+			@RequestParam(value="otherNo", required=true, defaultValue="19")Long otherUserNo,
+			Model model ) {
+		System.out.println("/chat-view [myNo : "+myUserNo+" / otherUserNo :"+otherUserNo+"]");
+
+		UserVo fakeAuthUser= userService.getUserVo(myUserNo);
+		if( fakeAuthUser!= null){
+			Map<String, Object> naviDataMap = naviService.getNaviDataMap(fakeAuthUser.getUserNo()) ;
+			model.addAttribute("naviDataMap", naviDataMap );
+			model.addAttribute("fakeAuthUser", fakeAuthUser);
+		}
+
+		//내 정보 처리
+//		model.addAttribute("myNo", myUserNo);
+//		String myUserId = chrisService.getUserIdViaUserNo(myUserNo);
+//		UserVo myUserVo = chrisService.getUserVoViaUserId(myUserId);
+//		model.addAttribute("fakeAuthUser", myUserVo);
+		
+		//상대방 정보 처리
+		UserVo otherUserVo = userService.getUserVo(otherUserNo);
+		model.addAttribute("otherUser", otherUserVo);
+//		model.addAttribute("otherNo", otherUserNo);
+//		model.addAttribute("toUserNo",  otherUserNo);
+//		model.addAttribute("userName", otherUserName);
+		
+		//채팅 기록들 불러오기
+		List<MessageVo>chatList = chattingService.getChatList(otherUserNo, fakeAuthUser.getUserNo());
+		model.addAttribute( "chatlist", chatList );
+		int a = chatList.size();
+		if(a==0){
+		}else{
+			model.addAttribute("lastTime", (   (MessageVo)chatList.get( a-1 )).getCreatedDate());		
+		}
+		
+		
+		
+		return "/webapp/chatting/chat-view";
 	}
 	
 

@@ -1,4 +1,4 @@
-package com.bit2015.bitin.webapp.controller;
+package com.bit2015.bitin.webapi.controller;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,29 +31,23 @@ public class APIController {
 	
 	@ResponseBody 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public  Map<String, Object> send (
+	public  Map<String, Object> saveSentMessage (
 			@ModelAttribute MessageVo vo, 
-//			@AuthUser UserVo authUser, 
 			Model model) {
-		System.out.println("sdafasfafwaefwae");
-		System.out.println("/webapp-api/send messageVo:"+vo);
-		List<MessageVo> list = new ArrayList<MessageVo>();
-		String a = "";
-		String az = vo.getMessage();
-		if(a == az){
+		System.out.println("/webapp-api/send input messageVo:"+vo);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String result = "fail";
+		
+		
+		if( vo==null || vo.getMessage()==null || vo.getFromUserNo()==null || vo.getToUserNo()== null){
 			
 		}else{
-			list = chattingService.send( vo );	
+			result = (chattingService.insertMessageAndUpdateUnreadCount(vo))? "success" : "fail";
 		}
-		chrisService.plusOneUnreadCountByUserNo((long)vo.getToUserNo());
 		
-		
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put( "result", "success" );
-		map.put( "data", list );
-		
-		return map;
+		returnMap.put( "result", result );
+		System.out.println("/webapp-api/send retMap :"+ returnMap);
+		return returnMap;
 	}
 	
 	@ResponseBody 

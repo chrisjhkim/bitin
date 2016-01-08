@@ -11,18 +11,6 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 	
 <header id="header" class="clearfix" data-current-skin="blue">
 	<ul class="header-inner">
-		<%-- <c:choose>
-			<c:when test='${empty authUser }'>
-
-				<li class="pull-right"><a href="/bitin/loginform" id="login"
-					title="login" data-toggle="popover" data-placement="bottom"><i
-						class="btn btn-success" value="login"> Login </i></a></li>
-				<li class="pull-right"><a href="/bitin/registerform" id="join"
-					title="join" data-toggle="popover" data-placement="bottom"> <i
-						class="btn btn-warning" value="join"> Join </i>
-				</a></li>
-			</c:when>
-			<c:otherwise> --%>
 		<li id="menu-trigger" data-trigger="#sidebar" class="logo hidden-sm">
 			<img src="/bitin/assets/img/demo/logo.png" alt="">
 		</li>
@@ -35,20 +23,32 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<li class="dropdown">
 					<a data-toggle="dropdown" href="" onclick="messageClick();">
 						<i class="tm-icon zmdi zmdi-email"></i>
-						<c:if test="${authUser.unreadCount>0 }">
-							<i class="tmn-counts" id="message-counter">${authUser.unreadCount }</i>
+						<c:if test="${naviDataMap.totalUnreadChat > 0 }">
+							<i class="tmn-counts" id="message-counter">${naviDataMap.totalUnreadChat }</i>
 						</c:if>
 					</a>
 					
 					<div class="dropdown-menu dropdown-menu-lg pull-right">
 						<div class="listview">
 							<div class="lv-header">Messages</div>
-							<div class="lv-body">
-								
-								<c:forEach items="${recentChatList }" var='vo'>
-<!-- 									<a class="lv-item" href="/bitin/chatting/list"> -->
-									<a class="lv-item" href="/bitin/webapp/chatting?myNo=${authUser.userNo }&otherNo=${vo.FROM_USER_NO}">
-										<div class="media">
+							<div class="lv-body ">
+								<c:forEach items="${naviDataMap.recentUnreadChatList }" var='vo'>
+									<a class="lv-item bgm-gray" href="/bitin/webapp/chat-view?myNo=${fakeAuthUser.userNo }&otherNo=${vo.FROM_USER_NO}">
+										<div class="media ">
+											<div class="pull-left">
+												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO }.jpg" alt="">
+											</div>
+											<div class="media-body">
+												<div class="lv-unread">${vo.COUNTER }</div>
+												<div class="lv-title">${vo.FROM_USER_NAME }</div>
+												<small class="lv-small">${vo.MESSAGE }</small>
+											</div>
+										</div>
+									</a> 
+								</c:forEach>
+								<c:forEach items="${naviDataMap.recentReadChatList }" var='vo'>
+									<a class="lv-item " href="/bitin/webapp/chatting?myNo=${fakeAuthUser.userNo }&otherNo=${vo.FROM_USER_NO}">
+										<div class="media ">
 											<div class="pull-left">
 												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO }.jpg" alt="">
 											</div>
@@ -59,6 +59,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 										</div>
 									</a> 
 								</c:forEach>
+								
 								
 							</div>
 							<a class="lv-footer" href="">View All</a>
@@ -239,18 +240,18 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 		<div class="profile-menu">
 			<a href="">
 				<div class="profile-pic">
-					<img src="/bitin/assets/img/profile-pics/${authUser.userNo }.jpg" alt="">
+					<img src="/bitin/assets/img/profile-pics/${fakeAuthUser.userNo }.jpg" alt="">
 				</div>
 
 				<div class="profile-info">
-					${authUser.userName  } 님이 접속중!</i>
+					${fakeAuthUser.userName  } 님이 접속중!</i>
 				</div>
 			</a>
 
 			<ul class="main-menu">
 				<li><a href="profile-about.html"><i
 						class="zmdi zmdi-account"></i> 내 정보</a></li>
-				<c:if test="${authUser == null }"><li><a href="/bitin/loginform"><i class="zmdi zmdi-time-restore"></i> Log-in</a></li></c:if>
+				<c:if test="${fakeAuthUser == null }"><li><a href="/bitin/loginform"><i class="zmdi zmdi-time-restore"></i> Log-in</a></li></c:if>
 				<li><a href="/bitin/user/logout"><i
 						class="zmdi zmdi-time-restore"></i> Log-out</a></li>
 			</ul>
@@ -258,20 +259,20 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 
 		<ul class="main-menu">
 			<!--  게시판 메뉴 -->
-			<li class="active"><a href="/bitin/webapp/index?id=${authUser.userId}"><i class="zmdi zmdi-home"></i> 메인 페이지</a></li>
+			<li class="active"><a href="/bitin/webapp/index?id=${fakeAuthUser.userId}"><i class="zmdi zmdi-home"></i> 메인 페이지</a></li>
 
 			<li><a href="calendar.html"><i class="zmdi zmdi-calendar"></i>수강 등록</a></li>
 			
 			<li class="sub-menu">
 				<a href="form-examples.html"><i class="zmdi zmdi-menu"></i>수업 선택</a>
 				<ul>
-					<c:forEach items='${className}' var='vo' varStatus='status'>
-						<li class="sub-menu"><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className }</a>
+					<c:forEach items='${naviDataMap.classList}' var='vo' varStatus='status'>
+						<li class="sub-menu"><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className }</a>
 							<ul>
-								<li><a href="/bitin/notice/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className } 공지사항</a></li>
-								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className } 자유 게시판</a></li>
-								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className } 정보 게시판</a></li>
-								<li><a href="/bitin/chris/main?classNo=${vo.classNo }&userNo=${authUser.userNo}">${vo.className }출결 상황</a></li>
+								<li><a href="/bitin/notice/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className } 공지사항</a></li>
+								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className } 자유 게시판</a></li>
+								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className } 정보 게시판</a></li>
+								<li><a href="/bitin/chris/main?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className }출결 상황</a></li>
 							</ul>
 						</li>
 					</c:forEach>
@@ -294,12 +295,12 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 		</div>
 
 		<div class="listview">
-			<c:forEach items='${classMate }' var='vo' varStatus='status'>
-<a class="lv-item" href="/bitin/user/miniprofile?myNo=${myNo}&otherNo=${vo.userNo }">
+			<c:forEach items='${naviDataMap.classMateList }' var='vo' varStatus='status'>
+				<a class="lv-item" href="/bitin/webapp-user/profile?myNo=${fakeAuthUser.userNo}&otherNo=${vo.userNo }">
 					<div class="media">
 						<div class="pull-left p-relative">
-							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${ vo.userNo}.jpg"
-								alt=""> <i class="chat-status-busy"></i>
+							<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${ vo.userNo}.jpg" alt="">
+							<i class="chat-status-busy"></i>
 						</div>
 						<div class="media-body">
 							<div class="lv-title">${vo.userName}</div>
@@ -318,7 +319,7 @@ function messageClick() {
 		url: "/bitin/chriswebapp-api/message-read",
 		type : "get",
 		dataType : "json",
-		data : "userNo="+"${authUser.userNo}",
+		data : "userNo="+"${fakeAuthUser.userNo}",
 		contentType : 'applicationjson',
 		success : function(response) {
 			if (response.result == "fail") {

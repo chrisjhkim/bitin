@@ -223,7 +223,7 @@
 
 					<div class="lv-footer ms-reply">
 						<textarea name="message" id="chatting-message"
-							placeholder="내용을 입력하세요.."></textarea>
+							placeholder="내용을 입력하세요..(list.jsp)"></textarea>
 						<button id="btn-add">
 							<i class="zmdi zmdi-mail-send"></i>
 						</button>

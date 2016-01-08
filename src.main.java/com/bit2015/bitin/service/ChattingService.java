@@ -25,6 +25,14 @@ public class ChattingService {
 		retList = chattingDao.list(map);
 		return retList;
 	}
+	
+	
+	public List<MessageVo> getChatList ( Long fromUserNo, Long toUserNo ) {
+		List<MessageVo> retList = null;
+		retList = chattingDao.getChatList(fromUserNo, toUserNo);
+		return retList;
+		
+	}
 
 	
 	
@@ -32,4 +40,13 @@ public class ChattingService {
 		return chattingDao.send( messageVo );
 	}
 
+	public boolean insertMessageAndUpdateUnreadCount( MessageVo vo ) {
+		boolean retFlag = false;
+		retFlag = (chattingDao.insertMessage(vo)) ? (chattingDao.addUnreadCount(vo)) : false;
+// 위에 꺼 한줄이 아래 두줄임. 
+//		if( chattingDao.insertMessage(vo) ) {
+//			retFlag = (chattingDao.addUnreadCount(vo)  )   ? true : false;
+//		}
+		return retFlag;
+	}
 }

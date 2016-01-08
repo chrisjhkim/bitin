@@ -1,0 +1,26 @@
+
+---------------------실제 쓸것들 ( 숫자 를 #{} 로 바꿔야 되는 상태)-----------------
+-- 안읽은 갯수 하나 추가
+INSERT INTO b_unread_chat
+VALUES (2, 4 );
+
+-- 내가 안 읽은 갯수 총합
+SELECT COUNT(*)
+FROM b_unread_chat
+WHERE my_user_no = 2;
+-- 내가 dd로 부터 안 읽은 개수 총합
+SELECT COUNT(*)
+FROM b_unread_chat
+WHERE my_user_no = 2
+AND from_user_no = 3;
+
+-- 특정 인물과의 채팅을 읽음으로 바꿈
+DELETE FROM b_unread_chat
+WHERE my_user_no = 2
+AND from_user_no = 3;
+
+-- 내 모든 채팅을 읽음으로 바꿈
+DELETE FROM b_unread_chat
+WHERE my_user_no = 2;
+
+

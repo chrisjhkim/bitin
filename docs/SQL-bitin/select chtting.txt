@@ -1,0 +1,199 @@
+select * from b_user;
+
+SELECT * FROM b_user where user_id = 'aa';-- 7번    김준현
+SELECT * FROM b_user where user_id = 'feveryoung';-- 8번    오민영
+SELECT * FROM b_user where user_id = 'iron';-- 10번    김철우
+SELECT * FROM b_user where user_id = 'wow'; -- 19번     안대혁
+
+select * from B_UNREAD_CHAT b;
+
+insert into b_unread_chat 
+values (  10 , 19); 
+
+;
+
+select * from B_CHATTING b where to_user_no = 10 order by from_user_no;
+
+--안 읽은 쪽지들
+select * from b_unread_chat where my_user_no = 10;
+
+-- 안읽은 쪽지를 보낸 사람 묶음 ( 7 8 19)
+select from_user_no from b_unread_chat where my_user_no = 10 group by from_user_no;
+
+SELECT TTT, FROM_USER_NO, message, to_user_no FROM (
+SELECT from_user_no, to_user_no, message, COUNT(*)OVER(partition by from_user_no) as ttt,
+		rownum 
+FROM B_CHATTING b 
+WHERE to_user_no = 10 
+ORDER BY from_user_no asc, created_date desc
+);
+
+select from_user_no, to_user_no, message , created_date from b_chatting;
+
+
+select * FROM  b_chatting;
+
+-- 10 번 유저가 받은 최근 메시지들
+SELECT * 
+FROM (	SELECT from_user_no
+			  ,to_user_no
+			  ,message 
+			  ,created_date 
+			  ,RANK() OVER (PARTITION BY from_user_no 
+							ORDER BY created_date DESC) AS rank 
+		 FROM b_chatting
+ 		 WHERE to_user_no = 10
+		)
+WHERE rank =1;
+
+SELECT c.from_user_no
+				, u.USER_NAME AS from_user_name
+			  ,c.to_user_no
+			  ,c.message 
+			  ,c.created_date 
+			  ,RANK() OVER (PARTITION BY c.from_user_no 
+							ORDER BY c.created_date DESC) AS recent_rank 
+			  ,COUNT(*)OVER(partition by c.from_user_no) as counter
+				
+		 FROM b_chatting c, b_user u
+		 
+ 		 WHERE to_user_no = 10
+		   AND c.FROM_USER_NO = u.USER_NO
+		   AND c.FROM_USER_NO IN (SELECT from_user_no 
+		   							FROM B_UNREAD_CHAT 
+								   WHERE my_user_no  = 10
+								GROUP BY from_user_no );
+----------------------완성
+SELECT from_user_no,
+	   from_user_name,
+	   to_user_no,
+	   message,
+	   created_date,
+	   counter
+FROM (	SELECT c.from_user_no
+				, u.USER_NAME AS from_user_name
+			  ,c.to_user_no
+			  ,c.message 
+			  ,c.created_date 
+			  ,RANK() OVER (PARTITION BY c.from_user_no 
+							ORDER BY c.created_date DESC) AS recent_rank 
+			  ,count_table.unread_count as counter
+		 FROM b_chatting c, b_user u, (SELECT COUNT(*) as unread_count
+											  ,from_user_no 
+										FROM b_unread_chat
+										WHERE my_user_no=10
+										GROUP BY from_user_no) count_table
+		 
+ 		 WHERE to_user_no = 10
+		   AND c.FROM_USER_NO = u.USER_NO
+		   AND c.FROM_USER_NO = count_table.from_user_no
+		   AND c.FROM_USER_NO IN (SELECT from_user_no 
+		   							FROM B_UNREAD_CHAT 
+								   WHERE my_user_no  = 10
+								GROUP BY from_user_no )
+		)
+WHERE recent_rank=1
+ORDER BY created_date;
+
+SELECT COUNT(*) as unread_count
+	  ,from_user_no 
+FROM b_unread_chat
+WHERE my_user_no=10
+GROUP BY from_user_no;   
+
+
+SELECT COUNT(*)OVER(partition by from_user_no), from_user_no
+FROM B_UNREAD_CHAT 
+   WHERE my_user_no  = 10;
+   
+
+---------------이미 읽은 메시지 목록들 ( NOT 하나 추가함)
+SELECT from_user_no,
+	   from_user_name,
+	   to_user_no,
+	   message,
+	   created_date
+FROM (	SELECT c.from_user_no
+				, u.USER_NAME AS from_user_name
+			  ,c.to_user_no
+			  ,c.message 
+			  ,c.created_date 
+			  ,RANK() OVER (PARTITION BY c.from_user_no 
+							ORDER BY c.created_date DESC) AS recent_rank 
+		 FROM b_chatting c, b_user u
+		 
+ 		 WHERE to_user_no = 10
+		   AND c.FROM_USER_NO = u.USER_NO
+		   
+		   AND c.FROM_USER_NO NOT IN (SELECT from_user_no 
+										FROM B_UNREAD_CHAT 
+									   WHERE my_user_no  = 10
+									GROUP BY from_user_no )
+		)
+WHERE recent_rank=1
+ORDER BY created_date;
+
+
+SELECT from_user_no 
+										FROM B_UNREAD_CHAT 
+									   WHERE my_user_no  = 10;
+
+
+		
+		
+		SELECT from_user_no, to_user_no, message, COUNT(*)OVER(partition by from_user_no),;
+		
+SELECT FROM_USER_NO, COUNTER
+FROM  (		
+		SELECT from_user_no ,
+				COUNT(*)OVER(partition by from_user_no) as counter
+		  FROM B_UNREAD_CHAT 
+		 WHERE my_user_no  = 10
+		 )
+GROUP BY FROM_USER_NO;
+		
+SELECT counter , from_user_no
+FROM
+	(SELECT from_user_no ,
+				COUNT(*)OVER(partition by from_user_no) as counter
+		  FROM B_UNREAD_CHAT 
+		 WHERE my_user_no  = 10
+		 
+	) group by counter, from_user_no;
+		
+SELECT from_user_no 
+  FROM B_UNREAD_CHAT 
+ WHERE my_user_no  = 10;
+GROUP BY from_user_no;
+
+select * from b_class_user
+where user_no IN (1,3);
+
+
+
+select max(created_date) from b_chatting;
+ 
+
+		SELECT from_user_no,
+			   from_user_name,
+			   to_user_no,
+			   message,
+			   created_date
+		FROM (	SELECT c.from_user_no
+						, u.USER_NAME AS from_user_name
+					  ,c.to_user_no
+					  ,c.message 
+					  ,c.created_date 
+					  ,RANK() OVER (PARTITION BY c.from_user_no 
+									ORDER BY c.created_date DESC) AS recent_rank 
+				 FROM b_chatting c, b_user u
+				 
+		 		 WHERE to_user_no = 10
+				   AND c.FROM_USER_NO = u.USER_NO
+				   AND c.FROM_USER_NO IN (SELECT from_user_no 
+				   							FROM B_UNREAD_CHAT 
+										   WHERE my_user_no  = 10
+										GROUP BY from_user_no )
+				)
+		WHERE recent_rank=1
+		ORDER BY created_date
