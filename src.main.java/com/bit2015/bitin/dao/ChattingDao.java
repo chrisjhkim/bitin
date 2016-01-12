@@ -77,6 +77,17 @@ public class ChattingDao {
 		retList = sqlSession.selectList("chatting.getRecentReadChatListByUserNoGroupByOtherUserNo", userNo);
 		return retList;
 	}
+	
+	public boolean deleteUnreadCounterByUserNoAndOtherUserNo (Long myUserNo, Long otherUserNo) {
+		boolean retFlag = false;
+		HashMap<String, Object>inputMap = new HashMap<String, Object>();
+		inputMap.put("myUserNo", myUserNo);
+		inputMap.put("otherUserNo", otherUserNo);
+		int deleteCounter = sqlSession.delete("deleteUnreadChatCountByMyUserNoAndOtherUserNo", inputMap) ;
+		System.out.println("delete Counter : "+deleteCounter);
+		if( deleteCounter > 0 ) retFlag = true;
+		return retFlag;
+	}
 }
 //toUserNo
 //fromUserNo

@@ -38,7 +38,7 @@ public class MainController {
 	@Autowired
 	ChattingService chattingService;
 
-//	@Auth
+	//메인 페이지
 	@RequestMapping("/index")
 	public String index(
 			@RequestParam(value="id", required=false)String userId,	
@@ -46,7 +46,9 @@ public class MainController {
 		System.out.println("/webapp/index input userId : "+userId);
 		
 		UserVo userVo = chrisService.getUserVoViaUserId(userId);
+		System.out.println("userVo : "+userVo);
 		if( userVo!= null){
+			System.out.println("@2");
 			Map<String, Object> naviDataMap = naviService.getNaviDataMap(userVo.getUserNo()) ;
 			model.addAttribute("naviDataMap", naviDataMap );
 			model.addAttribute("fakeAuthUser", userVo);
@@ -105,6 +107,7 @@ public class MainController {
 		return "/hyunjuntest/temp-chatlist";
 	}
 
+	//체팅 페이지
 	@RequestMapping("/chat-view")
 	public String chatView (
 			@RequestParam(value="myNo", required=true, defaultValue="10")Long myUserNo,
@@ -112,35 +115,25 @@ public class MainController {
 			Model model ) {
 		System.out.println("/chat-view [myNo : "+myUserNo+" / otherUserNo :"+otherUserNo+"]");
 
-		UserVo fakeAuthUser= userService.getUserVo(myUserNo);
-		if( fakeAuthUser!= null){
-			Map<String, Object> naviDataMap = naviService.getNaviDataMap(fakeAuthUser.getUserNo()) ;
-			model.addAttribute("naviDataMap", naviDataMap );
-			model.addAttribute("fakeAuthUser", fakeAuthUser);
-		}
-
 		//내 정보 처리
-//		model.addAttribute("myNo", myUserNo);
-//		String myUserId = chrisService.getUserIdViaUserNo(myUserNo);
-//		UserVo myUserVo = chrisService.getUserVoViaUserId(myUserId);
-//		model.addAttribute("fakeAuthUser", myUserVo);
-		
+		UserVo myUserVo= userService.getUserVo(myUserNo);
 		//상대방 정보 처리
 		UserVo otherUserVo = userService.getUserVo(otherUserNo);
 		model.addAttribute("otherUser", otherUserVo);
-//		model.addAttribute("otherNo", otherUserNo);
-//		model.addAttribute("toUserNo",  otherUserNo);
-//		model.addAttribute("userName", otherUserName);
+		//채팅 읽음 처리로 바꾸기
+		chattingService.deleteUnreadCountByUserNoAndOtherUserNo(myUserVo.getUserNo(), otherUserVo.getUserNo());
 		
-		//채팅 기록들 불러오기
-		List<MessageVo>chatList = chattingService.getChatList(otherUserNo, fakeAuthUser.getUserNo());
-		model.addAttribute( "chatlist", chatList );
-		int a = chatList.size();
-		if(a==0){
-		}else{
-			model.addAttribute("lastTime", (   (MessageVo)chatList.get( a-1 )).getCreatedDate());		
+		//네비 메뉴
+		if( myUserVo!= null){
+			Map<String, Object> naviDataMap = naviService.getNaviDataMap(myUserVo.getUserNo()) ;
+			model.addAttribute("naviDataMap", naviDataMap );
+			model.addAttribute("fakeAuthUser", myUserVo);
 		}
 		
+		
+		//채팅 기록들 불러오기
+		List<MessageVo>chatList = chattingService.getChatList(otherUserNo, myUserVo.getUserNo());
+		model.addAttribute( "chatlist", chatList );
 		
 		
 		return "/webapp/chatting/chat-view";

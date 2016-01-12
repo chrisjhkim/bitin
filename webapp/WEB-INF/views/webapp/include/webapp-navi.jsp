@@ -36,7 +36,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 									<a class="lv-item bgm-gray" href="/bitin/webapp/chat-view?myNo=${fakeAuthUser.userNo }&otherNo=${vo.FROM_USER_NO}">
 										<div class="media ">
 											<div class="pull-left">
-												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO }.jpg" alt="">
+												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO}.jpg" alt="">
 											</div>
 											<div class="media-body">
 												<div class="lv-unread">${vo.COUNTER }</div>
@@ -50,7 +50,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 									<a class="lv-item " href="/bitin/webapp/chatting?myNo=${fakeAuthUser.userNo }&otherNo=${vo.FROM_USER_NO}">
 										<div class="media ">
 											<div class="pull-left">
-												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO }.jpg" alt="">
+												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO}.jpg" alt="">
 											</div>
 											<div class="media-body">
 												<div class="lv-title">${vo.FROM_USER_NAME }</div>

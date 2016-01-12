@@ -27,29 +27,29 @@
 </head>
 <body>
 
-<c:import url="/WEB-INF/views/include/navi2.jsp"></c:import>
+<c:import url="/WEB-INF/views/webapp/include/webapp-navi.jsp"></c:import>
 
 <section id="main">
 	<div class="card profile-view">
 		<div class="pv-header">
-			<img src="/bitin/assets/img/profile-pics/${userNo }.jpg" class="pv-main" alt="">
+			<img src="/bitin/assets/img/profile-pics/${otherUser.userNo }.jpg" class="pv-main" alt="">
 		</div>
 		
 		<div class="pv-body">
-			<h2>${userVo.userName }</h2>
+			<h2>${otherUser.userName }</h2>
 			<small>간단한 자기 소개를 합니다.</small>
 			
 			<ul class="pv-contact">
-				<li><i class="zmdi zmdi-pin"></i> ${userVo.userId }@stubit.com</li>
+				<li><i class="zmdi zmdi-pin"></i> ${otherUser.userId }@stubit.com</li>
 				<li><i class="zmdi zmdi-phone"></i> 010.9053.2445</li>
 			</ul>
 			
 			<ul class="pv-follow">
 				<li>전공</li>
-				<li>${userVo.userType }</li>
+				<li>${otherUser.userType }</li>
 			</ul>
                                 
-			<a href="/bitin/webapp/chat-view?myNo=${myNo }&otherNo=${otherNo}" class="pv-follow-btn">1:1 대화하기</a>
+			<a href="/bitin/webapp/chat-view?myNo=${fakeAuthUser.userNo }&otherNo=${otherUser.userNo}" class="pv-follow-btn">1:1 대화하기</a>
 		</div>
 	</div>
 </section>

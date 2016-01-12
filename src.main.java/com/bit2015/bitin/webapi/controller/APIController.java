@@ -49,6 +49,25 @@ public class APIController {
 		System.out.println("/webapp-api/send retMap :"+ returnMap);
 		return returnMap;
 	}
+	@ResponseBody 
+	@RequestMapping(value = "/delete-unread-count", method = RequestMethod.POST)
+	public  Map<String, Object> deleteUnreadCount (
+			@RequestParam(value="myUserNo", required=true)Long myUserNo,
+			@RequestParam(value="otherUserNo", required=true)Long otherUserNo  ) {
+		System.out.println("/webapp-api/delete-unread-count input myUserNo:"+myUserNo+", otherUserNo:"+otherUserNo);
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String result = "fail";
+		
+		
+		if( myUserNo==null || otherUserNo == null ){
+		}else{
+			result = (chattingService.deleteUnreadCountByUserNoAndOtherUserNo(myUserNo, otherUserNo) )? "success" : "fail";
+		}
+		
+		returnMap.put( "result", result );
+		System.out.println("/webapp-api/delete-unread-count retMap :"+ returnMap);
+		return returnMap;
+	}
 	
 	@ResponseBody 
 	@RequestMapping("/apilist")

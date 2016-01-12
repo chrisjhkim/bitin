@@ -38,7 +38,7 @@
 </head>
 
 <body>
-<c:import url="/WEB-INF/views/include/navi2.jsp"></c:import>
+<c:import url="/WEB-INF/views/webapp/include/webapp-navi.jsp"></c:import>
 <br />
 <section id="main">
 	<section id="container" style="margin-top: -25px; margin-bottom:-5px;">
@@ -186,7 +186,26 @@
 						+"</div>"
 					+"</div>"
 				+"</div>";
-		
+		//TODO: ajax 로 unread table 지우기
+		$.ajax({
+			url : "/bitin/webapp-api/delete-unread-count",
+			type : "post",
+			data : "myUserNo=${fakeAuthUser.userNo}"
+				 + "&otherUserNo=${otherUser.userNo}",
+			dataType : "json",
+			success : function(response) {
+				if (response.result == "fail") {
+					console.error(response.message);
+					return;
+				}
+ 				console.log("delete-unread-count ajax success!")
+// 				console.log(response);
+			},
+			error : function(jqXHR, status, e) {
+				console.error(status + " : " + e);
+			}
+		});
+		// 이 jsp로 오는 컨트롤러에서도 지우기
 		var $listDiv = $("#chatlist");
 		$listDiv.append(newHtml);
 		
@@ -244,48 +263,5 @@
 		var objDiv = document.getElementById("scrollBox");
         objDiv.scrollTop = objDiv.scrollHeight;
 	}
-</script>
-<script>
-// 	//오리지널 시작
-// 	// 	이니시
-// 	var textarea = document.getElementById("messageWindow");
-// 	var webSocket = new WebSocket('ws://localhost:8088/bitin/broadcasting');
-// 	var inputMessage = document.getElementById('inputMessage');
-	
-// 	// 	에러
-// 	webSocket.onerror = function(event) {
-// 		onError(event)
-// 	};
-// 	function onError(event) {
-// 		alert('콘솔창 확인');
-// 		console.log(event.data);
-// 		console.log(event);
-// 	}
-	
-// 	// 	접속
-// 	webSocket.onopen = function(event) {
-// 		onOpen(event)
-// 	};
-// 	function onOpen(event) {
-// 		textarea.value += "연결 성공\n";
-// 	}
-	
-// 	// 	메시지받기
-// 	webSocket.onmessage = function(event) {
-// 		onMessage(event)
-// 	};
-// 	function onMessage(event) {
-// 		textarea.value += "상대 : " + event.data + "\n";
-// 		var objDiv = document.getElementById("messageWindow");
-// 		objDiv.scrollTop = objDiv.scrollHeight;
-// 	}
-	
-// 	// 	메시지 보내기	
-// 	function send() {
-// 		textarea.value += "나 : " + inputMessage.value + "\n";
-// 		webSocket.send(inputMessage.value);
-// 		inputMessage.value = "";
-// 	}
-// 	//오리지널 끝
 </script>
 </html>

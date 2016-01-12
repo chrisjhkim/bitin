@@ -14,8 +14,6 @@ import com.bit2015.bitin.vo.UserVo;
 
 @Service
 public class ChattingService {
-	
-	
 	@Autowired		
 	ChattingDao chattingDao;
 	
@@ -47,6 +45,13 @@ public class ChattingService {
 //		if( chattingDao.insertMessage(vo) ) {
 //			retFlag = (chattingDao.addUnreadCount(vo)  )   ? true : false;
 //		}
+		return retFlag;
+	}
+	
+	
+	public boolean deleteUnreadCountByUserNoAndOtherUserNo ( Long myUserNo, Long otherUserNo ) {
+		boolean retFlag = false;
+		retFlag = chattingDao.deleteUnreadCounterByUserNoAndOtherUserNo(myUserNo, otherUserNo);
 		return retFlag;
 	}
 }

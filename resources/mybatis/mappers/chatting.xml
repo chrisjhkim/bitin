@@ -6,8 +6,6 @@
 
 
 <mapper namespace="chatting">
-
-
 	<select id="list" parameterType="hashmap" resultType="MessageVo" >
 		SELECT  from_user_no 	AS 	fromUserNo,
 				to_user_no		AS	toUserNo,
@@ -53,14 +51,14 @@
 		   AND from_user_no = #{fromUserNo}
 	</select>
 	
-	<delete id="deleteUnreadChatCountByMyUserNoAndOtherUserNo" parameterType="long">
+	<delete id="deleteTotalUnreadChatCountByUserNo" parameterType="long">
 		DELETE FROM b_unread_chat
 		 WHERE my_user_no = #{userNo}
 	</delete>
-	<delete id="deleteTotalUnreadChatCountByUserNo" parameterType="hashmap">
+	<delete id="deleteUnreadChatCountByMyUserNoAndOtherUserNo"  parameterType="hashmap">
 		DELETE FROM b_unread_chat
 		 WHERE my_user_no = #{myUserNo}
-		   AND from_user_no = #{fromUserNo}
+		   AND from_user_no = #{otherUserNo}
 	</delete>
 	
 	<select id="getRecentUnreadChatListByUserNoGroupByOtherUserNo" parameterType="long" resultType="hashmap">
@@ -81,7 +79,7 @@
 				 FROM b_chatting c, b_user u , (SELECT COUNT(*) as unread_count
 													  ,from_user_no 
 												FROM b_unread_chat
-												WHERE my_user_no=10
+												WHERE my_user_no=#{userNo}
 												GROUP BY from_user_no) ct
 				 
 		 		 WHERE to_user_no = #{userNo }
