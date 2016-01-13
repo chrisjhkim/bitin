@@ -164,5 +164,12 @@
 		  AND u.user_no = cu.user_no
 		  AND cu.class_no = #{classNo }
 	</select>
-	
+	<select id="getClassListByUserNo" parameterType="long" resultType="hashmap">
+		SELECT class_name as className,
+			   class_no as classNo		
+		  FROM b_class		
+		 WHERE class_no IN (SELECT class_no 
+		 					  FROM b_class_user
+		 					 WHERE user_no =#{userNo}) 
+	</select>
 </mapper>

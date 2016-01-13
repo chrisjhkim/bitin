@@ -33,12 +33,13 @@ public class QnaController {
 //			@RequestBody YjQVo preQVo  ) {
 			@RequestBody HashMap<String, Object> inputMap  ) {
 //			@RequestParam()
-		System.out.println("create-q :"+inputMap);
+		System.out.println("/create-q :"+inputMap);
 		
 		HashMap<String, Object> retMap = new HashMap<String, Object>();
 		String resultStr = "fail";
 		
 		if( (inputMap.get("senderId")==null) || (inputMap.get("receiverId")==null) || (inputMap.get("lesson")==null) ){
+			System.out.println("/create-q @1");
 			retMap.put("message", "무언가 안들어옴");
 		}else{
 			YjQVo preQVo = new YjQVo();
@@ -52,6 +53,7 @@ public class QnaController {
 				resultStr = "success";
 				retMap.put("result", resultStr);
 			}else {
+				System.out.println("/create-q @2");
 				retMap.put("message", "DB 입력 실패 (서버쪽 문제) ");
 			}
 		}

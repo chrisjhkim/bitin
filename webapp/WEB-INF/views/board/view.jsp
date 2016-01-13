@@ -113,7 +113,7 @@
 				</div>
 
 				<!-- Comment Listing -->
-				<form class="reply-form" method="post" action="/bitin/board/reply">
+				<form class="reply-form" method="post" action="/bitin/webapp/board/write-reply">
 					<div class="container">
 						<c:forEach items='${list}' var='vo' varStatus='status'>
 							<a href="" class="pull-left"> <img

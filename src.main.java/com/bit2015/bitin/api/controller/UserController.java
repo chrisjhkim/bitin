@@ -39,12 +39,13 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value="/join")
 	public Map<String, Object> join(
-			@RequestBody HashMap<String, Object> map ) {
+//			@RequestBody HashMap<String, Object> map ) {
+			@RequestBody HashMap<String, Object> inputMap ){
+		System.out.println("control - join  : inputMap : "+inputMap);
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
-		System.out.println("control - join  : map : "+map);
 		String resultStr = "fail";
 		
-		if( map == null){
+		/*if( map == null){
 			retMap.put("message", "userVo == null 상태임");
 		}
 		else if( (map.get("userName") ==null) || 
@@ -65,7 +66,7 @@ public class UserController {
 			else if (userService.insertUser(userVo) ){
 				resultStr = "success"; 
 			}
-		}	
+		}*/	
 		retMap.put("result", resultStr);
 		return retMap;
 	}

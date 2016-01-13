@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,12 +17,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.annotation.Auth;
 import com.bit2015.bitin.annotation.AuthUser;
+import com.bit2015.bitin.service.AttdService;
+import com.bit2015.bitin.service.BoardService;
 import com.bit2015.bitin.service.ChattingService;
 import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.service.ClassService;
 import com.bit2015.bitin.service.NaviService;
 import com.bit2015.bitin.service.UserService;
+import com.bit2015.bitin.vo.BoardVo;
 import com.bit2015.bitin.vo.MessageVo;
+import com.bit2015.bitin.vo.PostVo;
 import com.bit2015.bitin.vo.UserVo;
 
 @Controller("WebAppController")
@@ -37,6 +42,10 @@ public class MainController {
 	ChrisService chrisService;
 	@Autowired
 	ChattingService chattingService;
+	@Autowired
+	BoardService boardService;
+	@Autowired
+	AttdService attdService;
 
 	//메인 페이지
 	@RequestMapping("/index")
@@ -48,15 +57,43 @@ public class MainController {
 		UserVo userVo = chrisService.getUserVoViaUserId(userId);
 		System.out.println("userVo : "+userVo);
 		if( userVo!= null){
-			System.out.println("@2");
 			Map<String, Object> naviDataMap = naviService.getNaviDataMap(userVo.getUserNo()) ;
+			System.out.println("naviDataMap : "+naviDataMap);
 			model.addAttribute("naviDataMap", naviDataMap );
 			model.addAttribute("fakeAuthUser", userVo);
 		}
 		
 		return "/webapp/webapp-index";
 	}
+	//출결 페이지
+	@RequestMapping("/attd")
+	public String attendance(
+			@RequestParam(value="userId", required=true)String userId,	
+			@RequestParam(value="classNo", required=true)Long classNo,	
+			@RequestParam(value="from", required=false, defaultValue="2015 01 01")String startDate,	
+			@RequestParam(value="to", required=false, defaultValue="2015 12 31")String endDate,	
+			Model model) {
+		System.out.println("/webapp/attd input [ID:"+userId+"/classNo:"+classNo+"]");
+		System.out.println("/webapp/attd input [from:"+startDate+"/to:"+endDate+"]");
+		
+		UserVo userVo = chrisService.getUserVoViaUserId(userId);
+//		System.out.println("userVo : "+userVo);
+		if( userVo!= null){
+			Map<String, Object> naviDataMap = naviService.getNaviDataMap(userVo.getUserNo()) ;
+//			System.out.println("naviDataMap : "+naviDataMap);
+			model.addAttribute("naviDataMap", naviDataMap );
+			model.addAttribute("fakeAuthUser", userVo);
+		}
+		model.addAttribute("classNo",classNo);
+		
+		HashMap<String, Object> attdDataMap =attdService.getAttdDataMapByClassNoAndDates(classNo, startDate, endDate);
+		model.addAttribute("attdDataMap",attdDataMap);
+		
+		return "/webapp/user/webapp-attd";
+	}
 
+
+	
 	
 	@RequestMapping("/chatting")
 	public String chatting (

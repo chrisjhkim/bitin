@@ -26,6 +26,28 @@ public class UserController {
 	@Autowired
 	NaviService naviService;
 	
+	@RequestMapping("/my-profile")
+	public String viewMyProfile(
+			@RequestParam(value="id", required=true)String userId,
+			Model model) {
+//		System.out.println("/profile [myUserNo : "+myUserNo + "otherUserNo : "+otherUserNo+"]");
+		
+		//내 정보 처리
+		
+		UserVo fakeAuthUser= userService.getUserVo(userId);
+		if( fakeAuthUser!= null){
+			Map<String, Object> naviDataMap = naviService.getNaviDataMap(fakeAuthUser.getUserNo()) ;
+			model.addAttribute("naviDataMap", naviDataMap );
+			model.addAttribute("fakeAuthUser", fakeAuthUser);
+		}
+		
+		//상대방 정보 처리
+		UserVo otherUserVo = userService.getUserVo(fakeAuthUser.getUserNo());
+		model.addAttribute("otherUser", fakeAuthUser);
+		
+		return "/webapp/user/webapp-my-profile";
+	}
+	
 	@RequestMapping("/profile")
 	public String viewProfile(
 			@RequestParam(value="myNo", required=true)Long myUserNo,
@@ -44,7 +66,7 @@ public class UserController {
 		UserVo otherUserVo = userService.getUserVo(otherUserNo);
 		model.addAttribute("otherUser", otherUserVo);
 		
-		return "/webapp/webapp-profile";
+		return "/webapp/user/webapp-profile";
 	}
 
 }

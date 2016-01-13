@@ -46,3 +46,178 @@ WHERE c.CLASS_NO = 3
   AND cu.CLASS_NO=c.class_no
   AND cu.CLASS_ROLE='teacher'
   AND cu.USER_NO = u.user_no;
+  
+  
+ --------------------------------------------------------------
+ --내가 속해있는 게시판 목록
+select * 
+from b_board 
+where class_no in (select class_no
+					from b_class_user
+					where user_no= 10);
+--내가 속해있는 게시판들의 글들 전체
+select * 
+from b_post
+where board_no in (select board_no 
+					from b_board 
+					where class_no in (select class_no
+										from b_class_user
+										where user_no= 10) )
+					 and board_no NOT IN (select board_no from b_unread_board where user_no =2);
+
+-- 내가 속한 게시판 전체의 전체글들 + 글들의 순서										
+select board_no, post_no, title, content,
+		user_no, view_cnt, reg_date, board_type ,
+		rank() over (partition by board_no order by reg_date desc) as recent_rank
+from b_post
+where board_no in (select board_no 
+					from b_board 
+					where class_no in (select class_no
+										from b_class_user
+										where user_no= 10) );
+
+select * from b_board;
+select * from b_post;
+
+-- 내가 속한 게시판 전체의 전체글들 + 글들의 순서					
+SELECT p.board_no,
+	   post_no,
+	   title,
+	   content,
+	   user_no,
+		reg_date,
+		b.board_name,
+		RANK() OVER (PARTITION BY p.board_no
+					 ORDER BY reg_date DESC) AS recent_rank
+ FROM b_post p, b_board b
+WHERE b.BOARD_NO = p.BOARD_NO
+  AND p.board_no IN (SELECT board_no 
+					   FROM b_board 
+					  WHERE class_no IN (SELECT class_no
+										   FROM b_class_user
+										  WHERE user_no= 10) );
+
+-- 내가 속한 게시판 전체의 전체글들 중 최신 글들
+SELECT * 
+  FROM (SELECT p.board_no,
+			   post_no,
+			   title,
+			   content,
+			   user_no,
+				reg_date,
+				b.board_name,
+				RANK() OVER (PARTITION BY p.board_no
+							 ORDER BY reg_date DESC) AS recent_rank
+		 FROM b_post p, b_board b
+		WHERE b.BOARD_NO = p.BOARD_NO
+		  AND p.board_no NOT IN ( SELECT board_no
+									FROM b_unread_board
+								   WHERE user_no =19
+								GROUP BY board_no)
+		  AND p.board_no IN (SELECT board_no 
+							   FROM b_board 
+							  WHERE class_no IN (SELECT class_no
+												   FROM b_class_user
+												  WHERE user_no= 19) ) )
+WHERE recent_rank =1
+ORDER BY reg_date desc;
+
+-- 내가 속한 게시판 전체의 전체글들 중 최신 글들 ( 안 읽은 것 있는 보드만)
+SELECT * 
+  FROM (SELECT p.board_no,
+			   post_no,
+			   title,
+			   content,
+			   user_no,
+				reg_date,
+				b.board_name,
+				ct.unread_count,
+				RANK() OVER (PARTITION BY p.board_no
+							 ORDER BY reg_date DESC) AS recent_rank
+		 FROM b_post p, b_board b, (SELECT count(*) AS unread_count,
+										   board_no
+									  FROM b_unread_board
+									 WHERE user_no = 19 
+									GROUP BY board_no) ct
+		WHERE b.BOARD_NO = p.BOARD_NO
+		  AND ct.board_no = p.board_no
+		  AND p.board_no IN ( SELECT board_no
+									FROM b_unread_board
+								   WHERE user_no =19
+								GROUP BY board_no)
+		  AND p.board_no IN (SELECT board_no 
+							   FROM b_board 
+							  WHERE class_no IN (SELECT class_no
+												   FROM b_class_user
+												  WHERE user_no= 19) ) )
+WHERE recent_rank =1
+ORDER BY reg_date desc;
+
+
+--이전, 이후 ( 이전 , 다음 항목 구하기 )
+SELECT * 
+  FROM( SELECT  lag(post_NO, 1) over (order by post_no) as prevPostNo,
+				post_no, 
+				lead(post_NO, 1) over (order by post_no) as nextPostNo
+		  FROM b_post
+		  WHERE board_no = (SELECT board_no 
+		  					  FROM b_post
+							 WHERE post_no = 105)
+	)WHERE post_no = 105;
+	
+
+SELECT from_user_no,
+			   from_user_name,
+			   to_user_no,
+			   message,
+			   created_date
+		FROM (	SELECT c.from_user_no
+						, u.USER_NAME AS from_user_name
+					  ,c.to_user_no
+					  ,c.message 
+					  ,c.created_date 
+					  ,RANK() OVER (PARTITION BY c.from_user_no 
+									ORDER BY c.created_date DESC) AS recent_rank
+				 FROM b_chatting c, b_user u
+		 		 WHERE to_user_no = 10
+				   AND c.FROM_USER_NO = u.USER_NO
+				   AND c.FROM_USER_NO NOT IN (SELECT from_user_no 
+					   							FROM B_UNREAD_CHAT 
+											   WHERE my_user_no  = 10
+											GROUP BY from_user_no )
+				)
+		WHERE recent_rank=1
+		ORDER BY created_date;		
+
+
+
+	SELECT from_user_no,
+			   from_user_name,
+			   to_user_no,
+			   message,
+			   created_date,
+			   counter
+		FROM (	SELECT c.from_user_no
+						, u.USER_NAME AS from_user_name
+					  ,c.to_user_no
+					  ,c.message 
+					  ,c.created_date 
+					  ,RANK() OVER (PARTITION BY c.from_user_no 
+									ORDER BY c.created_date DESC) AS recent_rank
+					  ,ct.unread_count as counter 
+				 FROM b_chatting c, b_user u , (SELECT COUNT(*) as unread_count
+													  ,from_user_no 
+												FROM b_unread_chat
+												WHERE my_user_no=#{userNo}
+												GROUP BY from_user_no) ct
+				 
+		 		 WHERE to_user_no = #{userNo }
+				   AND c.FROM_USER_NO = u.USER_NO
+				   AND c.FROM_USER_NO = ct.from_user_no
+				   AND c.FROM_USER_NO IN (SELECT from_user_no 
+				   							FROM B_UNREAD_CHAT 
+										   WHERE my_user_no  = #{userNo }
+										GROUP BY from_user_no )
+				)
+		WHERE recent_rank=1
+		ORDER BY created_date;

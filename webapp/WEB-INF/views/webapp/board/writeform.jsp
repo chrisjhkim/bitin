@@ -44,12 +44,11 @@
 	<div class="col-sm">
 		<div class="card">
 			<div class="card-header">
-				<h2>11${boardVo.boardName }<small>${postVo.postNo }번 글 수정하기</small></h2>
+				<h2>${boardVo.boardName }<small></small></h2>
 			</div>
-			<form class="board-form" method="post" action="/bitin/board/insert">
-				<input type="hidden" name="classNo" value="${classNo }">
-				<input type="hidden" name="userNo" value="${vo.userNo }">
-				<input type="hidden" name="boardType" value="${boardType}">
+			<form class="board-form" method="post" action="/bitin/webapp/board/write-post">
+				<input type="hidden" name="boardNo" value="${boardVo.boardNo }">
+				<input type="hidden" name="userNo" value="${fakeAuthUser.userNo }">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="zmdi zmdi-collection-item"></i></span>
 					<div class="fg-line" style="width: 94.5%;">

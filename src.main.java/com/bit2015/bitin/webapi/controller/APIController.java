@@ -10,12 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.bit2015.bitin.annotation.AuthUser;
+import com.bit2015.bitin.service.BoardService;
 import com.bit2015.bitin.service.ChattingService;
 import com.bit2015.bitin.service.ChrisService;
 import com.bit2015.bitin.vo.MessageVo;
@@ -28,6 +30,8 @@ public class APIController {
 	ChattingService chattingService;
 	@Autowired
 	ChrisService chrisService;
+	@Autowired
+	BoardService boardService;
 	
 	@ResponseBody 
 	@RequestMapping(value = "/send", method = RequestMethod.POST)
@@ -95,5 +99,19 @@ public class APIController {
 		return retmap;
 	}
 		
+	@ResponseBody
+	@RequestMapping("/delete-all-unread-board-count")
+	public Map<String, Object> deleteAllUnreadBoardCount (
+			@RequestParam(value="userNo", required=true) Long userNo ) {
+		Map<String, Object> retMap = new HashMap<String, Object>();
+		String result = "fail";
+		
+		result = (boardService.deleteUnreadCountByUserNo(userNo))? "success" : "fail";
+		
+		retMap.put("result", result);
+		return retMap;
+	}
+			
+			
 
 }

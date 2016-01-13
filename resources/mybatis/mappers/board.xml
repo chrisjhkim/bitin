@@ -3,6 +3,199 @@
 
 <mapper namespace="board">
 	
+	<select id="getBoardListByClassNo" parameterType="long" resultType="hashmap">
+		SELECT board_no AS boardNo,
+			   board_name AS boardName
+		  FROM b_board 
+		 WHERE class_no = #{classNo }
+	
+	</select>
+	
+	
+	<select id="getPostListByBoardNo" parameterType="long" resultType="PostVo">
+		SELECT board_no AS boardNo,
+			   post_no AS postNo,
+			   title,
+			   content,
+			   p.user_no AS userNo,
+			   view_cnt AS viewCnt,
+			   reg_date AS regDate,
+			   board_type AS boardType,
+			   u.user_name AS userName
+		FROM b_post p, b_user u
+		WHERE board_no = #{boardNo}
+		  AND p.USER_NO = u.USER_NO
+	</select>
+	<select id="getPostVoByPostNo" parameterType="long" resultType="PostVo">
+ 		SELECT board_no AS boardNo,
+			   post_no AS postNo,
+			   title,
+			   content,
+			   p.user_no AS userNo,
+			   view_cnt AS viewCnt,
+			   to_char( p.reg_date, 'yyyy/mm/dd   hh:mi' ) as regDate,
+			   board_type AS boardType,
+			   u.user_name AS userName
+		FROM b_post p, b_user u
+		WHERE post_no = #{boardNo}
+		  AND p.USER_NO = u.USER_NO
+   </select>
+   
+   <select id="getBoardVoByPostNo" parameterType="long" resultType="hashmap">
+		SELECT board_no as boardNo,
+			   board_name as boardName,
+			   c.class_name
+		  FROM b_board b, b_class c
+		 WHERE board_no = (SELECT board_no 
+							 FROM b_post
+							WHERE post_no = #{postNo} )
+		  AND b.CLASS_NO= c.CLASS_NO	
+	</select>
+	
+	<update id="updatePost" parameterType="PostVo">
+		UPDATE B_POST
+		   SET content=#{content },
+			   title=#{title }
+		 WHERE post_no = #{postNo}
+	
+	</update>
+	
+	<delete id="deletePostByPostNo" parameterType="long">
+		DELETE
+		  FROM b_post
+		 WHERE post_no = #{postNo }
+	</delete>
+	
+	<select id="getPrevPostNoByPostNo" parameterType="long" resultType="long">
+		SELECT prevpostno 
+		FROM ( SELECT LAG(post_NO, 1) OVER (order by post_no) as prevPostNo,
+					  post_no
+				 FROM b_post
+				WHERE board_no = (SELECT board_no 
+								    FROM b_post 
+								   WHERE post_no = #{postNo } ) )
+		WHERE post_no = #{postNo}	
+	</select>
+	<select id="getNextPostNoByPostNo" parameterType="long" resultType="long">
+		SELECT nextpostno 
+		FROM ( SELECT LEAD(post_NO, 1) OVER (order by post_no) as nextPostNo,
+					  post_no
+				 FROM b_post
+				WHERE board_no = (SELECT board_no 
+								    FROM b_post 
+								   WHERE post_no = #{postNo } ) )
+		WHERE post_no = #{postNo}	
+	</select>
+	<select id="getBoardVoByBoardNo" parameterType="long" resultType="BoardVo">
+		SELECT board_no as boardNo,
+			   board_name as boardName,
+			   c.class_name
+		  FROM b_board b, b_class c
+		 WHERE board_no = #{boardNo }
+		  AND b.CLASS_NO= c.CLASS_NO	
+	</select>
+	<insert id="insertPost" parameterType="PostVo">
+		INSERT into b_post 
+		VALUES ( #{boardNo },
+				 b_post_no_seq.nextval, 
+				 #{title }, 
+				 #{content }, 
+				 #{userNo }, 
+				 0, 
+				 SYSDATE, 
+				 '1')
+	</insert>
+	
+	<select id="getRecentReadBoardListByUserNo" parameterType="long" resultType="hashmap">
+		SELECT * 
+		  FROM (SELECT p.board_no,
+					   post_no,
+					   title,
+					   content,
+					   user_no,
+						reg_date,
+						b.board_name,
+						RANK() OVER (PARTITION BY p.board_no
+									 ORDER BY reg_date DESC) AS recent_rank
+				 FROM b_post p, b_board b
+				WHERE b.BOARD_NO = p.BOARD_NO
+				  AND p.board_no NOT IN ( SELECT board_no
+											FROM b_unread_board
+										   WHERE user_no =#{userNo }
+										GROUP BY board_no)
+				  AND p.board_no IN (SELECT board_no 
+									   FROM b_board 
+									  WHERE class_no IN (SELECT class_no
+														   FROM b_class_user
+														  WHERE user_no= #{userNo} ) ) )
+		WHERE recent_rank =1
+		ORDER BY reg_date desc
+	
+	</select>
+	
+	<select id="getRecentUnreadBoardListByUserNo" parameterType="long" resultType="hashmap">
+		SELECT * 
+		  FROM (SELECT p.board_no,
+					   post_no,
+					   title,
+					   content,
+					   user_no,
+						reg_date,
+						b.board_name,
+						ct.unread_count,
+						RANK() OVER (PARTITION BY p.board_no
+									 ORDER BY reg_date DESC) AS recent_rank
+				 FROM b_post p, b_board b, (SELECT count(*) AS unread_count,
+												   board_no
+											  FROM b_unread_board
+											 WHERE user_no = #{userNo } 
+											GROUP BY board_no) ct
+				WHERE b.BOARD_NO = p.BOARD_NO
+				  AND ct.board_no = p.board_no
+				  AND p.board_no IN ( SELECT board_no
+											FROM b_unread_board
+										   WHERE user_no =#{userNo }
+										GROUP BY board_no)
+				  AND p.board_no IN (SELECT board_no 
+									   FROM b_board 
+									  WHERE class_no IN (SELECT class_no
+														   FROM b_class_user
+														  WHERE user_no= #{userNo }) ) )
+		WHERE recent_rank =1
+		ORDER BY reg_date desc
+	
+	</select>
+	
+	<select id="getMemberNoListByBoardNo" parameterType="long" resultType="long">
+		SELECT user_no
+		  FROM b_class_user
+		 WHERE class_no = (SELECT class_no
+		 					 FROM b_board
+							WHERE board_no = #{boardNo } )	
+	</select>
+	
+	<insert id="insertUnreadCount" parameterType="hashmap">
+		INSERT INTO b_unread_board
+		VALUES (#{userNo},
+				#{boardNo} )
+	</insert>
+	
+	<delete id="deleteUnreadCountByUserNoAndBoardNo" parameterType="hashmap">
+		DELETE FROM b_unread_board
+		 WHERE user_no = #{userNo }
+		   AND board_no = #{boardNo }
+	</delete>
+	<delete id="deleteUnreadCountByUserNo" parameterType="hashmap">
+		DELETE FROM b_unread_board
+		 WHERE user_no = #{userNo }
+	</delete>
+	
+	<select id="getTotalUnreadBoardCountByUserNo" parameterType="long" resultType="long">
+		SELECT COUNT(*) 
+		  FROM b_unread_board
+		 WHERE user_no = #{userNo }
+	</select>
+<!-- 	아래 코드들 전부 수정해야될지도 -->
 	<!--  ******************************   2015.12.09 김현준이 임시로만든 게시판리스트를 불러오는 sql입니다.  **************************         -->
 	
 	<select id="selectListTemp" resultType="BoardVo">
@@ -77,25 +270,7 @@
 	
 	<!-- **************************************************************************************************************** -->
 	
-	<insert id="insert" parameterType="BoardVo">
-		insert into b_post 
-		values ( #{classNo }, b_post_no_seq.nextval, #{title }, #{content }, #{userNo }, 0, SYSDATE, #{boardType})
-	</insert>
 	
-	<select id="getPostByPostNo" parameterType="long" resultType="BoardVo">
-      SELECT b.class_no AS classNO,
-            b.post_no AS postNo,
-            b.title AS title,
-            b.content,
-            b.user_no AS userNO,
-            b.view_cnt AS viewCount,
-            to_char( b.reg_date, 'yyyy/mm/dd   hh:mi' ) as regDate,
-            b.board_type AS boardType,
-         u.user_name AS userName
-      FROM b_post b, b_user u      
-      WHERE post_no = #{postNo }
-      AND b.user_no = u.user_no
-   </select>
    
    <insert id="insertReply" parameterType="BoardVo">
 		<![CDATA[

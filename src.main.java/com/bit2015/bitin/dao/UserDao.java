@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bit2015.bitin.vo.ClassVo;
 import com.bit2015.bitin.vo.UserVo;
 
 @Repository
@@ -154,8 +155,8 @@ public class UserDao {
 		List<UserVo> list2 = sqlSession.selectList( "user.getClassList",  vo.getUserNo() );
 		return list2;
 	}
-	public List<UserVo> getClassList( Long userNo ) {
-		List<UserVo> retList = null;
+	public List<ClassVo> getClassList( Long userNo ) {
+		List<ClassVo> retList = null;
 		retList = sqlSession.selectList( "user.getClassList",  userNo );
 		return retList;
 	}

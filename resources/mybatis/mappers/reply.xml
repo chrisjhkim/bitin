@@ -18,9 +18,10 @@
       AND b.user_no = u.user_no
    </select>
     -->
-	<select id="getReplyByPostNo" parameterType="long" resultType="ReplyVo">
+	<select id="getReplyListByPostNo" parameterType="long" resultType="ReplyVo">
 	    	select r.post_no as postNo,
 	           u.user_name as userName,
+	           r.user_no as userNo,
 	           r.reply,
 	           r.reg_date as regDate
 	    from b_user u, b_reply r

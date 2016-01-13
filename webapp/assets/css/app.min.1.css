@@ -11096,7 +11096,7 @@ body:not(.sw-toggled) #sidebar {
 .listview .lv-item .lv-small {
   font-size: 12px;
 /*  color 먹히면  navi에  채팅내용, 보드 글, 친구 직업에 색 먹혀짐*/
-  color: #A9A9A9;  	
+  color: #111111;  	
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

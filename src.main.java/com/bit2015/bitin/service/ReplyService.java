@@ -15,9 +15,10 @@ public class ReplyService {
 	@Autowired
 	ReplyDao replyDao;
 
-	public List<ReplyVo> getReplyByPostNo(Long postNo) {
-		List<ReplyVo> replyVo = replyDao.getReplyByPostNo(postNo);
-		return replyVo;
+	public List<ReplyVo> getReplyListByPostNo(Long postNo) {
+		List<ReplyVo> retList = null;
+		retList = replyDao.getReplyListByPostNo(postNo);
+		return retList;
 	}
 
 	/*public List<ReplyVo> getReplyByNoticeNo(Long noticeNo) {

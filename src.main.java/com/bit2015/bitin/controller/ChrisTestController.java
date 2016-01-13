@@ -101,17 +101,17 @@ public class ChrisTestController {
 		
 //test결과 되는건데 필요가 없어짐		Long attdNumCount = (long)((ArrayList<HashMap<String, Object>>)dataList.get(0).get("attdList")).size();
 		model.addAttribute("dataList", dataList);
-		System.out.println("출석 일수 size : "+           ((List<AttendanceVo>)dataList.get(0).get("attdList")).size()          );
+		System.out.println("출석 일수 size : "+ ((List<AttendanceVo>)dataList.get(0).get("attdList")).size()          );
 		
 		model.addAttribute("attdCounter", ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size()) );
 		System.out.println("attdTotalCounter  : "+ ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size()));
-		Long attdTotalCounter = ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size());
+//		Long attdTotalCounter = ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size());
 		String dateDupCheck = "-";
 		Long dupCounter = 1L;
 		for( HashMap<String, Object>person : dataList){ //개인마다
 			dupCounter=2L;
-			Long yesNoLateTotalCounter = 0L;//
-			Long yesOrLateCounter = 0L;//
+			Long yesNoLateTotalCounter = 0L;// used
+			Long yesOrLateCounter = 0L;//used
 			List<AttendanceVo>personalAttdList = (List<AttendanceVo>)person.get("attdList");
 			for(AttendanceVo attdVo : personalAttdList) {		//출첵한 날마다
 				String classDate = attdVo.getClassDate();
@@ -140,18 +140,18 @@ public class ChrisTestController {
 			}
 			person.put("attdRate", 100*yesOrLateCounter/yesNoLateTotalCounter);
 		}
+		model.addAttribute("startDate", startDate);
+		model.addAttribute("endDate", endDate);
+		//navi 시작
 		List<UserVo> list = userService.getClassmateList(authUser);
 		model.addAttribute( "classMate", list );
 		List<UserVo> list2 = userService.classnameList(authUser);
 		model.addAttribute( "className", list2 );
 		model.addAttribute("authUser", authUser);
-		
 		List<HashMap<String, Object>> recentChatList = chrisService.getRecentChatsByUserNo(authUser.getUserNo());
 		model.addAttribute("recentChatList", recentChatList);
 		model.addAttribute("myNo", authUser.getUserNo());
-		
-		model.addAttribute("startDate", startDate);
-		model.addAttribute("endDate", endDate);
+		//navi 끝
 		
 		System.out.println("/main result : "+dataList);
 		

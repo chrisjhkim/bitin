@@ -147,5 +147,10 @@ public class ClassDao {
 		retList = sqlSession.selectList("class.getUserInfoListViaClassNo", classNo);
 		return retList;
 	}
-	
+
+	public List<HashMap<String, Object>> getClassListByUserNo ( Long userNo ) {
+		List<HashMap<String, Object>> retList = null;
+		retList = sqlSession.selectList("class.getClassListByUserNo", userNo);
+		return retList;
+	}
 }

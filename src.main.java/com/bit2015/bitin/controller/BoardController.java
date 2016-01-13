@@ -63,8 +63,11 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/modify")
-	public String modify(@RequestParam(value = "content") String content, @RequestParam(value = "title") String title,
-			@RequestParam(value = "postNo") Long postNo, HttpSession session, @ModelAttribute BoardVo vo) {
+	public String modify(
+			@RequestParam(value = "content") String content, 
+			@RequestParam(value = "title") String title,
+			@RequestParam(value = "postNo") Long postNo, 
+			HttpSession session, @ModelAttribute BoardVo vo) {
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 
 		if (authUser == null) {
@@ -162,6 +165,7 @@ public class BoardController {
 	@RequestMapping("/reply")
 	public String insert(@RequestParam(value = "reply") String reply,
 			@RequestParam(value = "postNo") Long postNo, HttpSession session, @ModelAttribute ReplyVo vo) {
+		System.out.println("01/02 6:53");
 		UserVo authUser = (UserVo) session.getAttribute("authUser");
 		if (authUser == null) {
 			return "redirect:/bitin/index";

@@ -159,6 +159,7 @@ public class VoteController {
 	@RequestMapping("/votelistbyvoteno")
 	public Map<String, Object> votelistbyvoteno(
 			@RequestBody HashMap<String, Object> map){
+		System.out.println("/votelistbyvoteno inputMap :"+map);
 		HashMap<String, Object>retMap = new HashMap<String, Object>();
 		int voteNumber = (int)map.get("voteNumber");
 		System.out.println("control - votelistbyvoteno : int : "+voteNumber);

@@ -16,9 +16,10 @@ public class ReplyDao {
 	@Autowired
 	SqlSession sqlSession;
 
-	public List<ReplyVo> getReplyByPostNo(Long postNo) {
-		List<ReplyVo> replyVo = sqlSession.selectList("reply.getReplyByPostNo", postNo);
-		return replyVo;
+	public List<ReplyVo> getReplyListByPostNo(Long postNo) {
+		List<ReplyVo> retList = null;
+		retList = sqlSession.selectList("reply.getReplyListByPostNo", postNo);
+		return retList;
 	}
 	
 	public void insertReply(ReplyVo vo) {

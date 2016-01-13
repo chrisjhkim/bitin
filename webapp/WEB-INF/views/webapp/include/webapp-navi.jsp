@@ -21,7 +21,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 						class="tm-icon zmdi zmdi-search"></i></a></li>
 
 				<li class="dropdown">
-					<a data-toggle="dropdown" href="" onclick="messageClick();">
+					<a data-toggle="dropdown" href="" >
 						<i class="tm-icon zmdi zmdi-email"></i>
 						<c:if test="${naviDataMap.totalUnreadChat > 0 }">
 							<i class="tmn-counts" id="message-counter">${naviDataMap.totalUnreadChat }</i>
@@ -47,7 +47,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 									</a> 
 								</c:forEach>
 								<c:forEach items="${naviDataMap.recentReadChatList }" var='vo'>
-									<a class="lv-item " href="/bitin/webapp/chatting?myNo=${fakeAuthUser.userNo }&otherNo=${vo.FROM_USER_NO}">
+									<a class="lv-item " href="/bitin/webapp/chat-view?myNo=${fakeAuthUser.userNo }&otherNo=${vo.FROM_USER_NO}">
 										<div class="media ">
 											<div class="pull-left">
 												<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.FROM_USER_NO}.jpg" alt="">
@@ -65,9 +65,13 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 							<a class="lv-footer" href="">View All</a>
 						</div>
 					</div></li>
-				<li class="dropdown"><a data-toggle="dropdown" href=""> <i
-						class="tm-icon zmdi zmdi-notifications"></i> <i class="tmn-counts">9</i>
-				</a>
+				<li class="dropdown">
+					<a data-toggle="dropdown" href="">
+						<i class="tm-icon zmdi zmdi-notifications"></i>
+						<c:if test="${naviDataMap.totalUnreadBoard  > 0 }">
+							<i class="tmn-counts" id="board-all-read">${naviDataMap.totalUnreadBoard }</i>
+						</c:if>
+					</a>
 					<div class="dropdown-menu dropdown-menu-lg pull-right">
 						<div class="listview" id="notifications">
 							<div class="lv-header">
@@ -79,76 +83,47 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 									</a></li>
 								</ul>
 							</div>
+						<!--	board 목록 게시판.  -->
 							<div class="lv-body">
-								<a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/1.jpg" alt="">
+								<c:forEach items="${naviDataMap.recentUnreadBoardList }" var='vo'>
+									<a href="/bitin/webapp/board/list?userNo=${fakeAuthUser.userNo}&boardNo=${vo.BOARD_NO}">
+										<div class="lv-item bgm-lightblue"  >
+											<div class="media">
+												<div class="pull-left">
+													<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.USER_NO }.jpg" alt="">
+												</div>
+												<div class="media-body">
+													<div class="lv-unread">${vo.UNREAD_COUNT }</div>
+													<div class="lv-title">${vo.BOARD_NAME }</div>
+													<small class="lv-small">작성자: TODO</small>
+													<small class="lv-small">${vo.TITLE }</small>
+												</div>
+											</div>
 										</div>
-										<div class="media-body">
-											<div class="lv-title">David Belle</div>
-											<small class="lv-small">Cum sociis natoque penatibus
-												et magnis dis parturient montes</small>
+									</a>
+								</c:forEach>
+								<c:forEach items="${naviDataMap.recentReadBoardList }" var='vo'>
+									<a href="/bitin/webapp/board/list?userNo=${fakeAuthUser.userNo}&boardNo=${vo.BOARD_NO}">
+										<div class="lv-item" >
+											<div class="media">
+												<div class="pull-left">
+													<img class="lv-img-sm" src="/bitin/assets/img/profile-pics/${vo.USER_NO }.jpg" alt="">
+												</div>
+												<div class="media-body">
+													<div class="lv-title">${vo.BOARD_NAME }</div>
+													<small class="lv-small">작성자: TODO</small>
+													<small class="lv-small">${vo.TITLE }</small>
+												</div>
+											</div>
 										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/2.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Jonathan Morris</div>
-											<small class="lv-small">Nunc quis diam diamurabitur
-												at dolor elementum, dictum turpis vel</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/3.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Fredric Mitchell Jr.</div>
-											<small class="lv-small">Phasellus a ante et est
-												ornare accumsan at vel magnauis blandit turpis at augue
-												ultricies</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/4.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Glenn Jecobs</div>
-											<small class="lv-small">Ut vitae lacus sem
-												ellentesque maximus, nunc sit amet varius dignissim, dui est
-												consectetur neque</small>
-										</div>
-									</div>
-								</a> <a class="lv-item" href="">
-									<div class="media">
-										<div class="pull-left">
-											<img class="lv-img-sm"
-												src="/bitin/assets/img/profile-pics/4.jpg" alt="">
-										</div>
-										<div class="media-body">
-											<div class="lv-title">Bill Phillips</div>
-											<small class="lv-small">Proin laoreet commodo eros id
-												faucibus. Donec ligula quam, imperdiet vel ante placerat</small>
-										</div>
-									</div>
-								</a>
+									</a>
+								</c:forEach>
 							</div>
 
-							<a class="lv-footer" href="">View Previous</a>
+							<div class="lv-footer" onclick="boardAllRead();"><button class="btn btn-primary">모두 읽음으로 표시</button></div>
 						</div>
-
-					</div></li>
+					</div>
+				</li>
 				<li class="dropdown hidden-xs"><a data-toggle="dropdown"
 					href=""> <i class="tm-icon zmdi zmdi-view-list-alt"></i> <i
 						class="tmn-counts">2</i>
@@ -217,9 +192,12 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 							<a class="lv-footer" href="">View All</a>
 						</div>
 					</div></li>
-				<li class="hidden-sm" id="chat-trigger" data-trigger="#chat"><a
-					href=""><i class="tm-icon zmdi zmdi-comment-alt-text"></i><i
-						class="tmn-counts">9</i></a></li>
+				<li class="hidden-sm" id="chat-trigger" data-trigger="#chat">
+					<a href="">
+						<i class="tm-icon zmdi zmdi-comment-alt-text"></i>
+						<i class="tmn-counts">9</i>
+					</a>
+				</li>
 			</ul>
 		</li>
 	</ul>
@@ -267,12 +245,13 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<a href="form-examples.html"><i class="zmdi zmdi-menu"></i>수업 선택</a>
 				<ul>
 					<c:forEach items='${naviDataMap.classList}' var='vo' varStatus='status'>
-						<li class="sub-menu"><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className }</a>
+						<li class="sub-menu"><a href="/bitin/board/list?classNo=${vo.CLASSNO }&userNo=${fakeAuthUser.userNo}">${vo.CLASSNAME }</a>
 							<ul>
-								<li><a href="/bitin/notice/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className } 공지사항</a></li>
-								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className } 자유 게시판</a></li>
-								<li><a href="/bitin/board/list?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className } 정보 게시판</a></li>
-								<li><a href="/bitin/chris/main?classNo=${vo.classNo }&userNo=${fakeAuthUser.userNo}">${vo.className }출결 상황</a></li>
+								<c:forEach items="${vo.boardList }" var="boardVo">
+									<li><a href="/bitin/webapp/board/list?userNo=${fakeAuthUser.userNo}&boardNo=${boardVo.BOARDNO}">${boardVo.BOARDNAME }!</a></li>
+								</c:forEach>
+								<li><a href="/bitin/webapp/attd?userId=${fakeAuthUser.userId}&classNo=${vo.CLASSNO}">${vo.CLASSNAME }출결 상황</a></li>
+								<%-- <li><a href="/bitin/chris/main?classNo=${vo.CLASSNO }&userNo=${fakeAuthUser.userNo}">${vo.CLASSNAME }출결 상황</a></li> --%>
 							</ul>
 						</li>
 					</c:forEach>
@@ -313,21 +292,38 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 	</aside>
 </section>
 <script>
-function messageClick() {
-	$('#message-counter').remove();
+function boardAllRead() {
+	$('#board-all-read').remove();
+	console.log("go")
+	var unreadBoardCount = "${naviDataMap.totalUnreadBoard }";
+	console.log("갯수 : "+unreadBoardCount);
+	if( unreadBoardCount < 1) return;
+	
 	$.ajax({
-		url: "/bitin/chriswebapp-api/message-read",
-		type : "get",
-		dataType : "json",
-		data : "userNo="+"${fakeAuthUser.userNo}",
-		contentType : 'applicationjson',
-		success : function(response) {
-			if (response.result == "fail") {
+		url:"/bitin/webapp-api/delete-all-unread-board-count",
+		type:"get",
+		dataType:"json",
+		data:"userNo=${fakeAuthUser.userNo}",
+		contetType : 'applicationjson',
+		success: function(response) {
+			if(response.result == "fail") {
 				console.error(response.message);
-				console.log("ajax error@ /bitin/webapp-api/chris/message-read");
+				console.log("ajax error@ /bitin/webapp-api/delete-all-unread-board-count");
 				return;
+			}else if( response.result == "success") {
+				console.log("전체 읽음 ajax 성공")
+				location.href = location.href;
+			}else {
+				console.error(response.message);
+				console.log("ajax error@ /bitin/webapp-api/delete-all-unread-board-count");
+				return;
+				
 			}
+			
 		}
+		
 	})
+
+	console.log("done")
 };
 </script>

@@ -1,6 +1,7 @@
 package com.bit2015.bitin.service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.bit2015.bitin.api.thread.AttdThread;
 import com.bit2015.bitin.dao.AttdDao;
+import com.bit2015.bitin.dao.ChrisDao;
 import com.bit2015.bitin.dao.ClassDao;
 import com.bit2015.bitin.vo.AttdNumberVo;
 import com.bit2015.bitin.vo.AttendanceVo;
@@ -22,6 +24,8 @@ public class AttdService {
 
 	@Autowired
 	ClassDao classDao;
+	@Autowired
+	ChrisDao chrisDao;
 	/** use.
 	 * @param strDate
 	 * @param userNo
@@ -79,6 +83,97 @@ public class AttdService {
 		boolean retFlag = false;
 		retFlag = attdDao.insertAttdNumberVo(attdNumberVo);
 		return retFlag;
+	}
+	
+	public List<HashMap<String, Object>> getAttdStatusListByClassNoAndDates ( 
+			Long classNo , 
+			String startDate, 
+			String endDate ) {
+		List<HashMap<String, Object>> retList = new ArrayList<HashMap<String,Object>>();
+		List<Long> studentList = chrisDao.getStudentNoListViaClassNo(classNo);
+		System.out.println("01/13 studentList : "+studentList);
+		List<Long> attdNumList = chrisDao.getAttdNumListViaClassNoAndDates(classNo, startDate, endDate);
+		System.out.println("01/13 attdNumList : "+attdNumList);
+		
+		for( Long userNo : studentList ) {
+			HashMap<String, Object> onePerson = new HashMap<String, Object>();
+			onePerson.put("userNo", userNo);
+			onePerson.put("userName", chrisDao.getUserNameViaUserNo(userNo));
+			
+			List<AttendanceVo> onePersonAttdList = new ArrayList<AttendanceVo>();
+			for( Long attdNo : attdNumList ) {
+				String attdDate = chrisDao.getAttdDateViaAttdNo(attdNo);
+				String attdStatus = chrisDao.getAttdStatusViaAttdNoAndUserNo(attdNo, userNo);
+				if(attdStatus == null ) attdStatus = "no";
+				String description = chrisDao.getDescriptionViaAttdNoAndUserNo(attdNo, userNo);
+				AttendanceVo attdVo = new AttendanceVo();
+				attdVo.setAttdStatus(attdStatus);
+				attdVo.setClassDate(attdDate);
+				attdVo.setAttdNo(attdNo);
+				if( description != null && description != "-" )
+					attdVo.setDescription(description);
+				onePersonAttdList.add(attdVo);
+			}
+			onePerson.put("attdList", onePersonAttdList);
+			retList.add(onePerson);
+			
+		}
+		
+		return retList;
+	}
+	
+	public HashMap<String, Object> getAttdDataMapByClassNoAndDates (
+			Long classNo,
+			String startDate,
+			String endDate ) {
+		HashMap<String, Object> retMap = new HashMap<String, Object>();
+		
+		List<HashMap<String, Object>> dataList = this.getAttdStatusListByClassNoAndDates(classNo, startDate, endDate);
+		retMap.put("dataList", dataList );
+		retMap.put("attdCounter", ((long)((List<AttendanceVo>)dataList.get(0).get("attdList")).size() ));
+		
+		String dateDupCheck = "-";
+		Long dupCounter = 1L;
+		for( HashMap<String, Object>person : dataList ) {
+			dupCounter = 2L;
+			Long yesNoLateTotalCounter = 0L;
+			Long yesOrLateCounter = 0L;//used
+			List<AttendanceVo> personalAttdList = (List<AttendanceVo>)person.get("attdList");
+			for(AttendanceVo attdVo : personalAttdList ) {
+				String classDate = attdVo.getClassDate();
+				String temp;
+				temp = classDate.substring(0, 2) +"월"+classDate.substring(2)+"일";
+				if(dateDupCheck.equals(classDate)) {
+					temp += "_"+dupCounter;
+					dupCounter +=1;
+				}else {
+					dupCounter = 2L;
+				}
+				if(attdVo.getAttdStatus().equals("yes")){
+					yesOrLateCounter++;//
+					yesNoLateTotalCounter++;//
+				}else if( attdVo.getAttdStatus().equals("info")){
+				}else if (attdVo.getAttdStatus().equals("late")) {
+					yesOrLateCounter++;//
+					yesNoLateTotalCounter++;//
+				}else if( attdVo.getAttdStatus().equals("no")) {
+					yesNoLateTotalCounter++;//
+				}
+				dateDupCheck = classDate;
+				attdVo.setClassDate(temp);
+			}
+			System.out.println("yesNo counter : "+yesNoLateTotalCounter);
+			if(yesNoLateTotalCounter == 0L) {
+				person.put("attdRate", "N/A");
+			}else {
+				person.put("attdRate", 100*yesOrLateCounter/yesNoLateTotalCounter);
+			}
+			System.out.println("yesNo counter : "+yesNoLateTotalCounter);
+		}
+		retMap.put("startDate", startDate);
+		retMap.put("endDate", endDate);
+		
+		return retMap;
 	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

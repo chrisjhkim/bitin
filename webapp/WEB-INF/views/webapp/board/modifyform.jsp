@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-
+<% pageContext.setAttribute( "newLine", "\n"); %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,38 +44,37 @@
 	<div class="col-sm">
 		<div class="card">
 			<div class="card-header">
-				<h2>11${boardVo.boardName }<small>${postVo.postNo }번 글 수정하기</small></h2>
+				<h2>${boardName }<small>${postVo.postNo }번 글 수정하기</small></h2>
 			</div>
-			<form class="board-form" method="post" action="/bitin/board/insert">
-				<input type="hidden" name="classNo" value="${classNo }">
-				<input type="hidden" name="userNo" value="${vo.userNo }">
-				<input type="hidden" name="boardType" value="${boardType}">
+			<form class="board-form" method="post" action="/bitin/webapp/board/post/modify?userNo=${fakeAuthUser.userNo }">
+				<input type="hidden" name="postNo" value="${postVo.postNo }"> 
 				<div class="input-group">
 					<span class="input-group-addon"><i class="zmdi zmdi-collection-item"></i></span>
 					<div class="fg-line" style="width: 94.5%;">
-						<input type="text" name="title" class="form-control" placeholder="제목을 입력해주세요.">
+						<input type="text" name="title" class="form-control" value="${postVo.title }">
 					</div>
-
 				</div>
 				<br>
-
-				<textarea id="board-content" class="textarea" name="content" placeholder="내용을 입력해주세요."></textarea>
+				
+				<textarea id="board-content" class="textarea" name="content">${postVo.content }</textarea>
+				
 				<br>
+				
 				<div class="col-sm-6" style="margin-left:4.5px; margin-right:3.5px;">
 					<div class="btn-group btn-group-justified" role="group" aria-label="...">
 						<div class="btn-group" role="group">
-							<button type="summit" class="btn btn-warning">작성하기</button>
+							<button type="summit" class="btn btn-warning">수정하기</button>
 						</div>
 						<div class="btn-group" role="group">
-							<button type="button" class="btn btn-danger" onclick="location='/bitin/board/list/${classNo}'">취소</button>
+							<button type="button" class="btn btn-danger" onclick="location='/bitin/webapp/board/view-post?userNo=${fakeAuthUser.userNo}&postNo=${postVo.postNo }'">취소</button>
 						</div>
 					</div>
 				</div>
 			</form>
 
-				<br>
-			</div>
+			<br>
 		</div>
+	</div>
 </section>
 <c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 
@@ -120,7 +119,5 @@
 		});
 	});
 </script>
-
-
 </body>
 </html>

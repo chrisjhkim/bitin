@@ -15,6 +15,7 @@
 		<typeAlias alias="BoardVo" type="com.bit2015.bitin.vo.BoardVo"></typeAlias>
 		<typeAlias alias="YjQVo" type="com.bit2015.bitin.vo.YjQVo"></typeAlias>
 		<typeAlias alias="NoticeVo" type="com.bit2015.bitin.vo.NoticeVo"></typeAlias>
+		<typeAlias alias="PostVo" type="com.bit2015.bitin.vo.PostVo"></typeAlias>
 	</typeAliases>
 
 	<mappers>	
