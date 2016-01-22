@@ -162,13 +162,11 @@ public class AttdService {
 				dateDupCheck = classDate;
 				attdVo.setClassDate(temp);
 			}
-			System.out.println("yesNo counter : "+yesNoLateTotalCounter);
 			if(yesNoLateTotalCounter == 0L) {
 				person.put("attdRate", "N/A");
 			}else {
 				person.put("attdRate", 100*yesOrLateCounter/yesNoLateTotalCounter);
 			}
-			System.out.println("yesNo counter : "+yesNoLateTotalCounter);
 		}
 		retMap.put("startDate", startDate);
 		retMap.put("endDate", endDate);

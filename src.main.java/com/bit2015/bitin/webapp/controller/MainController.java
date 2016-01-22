@@ -65,6 +65,24 @@ public class MainController {
 		
 		return "/webapp/webapp-index";
 	}
+	// 투표 chart 페이지
+	@RequestMapping("/chart")
+	public String viewChart(
+			@RequestParam(value="userNo", required=true)Long userNo,	
+			Model model) {
+		System.out.println("/webapp/chart input [userNo:"+userNo+"]");
+		
+		UserVo userVo = userService.getUserVo(userNo);
+		System.out.println("userVo : "+userVo);
+		if( userVo!= null){
+			Map<String, Object> naviDataMap = naviService.getNaviDataMap(userVo.getUserNo()) ;
+			System.out.println("naviDataMap : "+naviDataMap);
+			model.addAttribute("naviDataMap", naviDataMap );
+			model.addAttribute("fakeAuthUser", userVo);
+		}
+		
+		return "/webapp/charts/webapp-chart";
+	}
 	//출결 페이지
 	@RequestMapping("/attd")
 	public String attendance(

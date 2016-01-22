@@ -554,8 +554,9 @@ $(document).ready(
 </script>
 <!--  날짜 범위 apply버튼 변경 -->
 <script type="text/javascript">
-var dateRangeStart = "";
-var dateRangeEnd = "";
+
+var dateRangeStart = "${attdDataMap.startDate}".substring(0,4)+"${attdDataMap.startDate}".substring(5,7)+"${attdDataMap.startDate}".substring(8,10);
+var dateRangeEnd= "${attdDataMap.endDate}".substring(0,4)+"${attdDataMap.endDate}".substring(5,7)+"${attdDataMap.endDate}".substring(8,10);
 function modifyDateRange() {
 	console.log("modify 해라!")
 	console.log("start:"+dateRangeStart+" -> end:"+dateRangeEnd);
@@ -705,41 +706,47 @@ function valueGetter(userNo,date) {
 <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
 <script type="text/javascript">
 $(function() {
+	var endDate = "${attdDataMap.endDate}";
+	var initEndDate = endDate.substring(5,7)+"/"
+						 +endDate.substring(8,10)+"/"
+						 +endDate.substring(0,4);
 	$('#end-date').daterangepicker({
-	    "singleDatePicker": false,
-	    "startDate": "12/16/2015",
+	    "singleDatePicker": true,
+	    "startDate":initEndDate,
 	}, function(start, end, label) {
 	  dateRangeEnd = start.format('YYYYMMDD');
+		
+		var parsedEndDate = dateRangeEnd.substring(0,4)+"년"
+								+dateRangeEnd.substring(4,6)+"월"
+								+dateRangeEnd.substring(6,8)+"일 까지";
+
 		var endDateHTML= document.getElementById("end-date");
+		endDateHTML.innerHTML = parsedEndDate;
 		
-		
-		
-		
-		
-// 		var parsedStartDate = startDate.substring(0,4)+"년"
-// 								+startDate.substring(5,7)+"월"
-// 								+startDate.substring(8,10)+"일 부터";
-// 		startDateHTML.innerHTML = parsedStartDate;
-		
-// 		var parsedEndDate = dateRangeEnd.substring(0,4)+"년"
-// 								+dateRangeEnd.substring(4,6)+"월"
-// 								+dateRangeEnd.substring(7,9)+"일 부터";
-// 		startDateHTML.innerHTML = parsedStartDate;
-		
-		
-		
-		
-		
-		endDateHTML.innerHTML = dateRangeEnd;
+
+// 		endDateHTML.innerHTML = dateRangeEnd;
 	});
+	
+	
+	var startDate = "${attdDataMap.startDate}";
+	var initStartDate = startDate.substring(5,7)+"/"
+						 +startDate.substring(8,10)+"/"
+						 +startDate.substring(0,4);
+	
+	
 	
 	$('#start-date').daterangepicker({
 	    "singleDatePicker": true,
-	    "startDate": "12/01/2015",
+	    "startDate": initStartDate,
 	}, function(start, end, label) {
-	  dateRangeStart = start.format('YYYYMMDD');
+		dateRangeStart = start.format('YYYYMMDD');
+		
+		var parsedStartDate = dateRangeStart.substring(0,4)+"년"
+							+dateRangeStart.substring(4,6)+"월"
+							+dateRangeStart.substring(6,8)+"일 부터";
+		
 		var startDateHTML = document.getElementById("start-date");
-		startDateHTML.innerHTML = dateRangeStart;		
+		startDateHTML.innerHTML = parsedStartDate;		
 	});
 });
 </script>

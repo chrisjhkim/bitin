@@ -31,7 +31,7 @@
 	<select id="getVoteList" parameterType="string" resultType="VoteVo" >
 		SELECT  vote_title AS voteTitle,
 				class_name AS className,
-				to_char(created_date, 'YYYY/MM/DD') AS createdDate,
+				to_char(created_date, 'YY/MM/DD HH:Mi') AS createdDate,
 				vote_number AS voteNumber,
 				class_no as classNo
 		  FROM  b_vote_title

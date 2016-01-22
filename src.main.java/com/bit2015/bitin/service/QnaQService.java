@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bit2015.bitin.dao.ChrisDao;
 import com.bit2015.bitin.dao.ClassDao;
 import com.bit2015.bitin.dao.QnaDao;
 import com.bit2015.bitin.dao.UserDao;
 import com.bit2015.bitin.vo.QnaQVo;
+import com.bit2015.bitin.vo.UserVo;
 import com.bit2015.bitin.vo.YjQVo;
 
 @Service
@@ -21,7 +23,8 @@ public class QnaQService {
 	ClassDao classDao;
 	@Autowired
 	UtilService util;
-	
+	@Autowired
+	ChrisDao chrisDao;
 	
 /*	*//**
 	 * @param preQVo
@@ -59,11 +62,15 @@ public class QnaQService {
 	 */
 	public QnaQVo transformYjQVoToQnaQVo (YjQVo preQVo ) {
 		QnaQVo postQVo = new QnaQVo();
-		
-		postQVo.setToWhoNo( userDao.getUserNoViaUserPhoneId(preQVo.getReceiverId()) );//
+		System.out.println("@1");
 		postQVo.setFromUserNo(userDao.getUserNoViaUserId(preQVo.getSenderId()));
+		UserVo userVo = chrisDao.getUserVoViaUserId(preQVo.getSenderId());
+		postQVo.setToWhoNo( userVo.getUserNo() );//
+		System.out.println("@2");
+		System.out.println("@3");
 		postQVo.setqMessage(preQVo.getqMessage());
 		postQVo.setClassNo(classDao.getClassNoViaClassNameTemp(preQVo.getLesson()) );
+		System.out.println("@4");
 		postQVo.setPptNo(preQVo.getPptNo());
 		//TODO:qType, qRef  에 관한 규약 안정해져있음
 		postQVo.setqType("StuToTea");

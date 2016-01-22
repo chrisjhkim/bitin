@@ -195,7 +195,6 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 				<li class="hidden-sm" id="chat-trigger" data-trigger="#chat">
 					<a href="">
 						<i class="tm-icon zmdi zmdi-comment-alt-text"></i>
-						<i class="tmn-counts">9</i>
 					</a>
 				</li>
 			</ul>
@@ -239,7 +238,7 @@ ${fn:replace(fn:replace(string, cr, ""), lf, "")}
 			<!--  게시판 메뉴 -->
 			<li class="active"><a href="/bitin/webapp/index?id=${fakeAuthUser.userId}"><i class="zmdi zmdi-home"></i> 메인 페이지</a></li>
 
-			<li><a href="calendar.html"><i class="zmdi zmdi-calendar"></i>수강 등록</a></li>
+<%-- 			<li><a href="/bitin/webapp/chart?userNo=${fakeAuthUser.userNo }"><i class="zmdi zmdi-calendar"></i>수강 등록</a></li> --%>
 			
 			<li class="sub-menu">
 				<a href="form-examples.html"><i class="zmdi zmdi-menu"></i>수업 선택</a>
